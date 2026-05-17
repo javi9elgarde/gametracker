@@ -909,7 +909,7 @@ option { background: var(--bg2); }
 /* ── GAME GRID (biblioteca) ─────────────────────────────────── */
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.25rem;
 }
 .game-card {
@@ -920,7 +920,7 @@ option { background: var(--bg2); }
   position: relative;
 }
 .game-card__cover {
-  aspect-ratio: 2/3;
+  aspect-ratio: 16/9;
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #1a1a2e, #0f3460);
@@ -1103,6 +1103,8 @@ option { background: var(--bg2); }
   position: relative;
 }
 .mini-cover img { width: 100%; height: 100%; object-fit: cover; }
+/* Hide the fallback letter whenever a real image is present */
+.mini-cover img ~ .mini-cover__letter { display: none; }
 .mini-cover__letter {
   position: absolute;
   inset: 0;
@@ -1204,7 +1206,7 @@ option { background: var(--bg2); }
   .section { padding: 2rem 1rem; }
   .nav { padding: 0 1rem; }
   .top5-grid { grid-template-columns: repeat(2, 1fr); }
-  .game-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .game-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
   .cal-grid { gap: 2px; }
   .cal-day { min-height: 56px; padding: 0.3rem; }
   .page-header { padding: 1.5rem 1rem 1rem; }
