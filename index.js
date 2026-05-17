@@ -275,8 +275,8 @@
       return;
     }
 
-    // Podium visual order: 1st | 2nd | 3rd (escalera de izquierda a derecha)
-    var podiumIdxs = [0, 1, 2].filter(function(i) { return i < ranking.length; });
+    // Podium visual order: 2nd | 1st | 3rd (gold en el centro, el más grande)
+    var podiumIdxs = [1, 0, 2].filter(function(i) { return i < ranking.length; });
     podiumEl.innerHTML = podiumIdxs.map(function(i) {
       return hofCardHtml(ranking[i], i, year);
     }).join('');

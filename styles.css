@@ -1168,8 +1168,8 @@ option { background: var(--bg2); }
 
 /* ── HALL OF FAME (index — GOTY) ────────────────────────────── */
 .hof-podium {
-  display: grid; grid-template-columns: 1.45fr 1.2fr 1fr;
-  gap: 1rem; align-items: start; margin-bottom: 1rem;
+  display: grid; grid-template-columns: 1fr 1.45fr 1fr;
+  gap: 1rem; align-items: end; margin-bottom: 1rem;
 }
 .hof-lower {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -1191,7 +1191,7 @@ option { background: var(--bg2); }
   font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: rgba(79,172,254,0.25);
 }
 .hof-card__medal {
-  position: absolute; top: 0.5rem; left: 0.5rem; z-index: 2;
+  position: absolute; bottom: 0.5rem; right: 0.5rem; z-index: 2;
   padding: 0.25rem 0.6rem; border-radius: 6px;
   font-family: 'Orbitron', sans-serif; font-size: 0.72rem; font-weight: 700;
   backdrop-filter: blur(6px); white-space: nowrap;
