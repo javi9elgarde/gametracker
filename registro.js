@@ -63,7 +63,8 @@
           '</div>'
         : '<span style="color:var(--txt3);font-size:0.8rem">—</span>';
 
-      return '<tr>' +
+      var rowCls = r.jugador === 'David' ? 'reg-row-david' : r.jugador === 'Javi' ? 'reg-row-javi' : r.jugador === 'Mery' ? 'reg-row-mery' : '';
+      return '<tr class="' + rowCls + '">' +
         '<td><span style="font-size:0.8rem;color:var(--txt2)">' + Utils.monthName(r.mes) + ' ' + r.año + '</span></td>' +
         '<td><span class="badge ' + Utils.playerBadge(r.jugador) + '">' + Utils.escapeHtml(r.jugador) + '</span></td>' +
         '<td><div class="game-cell">' + coverHtml + '<span style="font-weight:600">' + Utils.escapeHtml(titulo) + '</span></div></td>' +

@@ -1,88 +1,67 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameTracker â€” Pendientes</title>
-  <link rel="stylesheet" href="styles.css?v=20260518b">
+  <title>GameTracker — Perfiles & Pendientes</title>
+  <link rel="stylesheet" href="styles.css?v=20260518c">
 </head>
 <body>
 
 <div id="gtLoading" style="position:fixed;inset:0;background:#07070f;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:1rem">
   <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#fff,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.1em">GAMETRACKER</div>
   <div style="display:flex;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .2s infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .4s infinite"></span></div>
-  <div style="font-size:.8rem;color:rgba(232,232,248,.4);letter-spacing:.05em">Cargando pendientes...</div>
+  <div style="font-size:.8rem;color:rgba(232,232,248,.4);letter-spacing:.05em">Cargando perfiles...</div>
 </div>
 <style>@keyframes dotPulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}</style>
 
 <nav class="nav">
-  <a href="index.html" class="nav__logo">ðŸŽ® <span>GAME</span>TRACKER</a>
+  <a href="index.html" class="nav__logo">🎮 <span>GAME</span>TRACKER</a>
   <div class="nav__links">
     <a href="index.html"        class="nav__link">Inicio</a>
     <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
     <a href="registro.html"     class="nav__link">Registro</a>
-    <a href="estadisticas.html" class="nav__link">EstadÃ­sticas</a>
+    <a href="estadisticas.html" class="nav__link">Estadísticas</a>
     <a href="pendientes.html"   class="nav__link">Pendientes</a>
   </div>
   <div class="nav__year" id="navYear">2026</div>
-  <button class="nav__hamburger" id="navHamburger">â˜°</button>
+  <button class="nav__hamburger" id="navHamburger" aria-label="Menú">☰</button>
 </nav>
 <div class="nav__mobile" id="navMobile">
   <a href="index.html"        class="nav__link">Inicio</a>
   <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
   <a href="registro.html"     class="nav__link">Registro</a>
-  <a href="estadisticas.html" class="nav__link">EstadÃ­sticas</a>
+  <a href="estadisticas.html" class="nav__link">Estadísticas</a>
   <a href="pendientes.html"   class="nav__link">Pendientes</a>
 </div>
 
 <div class="page">
   <div class="page-header">
     <div class="page-header__inner">
-      <div><h1 class="page-header__title">â³ Videojuegos Pendientes</h1><p class="page-header__sub" id="pendCount">Cargando...</p></div>
-      <a href="biblioteca.html" class="btn btn-secondary">ðŸ“š Ir a Biblioteca</a>
-    </div>
-  </div>
-
-  <div class="section" style="padding-bottom:0">
-    <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem">
-      <button class="btn btn-primary btn-sm" id="tabMarcados" onclick="window.GT_Pend.setTab('marcados')">â³ Marcados pendientes</button>
-      <button class="btn btn-secondary btn-sm" id="tabRetomar" onclick="window.GT_Pend.setTab('retomar')">â†© En Retomar</button>
-    </div>
-    <div class="filters" style="margin-bottom:1.5rem">
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" class="search-input" id="pendSearch" placeholder="Buscar...">
+      <div>
+        <h1 class="page-header__title">👤 Perfiles de Jugador</h1>
+        <p class="page-header__sub">Pendientes · Mejores valorados · Completados — por jugador</p>
       </div>
-      <div class="filter-chips" id="pendPlatChips"></div>
+      <a href="biblioteca.html" class="btn btn-secondary">📚 Biblioteca</a>
     </div>
   </div>
 
   <div class="section">
-    <div id="gridMarcados" class="game-grid"></div>
-    <div id="gridRetomar" style="display:none">
-      <div class="table-wrap">
-        <table class="table">
-          <thead><tr><th>Videojuego</th><th>Jugador</th><th>Mes</th><th>Horas</th><th>Plataforma</th><th></th></tr></thead>
-          <tbody id="retomarBody"></tbody>
-        </table>
-      </div>
-    </div>
-    <div id="pendEmpty" class="empty-state hidden">
-      <div class="empty-state__icon">â³</div>
-      <div class="empty-state__title">Sin juegos pendientes</div>
-      <p>Marca juegos como pendientes en la Biblioteca, o aÃ±ade entradas con estado "Retomar" en el Registro.</p>
+    <div class="player-profiles" id="playerProfiles">
+      <!-- renderizado por pendientes.js -->
     </div>
   </div>
 
   <footer class="footer">
-    <span>GAMETRACKER</span> Â· David Â· Javi Â· Mery Â· <span id="footerYear"></span>
+    <span>GAMETRACKER</span> · David · Javi · Mery · <span id="footerYear"></span>
+    <br><small style="color:var(--txt3);margin-top:0.25rem;display:block">Datos sincronizados en tiempo real con Firebase 🔥</small>
   </footer>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"       defer></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
-<script src="firebase-config.js?v=20260518b" defer></script>
-<script src="main.js?v=20260518b"            defer></script>
-<script src="pendientes.js?v=20260518b"      defer></script>
+<script src="firebase-config.js?v=20260518c" defer></script>
+<script src="main.js?v=20260518c"            defer></script>
+<script src="pendientes.js?v=20260518c"      defer></script>
 </body>
 </html>

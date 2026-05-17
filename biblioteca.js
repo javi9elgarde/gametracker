@@ -59,7 +59,11 @@
         ? '<div class="score-wrap"><div class="score-bar"><div class="score-bar__fill" style="width:' + Utils.scoreWidth(notaMedia) + ';background:' + sc + '"></div></div><span class="score-num" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span></div>'
         : '<div style="font-size:0.72rem;color:var(--txt3)">Sin nota</div>';
 
-      var pendBadge = game.pendiente ? '<span class="badge" style="background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)">⏳ Pendiente</span>' : '';
+      var pendPor = game.pendientePor || (game.pendiente ? ['?'] : []);
+      var pendBadge = pendPor.length ? pendPor.map(function(p){
+        var cls = p==='David'?'badge-david':p==='Javi'?'badge-javi':p==='Mery'?'badge-mery':'';
+        return '<span class="badge ' + cls + '" style="font-size:0.65rem">⏳ ' + Utils.escapeHtml(p) + '</span>';
+      }).join('') : '';
       var tipoMap = { remake:'🔄 Remake', remaster:'✨ Remaster', relanzamiento:'📦 Relanzamiento' };
       var tipoBadge = game.tipoLanzamiento && tipoMap[game.tipoLanzamiento]
         ? '<span class="badge" style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.3)">' + tipoMap[game.tipoLanzamiento] + '</span>'
@@ -286,7 +290,9 @@
     document.getElementById('fDesarrollador').value = '';
     document.getElementById('fFecha').value = '';
     document.getElementById('fDuracion').value = '';
-    document.getElementById('fPendiente').value = 'false';
+    document.getElementById('fPendDavid').checked = false;
+    document.getElementById('fPendJavi').checked  = false;
+    document.getElementById('fPendMery').checked  = false;
     document.getElementById('fTipoLanzamiento').value = '';
     document.getElementById('fDescripcion').value = '';
     document.getElementById('btnDelete').style.display = 'none';
@@ -311,7 +317,10 @@
     if (coverPreview) coverPreview.update(game.portadaUrl || '', game.portadaPos || '');
     document.getElementById('fFecha').value = game.fechaLanzamiento || '';
     document.getElementById('fDuracion').value = game.duracion || '';
-    document.getElementById('fPendiente').value = game.pendiente ? 'true' : 'false';
+    var pPor = game.pendientePor || (game.pendiente ? [] : []);
+    document.getElementById('fPendDavid').checked = pPor.includes('David');
+    document.getElementById('fPendJavi').checked  = pPor.includes('Javi');
+    document.getElementById('fPendMery').checked  = pPor.includes('Mery');
     document.getElementById('fTipoLanzamiento').value = game.tipoLanzamiento || '';
     document.getElementById('fDescripcion').value = game.descripcion || '';
     document.getElementById('btnDelete').style.display = 'inline-flex';
@@ -395,7 +404,12 @@
       desarrollador:    document.getElementById('fDesarrollador').value.trim(),
       fechaLanzamiento: document.getElementById('fFecha').value.trim(),
       duracion:         parseFloat(document.getElementById('fDuracion').value) || null,
-      pendiente:        document.getElementById('fPendiente').value === 'true',
+      pendientePor:     ['David','Javi','Mery'].filter(function(p){
+                          return document.getElementById('fPend'+p).checked;
+                        }),
+      pendiente:        document.getElementById('fPendDavid').checked ||
+                        document.getElementById('fPendJavi').checked  ||
+                        document.getElementById('fPendMery').checked,
       tipoLanzamiento:  document.getElementById('fTipoLanzamiento').value,
       descripcion:      document.getElementById('fDescripcion').value.trim(),
       generos:          selectedGeneros.slice(),

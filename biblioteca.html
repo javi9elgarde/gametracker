@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameTracker — Biblioteca</title>
-  <link rel="stylesheet" href="styles.css?v=20260518b">
+  <title>GameTracker â€” Biblioteca</title>
+  <link rel="stylesheet" href="styles.css?v=20260518c">
 </head>
 <body>
 
@@ -16,30 +16,30 @@
 <style>@keyframes dotPulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}</style>
 
 <nav class="nav">
-  <a href="index.html" class="nav__logo">🎮 <span>GAME</span>TRACKER</a>
+  <a href="index.html" class="nav__logo">ðŸŽ® <span>GAME</span>TRACKER</a>
   <div class="nav__links">
     <a href="index.html"        class="nav__link">Inicio</a>
     <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
     <a href="registro.html"     class="nav__link">Registro</a>
-    <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+    <a href="estadisticas.html" class="nav__link">EstadÃ­sticas</a>
     <a href="pendientes.html"   class="nav__link">Pendientes</a>
   </div>
   <div class="nav__year" id="navYear">2026</div>
-  <button class="nav__hamburger" id="navHamburger">☰</button>
+  <button class="nav__hamburger" id="navHamburger">â˜°</button>
 </nav>
 <div class="nav__mobile" id="navMobile">
   <a href="index.html"        class="nav__link">Inicio</a>
   <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
   <a href="registro.html"     class="nav__link">Registro</a>
-  <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+  <a href="estadisticas.html" class="nav__link">EstadÃ­sticas</a>
   <a href="pendientes.html"   class="nav__link">Pendientes</a>
 </div>
 
 <div class="page">
   <div class="page-header">
     <div class="page-header__inner">
-      <div><h1 class="page-header__title">📚 Biblioteca BD</h1><p class="page-header__sub" id="libCount">Cargando...</p></div>
-      <button class="btn btn-primary" id="btnAddGame">+ Añadir Juego</button>
+      <div><h1 class="page-header__title">ðŸ“š Biblioteca BD</h1><p class="page-header__sub" id="libCount">Cargando...</p></div>
+      <button class="btn btn-primary" id="btnAddGame">+ AÃ±adir Juego</button>
     </div>
   </div>
 
@@ -51,82 +51,96 @@
       </div>
       <div class="filter-chips" id="genreChips"></div>
       <div class="filter-chips" id="platChips"></div>
-      <button class="btn btn-ghost btn-sm" id="clearFilters">✕ Limpiar</button>
+      <button class="btn btn-ghost btn-sm" id="clearFilters">âœ• Limpiar</button>
     </div>
   </div>
 
   <div class="section">
     <div class="game-grid" id="gameGrid"></div>
     <div id="emptyState" class="empty-state hidden">
-      <div class="empty-state__icon">🎮</div>
+      <div class="empty-state__icon">ðŸŽ®</div>
       <div class="empty-state__title">No se encontraron juegos</div>
-      <p>Prueba a cambiar los filtros o añade un nuevo juego.</p>
+      <p>Prueba a cambiar los filtros o aÃ±ade un nuevo juego.</p>
     </div>
   </div>
 </div>
 
-<button class="btn-fab" id="fabAdd" title="Añadir juego">＋</button>
+<button class="btn-fab" id="fabAdd" title="AÃ±adir juego">ï¼‹</button>
 
 <!-- MODAL ADD/EDIT GAME -->
 <div class="modal-overlay" id="gameModal">
   <div class="modal">
     <div class="modal__header">
-      <h2 class="modal__title" id="modalTitle">Añadir Juego</h2>
-      <button class="modal__close" id="modalClose">✕</button>
+      <h2 class="modal__title" id="modalTitle">AÃ±adir Juego</h2>
+      <button class="modal__close" id="modalClose">âœ•</button>
     </div>
     <div class="modal__body">
       <input type="hidden" id="editId">
       <div class="form-grid">
-        <div class="form-group" style="grid-column:1/-1"><label class="form-label">Título *</label><input type="text" class="form-input" id="fTitulo" placeholder="Nombre del juego"></div>
+        <div class="form-group" style="grid-column:1/-1"><label class="form-label">TÃ­tulo *</label><input type="text" class="form-input" id="fTitulo" placeholder="Nombre del juego"></div>
         <div class="form-group" style="grid-column:1/-1">
           <label class="form-label">URL de Portada</label>
           <input type="url" class="form-input" id="fPortada" placeholder="https://...">
           <small style="color:var(--txt3);font-size:0.75rem;margin-top:0.3rem;display:block">Pega la URL de una imagen de la portada</small>
         </div>
         <div class="form-group" style="grid-column:1/-1">
-          <label class="form-label">Encuadre de Portada <span style="font-weight:400;font-size:0.72rem;color:var(--txt3)">— arrastra la imagen para ajustar el encuadre</span></label>
+          <label class="form-label">Encuadre de Portada <span style="font-weight:400;font-size:0.72rem;color:var(--txt3)">â€” arrastra la imagen para ajustar el encuadre</span></label>
           <div id="coverPreviewWrap" style="position:relative;width:100%;aspect-ratio:16/6;background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:grab;margin-bottom:0.6rem;user-select:none;touch-action:none">
             <img id="coverPreviewImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center top;pointer-events:none;display:none;user-select:none;-webkit-user-drag:none">
             <div id="coverPreviewPh" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;color:var(--txt3);font-size:0.8rem">
-              <span style="font-size:1.5rem;opacity:0.4">🖼</span>
+              <span style="font-size:1.5rem;opacity:0.4">ðŸ–¼</span>
               <span>Introduce la URL de portada para previsualizar</span>
             </div>
-            <div id="coverDragHint" style="position:absolute;bottom:0.6rem;right:0.6rem;background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.8);font-size:0.7rem;padding:0.3rem 0.7rem;border-radius:6px;pointer-events:none;display:none;backdrop-filter:blur(4px)">✋ Arrastra para reposicionar</div>
+            <div id="coverDragHint" style="position:absolute;bottom:0.6rem;right:0.6rem;background:rgba(0,0,0,0.7);color:rgba(255,255,255,0.8);font-size:0.7rem;padding:0.3rem 0.7rem;border-radius:6px;pointer-events:none;display:none;backdrop-filter:blur(4px)">âœ‹ Arrastra para reposicionar</div>
           </div>
           <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-            <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center top">⬆ Arriba</button>
+            <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center top">â¬† Arriba</button>
             <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center 20%">20%</button>
             <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center 30%">30%</button>
             <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center center">Centro</button>
             <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center 70%">70%</button>
-            <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center bottom">⬇ Abajo</button>
+            <button type="button" class="btn btn-ghost btn-sm cover-pos-btn" data-pos="center bottom">â¬‡ Abajo</button>
           </div>
           <input type="hidden" id="fPortadaPos" value="">
         </div>
         <div class="form-group"><label class="form-label">Desarrolladora</label><input type="text" class="form-input" id="fDesarrollador" placeholder="Ej: From Software"></div>
         <div class="form-group"><label class="form-label">Fecha de Lanzamiento</label><input type="text" class="form-input" id="fFecha" placeholder="YYYY-MM-DD"></div>
-        <div class="form-group"><label class="form-label">Duración (horas)</label><input type="number" class="form-input" id="fDuracion" placeholder="Ej: 20" min="0" step="0.5"></div>
-        <div class="form-group">
-          <label class="form-label">¿Pendiente de jugar?</label>
-          <select class="form-select" id="fPendiente"><option value="false">No</option><option value="true">Sí — añadir a pendientes</option></select>
+        <div class="form-group"><label class="form-label">DuraciÃ³n (horas)</label><input type="number" class="form-input" id="fDuracion" placeholder="Ej: 20" min="0" step="0.5"></div>
+        <div class="form-group" style="grid-column:1/-1">
+          <label class="form-label">Pendiente para</label>
+          <div style="display:flex;gap:1.75rem;flex-wrap:wrap;margin-top:0.45rem">
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;user-select:none">
+              <input type="checkbox" id="fPendDavid" style="accent-color:var(--player-david);width:16px;height:16px">
+              <span style="color:var(--player-david);font-weight:700">David</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;user-select:none">
+              <input type="checkbox" id="fPendJavi" style="accent-color:var(--player-javi);width:16px;height:16px">
+              <span style="color:var(--player-javi);font-weight:700">Javi</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;user-select:none">
+              <input type="checkbox" id="fPendMery" style="accent-color:var(--player-mery);width:16px;height:16px">
+              <span style="color:var(--player-mery);font-weight:700">Mery</span>
+            </label>
+          </div>
+          <small style="color:var(--txt3);font-size:0.75rem;margin-top:0.4rem;display:block">Los juegos pendientes aparecen en el perfil de cada jugador en la pÃ¡gina de Pendientes</small>
         </div>
         <div class="form-group">
           <label class="form-label">Tipo de lanzamiento</label>
           <select class="form-select" id="fTipoLanzamiento">
-            <option value="">🎮 Juego nuevo</option>
-            <option value="remake">🔄 Remake</option>
-            <option value="remaster">✨ Remaster</option>
-            <option value="relanzamiento">📦 Relanzamiento / Port</option>
+            <option value="">ðŸŽ® Juego nuevo</option>
+            <option value="remake">ðŸ”„ Remake</option>
+            <option value="remaster">âœ¨ Remaster</option>
+            <option value="relanzamiento">ðŸ“¦ Relanzamiento / Port</option>
           </select>
           <small style="color:var(--txt3);font-size:0.75rem;margin-top:0.3rem;display:block">Remasters y relanzamientos no aparecen en el GOTY ni rankings</small>
         </div>
         <div class="form-group" style="grid-column:1/-1">
-          <label class="form-label">Géneros</label>
+          <label class="form-label">GÃ©neros</label>
           <div class="chip-group" id="generoChips"></div>
-          <input type="text" class="form-input" id="fGeneroCustom" placeholder="Añadir género personalizado (Enter)" style="margin-top:0.5rem">
+          <input type="text" class="form-input" id="fGeneroCustom" placeholder="AÃ±adir gÃ©nero personalizado (Enter)" style="margin-top:0.5rem">
         </div>
         <div class="form-group" style="grid-column:1/-1"><label class="form-label">Plataformas</label><div class="chip-group" id="plataformaChips"></div></div>
-        <div class="form-group" style="grid-column:1/-1"><label class="form-label">Descripción</label><textarea class="form-textarea" id="fDescripcion" placeholder="Sinopsis o notas..."></textarea></div>
+        <div class="form-group" style="grid-column:1/-1"><label class="form-label">DescripciÃ³n</label><textarea class="form-textarea" id="fDescripcion" placeholder="Sinopsis o notas..."></textarea></div>
       </div>
     </div>
     <div class="modal__footer">
@@ -141,21 +155,21 @@
 <div class="modal-overlay" id="detailModal">
   <div class="modal" style="max-width:780px">
     <div class="modal__header">
-      <h2 class="modal__title" id="detailTitle">—</h2>
-      <button class="modal__close" id="detailClose">✕</button>
+      <h2 class="modal__title" id="detailTitle">â€”</h2>
+      <button class="modal__close" id="detailClose">âœ•</button>
     </div>
     <div class="modal__body" id="detailBody"></div>
     <div class="modal__footer">
-      <button class="btn btn-secondary" id="detailEdit">✏️ Editar</button>
-      <a href="registro.html" class="btn btn-primary">📋 Ver Registro</a>
+      <button class="btn btn-secondary" id="detailEdit">âœï¸ Editar</button>
+      <a href="registro.html" class="btn btn-primary">ðŸ“‹ Ver Registro</a>
     </div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"       defer></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
-<script src="firebase-config.js?v=20260518b" defer></script>
-<script src="main.js?v=20260518b"            defer></script>
-<script src="biblioteca.js?v=20260518b"      defer></script>
+<script src="firebase-config.js?v=20260518c" defer></script>
+<script src="main.js?v=20260518c"            defer></script>
+<script src="biblioteca.js?v=20260518c"      defer></script>
 </body>
 </html>
