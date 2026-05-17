@@ -169,7 +169,7 @@
       var coverContent = game.portadaUrl
         ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" alt="' + Utils.escapeHtml(game.titulo) + '" loading="lazy" onerror="this.style.display=\'none\'">'
         : '<div class="top5-cover__ph">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>';
-      return '<div class="top5-card">' +
+      return '<div class="top5-card" style="cursor:pointer" onclick="window.GT.GameDetailModal.open(\'' + game.id + '\')" title="Ver ficha">' +
         '<div class="top5-cover">' + coverContent +
           '<div class="top5-overlay">' +
             '<div class="top5-pos ' + posClass + '">' + posLabel + '</div>' +
@@ -185,7 +185,7 @@
       if (!game) return '';
       var posClass = i < 3 ? 'rank-' + (i+1) : '';
       var sc = Utils.scoreColor(item.notaMedia);
-      return '<tr class="ranking-row ' + posClass + '">' +
+      return '<tr class="ranking-row ' + posClass + '" style="cursor:pointer" onclick="window.GT.GameDetailModal.open(\'' + game.id + '\')" title="Ver ficha">' +
         '<td>' + (i+1) + 'º</td>' +
         '<td><div class="game-cell">' +
           '<div class="mini-cover">' +

@@ -107,6 +107,30 @@
       }).join('');
   }
 
+  function renderNext5() {
+    var el = document.getElementById('next5Strip');
+    if (!el) return;
+    var next5 = Biblioteca.getUpcoming().slice(0, 5);
+    if (!next5.length) { el.innerHTML = ''; return; }
+    el.innerHTML = next5.map(function(g) {
+      var parts = g.fechaLanzamiento.split('-');
+      var dateStr = parseInt(parts[2]) + ' ' + MONTH_NAMES[parseInt(parts[1])-1] + ' ' + parts[0];
+      return '<div class="next5-card" onclick="window.GT.GameDetailModal.open(\'' + g.id + '\')" style="cursor:pointer">' +
+        '<div class="next5-cover">' +
+          (g.portadaUrl
+            ? '<img src="' + Utils.escapeHtml(g.portadaUrl) + '" alt="' + Utils.escapeHtml(g.titulo) + '" loading="lazy" onerror="this.parentElement.querySelector(\'.next5-ph\').style.display=\'flex\';this.style.display=\'none\'">'
+            : '') +
+          '<div class="next5-ph" style="' + (g.portadaUrl ? 'display:none' : '') + '">' + Utils.escapeHtml(g.titulo.charAt(0)) + '</div>' +
+        '</div>' +
+        '<div class="next5-info">' +
+          '<div class="next5-title">' + Utils.escapeHtml(g.titulo) + '</div>' +
+          '<div class="next5-date">📅 ' + Utils.escapeHtml(dateStr) + '</div>' +
+          '<div>' + Utils.platformBadgesHtml(g.plataformas) + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
   function initCalendar() {
     var now = new Date();
     calState.year  = now.getFullYear();
@@ -160,7 +184,7 @@
       var coverContent = game.portadaUrl
         ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" alt="' + Utils.escapeHtml(game.titulo) + '" loading="lazy" onerror="this.style.display=\'none\'">'
         : '<div class="top5-cover__ph">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>';
-      return '<div class="top5-card">' +
+      return '<div class="top5-card" style="cursor:pointer" onclick="window.GT.GameDetailModal.open(\'' + game.id + '\')" title="Ver ficha">' +
         '<div class="top5-cover">' + coverContent +
         '<div class="top5-overlay">' +
           '<div class="top5-pos ' + posClass + '">' + posLabel + '</div>' +
@@ -176,7 +200,7 @@
       if (!game) return '';
       var posClass = i < 3 ? 'rank-' + (i+1) : '';
       var sc = Utils.scoreColor(item.notaMedia);
-      return '<tr class="ranking-row ' + posClass + '">' +
+      return '<tr class="ranking-row ' + posClass + '" style="cursor:pointer" onclick="window.GT.GameDetailModal.open(\'' + game.id + '\')" title="Ver ficha">' +
         '<td>' + (i+1) + 'º</td>' +
         '<td><div class="game-cell">' +
           '<div class="mini-cover">' +
@@ -207,9 +231,11 @@
       safe(initStats,    'initStats');
       safe(initCalendar, 'initCalendar');
       safe(initRanking,  'initRanking');
+      safe(renderNext5,  'renderNext5');
       // Re-render when another user changes data in real time
       window.GT.onDataChange(function () {
         safe(initStats, 'initStats');
+        safe(renderNext5, 'renderNext5');
         var sel = document.getElementById('rankingYear');
         if (sel) safe(function(){ renderRanking(parseInt(sel.value)); }, 'renderRanking');
       });

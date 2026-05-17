@@ -9,7 +9,7 @@
   var Registro   = window.GT.Registro;
   var Toast      = window.GT.Toast;
 
-  var state = { player: 'All', year: 0, month: '', estado: '', editId: null };
+  var state = { player: 'All', year: 0, month: '', estado: '', editId: null, sortAsc: false };
 
   function safe(fn, name) {
     try { fn(); } catch(e) { console.warn('registro.js ' + name + ':', e); }
@@ -24,10 +24,11 @@
 
     var entries = Registro.filter(opts);
 
-    // Sort: year desc, month desc
+    // Sort by year+month, direction controlled by state.sortAsc
     entries.sort(function(a,b){
-      if (b.año !== a.año) return b.año - a.año;
-      return b.mes - a.mes;
+      var byYear = state.sortAsc ? (a.año - b.año) : (b.año - a.año);
+      if (byYear !== 0) return byYear;
+      return state.sortAsc ? (a.mes - b.mes) : (b.mes - a.mes);
     });
 
     var body  = document.getElementById('regBody');
@@ -207,6 +208,12 @@
 
     document.getElementById('filterMonth').addEventListener('change', function(){ state.month = this.value; renderTable(); });
     document.getElementById('filterStatus').addEventListener('change', function(){ state.estado = this.value; renderTable(); });
+
+    document.getElementById('btnSortOrder').addEventListener('click', function(){
+      state.sortAsc = !state.sortAsc;
+      this.textContent = state.sortAsc ? '↑ Enero → Dic' : '↓ Más reciente';
+      renderTable();
+    });
 
     document.getElementById('btnAddEntry').addEventListener('click', openAdd);
     document.getElementById('fabAdd').addEventListener('click', openAdd);

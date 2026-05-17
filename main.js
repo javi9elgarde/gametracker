@@ -327,6 +327,68 @@ window.GT.Toast = (function () {
   return { show };
 })();
 
+/* ── GAME DETAIL MODAL (universal, any page) ───────────────── */
+window.GT.GameDetailModal = (function () {
+  var overlay;
+  function ensure() {
+    if (overlay) return;
+    overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.id = 'gdModal';
+    overlay.innerHTML =
+      '<div class="modal" style="max-width:780px">' +
+        '<div class="modal__header">' +
+          '<h2 class="modal__title" id="gdTitle">—</h2>' +
+          '<button class="modal__close" id="gdClose">✕</button>' +
+        '</div>' +
+        '<div class="modal__body" id="gdBody"></div>' +
+        '<div class="modal__footer">' +
+          '<a id="gdLibLink" href="biblioteca.html" class="btn btn-secondary">📚 Ver en Biblioteca</a>' +
+          '<a href="registro.html" class="btn btn-primary">📋 Ver Registro</a>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', function(e){ if (e.target === overlay) close(); });
+    document.getElementById('gdClose').addEventListener('click', close);
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  }
+  function open(gameId) {
+    ensure();
+    var game = window.GT.Biblioteca.getById(gameId);
+    if (!game) return;
+    var notaMedia = window.GT.Registro.getNotaMedia(gameId);
+    var Utils     = window.GT.Utils;
+    document.getElementById('gdTitle').textContent = game.titulo;
+    var sc = Utils.scoreColor(notaMedia);
+    document.getElementById('gdBody').innerHTML =
+      '<div style="display:grid;grid-template-columns:140px 1fr;gap:1.5rem;align-items:start">' +
+        '<div style="aspect-ratio:2/3;background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:10px;overflow:hidden;position:relative">' +
+          (game.portadaUrl
+            ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" style="width:100%;height:100%;object-fit:cover;object-position:center top" onerror="this.style.display=\'none\'">'
+            : '') +
+          '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:2.5rem;font-weight:900;color:rgba(79,172,254,0.4)">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div style="margin-bottom:0.75rem">' + Utils.genreBadgesHtml(game.generos) + '</div>' +
+          (game.desarrollador ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">🏢 ' + Utils.escapeHtml(game.desarrollador) + '</div>' : '') +
+          (game.fechaLanzamiento ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">📅 ' + Utils.escapeHtml(game.fechaLanzamiento) + '</div>' : '') +
+          (game.duracion ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">⏱ ~' + game.duracion + 'h</div>' : '') +
+          (notaMedia !== null
+            ? '<div style="margin:1rem 0;display:flex;align-items:center;gap:0.75rem">' +
+                '<span style="font-family:Orbitron,sans-serif;font-size:2rem;font-weight:900;color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span>' +
+                '<span style="font-size:0.8rem;color:var(--txt3)">nota media</span>' +
+              '</div>'
+            : '') +
+          '<div style="margin-top:0.5rem">' + Utils.platformBadgesHtml(game.plataformas) + '</div>' +
+          (game.descripcion ? '<p style="margin-top:1rem;font-size:0.85rem;color:var(--txt2);line-height:1.6">' + Utils.escapeHtml(game.descripcion) + '</p>' : '') +
+        '</div>' +
+      '</div>';
+    overlay.classList.add('open');
+  }
+  function close() { if (overlay) overlay.classList.remove('open'); }
+  return { open, close };
+})();
+
 /* ── NAV ────────────────────────────────────────────────────── */
 window.GT.Nav = (function () {
   function init() {
