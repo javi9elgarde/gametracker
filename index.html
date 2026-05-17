@@ -40,15 +40,31 @@
 <div class="page">
   <!-- HERO -->
   <section class="hero">
+    <canvas id="heroCanvas" class="hero__canvas"></canvas>
     <div class="hero__bg"></div>
     <div class="hero__grid"></div>
     <div class="hero__content">
-      <h1 class="hero__logo fade-up">GAMETRACKER</h1>
-      <p class="hero__sub fade-up fade-up-1">Seguimiento de videojuegos · David · Javi · Mery</p>
-      <div class="hero__players fade-up fade-up-2">
-        <div class="hero__player"><span class="dot" style="background:var(--player-david)"></span>David Garde</div>
-        <div class="hero__player"><span class="dot" style="background:var(--player-javi)"></span>Javier Garde</div>
-        <div class="hero__player"><span class="dot" style="background:var(--player-mery)"></span>Mariam Moreno</div>
+      <div class="hero__eyebrow fade-up">🎮 &nbsp;SEGUIMIENTO DE VIDEOJUEGOS</div>
+      <h1 class="hero__logo fade-up fade-up-1">GAMETRACKER</h1>
+      <p class="hero__sub fade-up fade-up-2">Registra · Compara · Clasifica</p>
+      <div class="hero__pcards fade-up fade-up-3">
+        <div class="hero__pcard" style="--pc:var(--player-david)">
+          <div class="hero__pcard-av" style="background:var(--player-david)">D</div>
+          <div><div class="hero__pcard-name">David Garde</div><div class="hero__pcard-stat" id="heroStatsDavid">Cargando...</div></div>
+        </div>
+        <div class="hero__pcard" style="--pc:var(--player-javi)">
+          <div class="hero__pcard-av" style="background:var(--player-javi)">J</div>
+          <div><div class="hero__pcard-name">Javier Garde</div><div class="hero__pcard-stat" id="heroStatsJavi">Cargando...</div></div>
+        </div>
+        <div class="hero__pcard" style="--pc:var(--player-mery)">
+          <div class="hero__pcard-av" style="background:var(--player-mery)">M</div>
+          <div><div class="hero__pcard-name">Mariam Moreno</div><div class="hero__pcard-stat" id="heroStatsMery">Cargando...</div></div>
+        </div>
+      </div>
+      <div class="hero__cta fade-up fade-up-4">
+        <a href="biblioteca.html" class="btn btn-primary">📚 Biblioteca</a>
+        <a href="estadisticas.html#goty" class="btn btn-secondary">🏆 GOTY 2026</a>
+        <a href="registro.html"    class="btn btn-secondary">📋 Registro</a>
       </div>
     </div>
   </section>
