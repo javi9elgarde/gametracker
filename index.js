@@ -14,12 +14,12 @@
     try { fn(); } catch (e) { console.warn('index.js ' + name + ':', e); }
   }
 
-  /* ── HERO CANVAS ─────────────────────────────────────────── */
+  /* ── HERO CANVAS — pixel-art particles ──────────────────── */
   function initHeroCanvas() {
     var canvas = document.getElementById('heroCanvas');
     if (!canvas || !canvas.getContext) return;
     var ctx = canvas.getContext('2d');
-    var W, H, pts;
+    var W, H, netPts, floatPts;
 
     function resize() {
       W = canvas.width  = canvas.offsetWidth;
@@ -28,44 +28,120 @@
     resize();
     window.addEventListener('resize', resize);
 
-    pts = Array.from({ length: 65 }, function() {
+    // Red de partículas (cuadrados pixel-art)
+    netPts = Array.from({ length: 55 }, function() {
       return {
         x: Math.random() * W, y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        r: Math.random() * 1.8 + 0.8,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        sz: Math.random() < 0.5 ? 2 : 3,
         cyan: Math.random() > 0.4
       };
     });
 
+    // Partículas flotantes (ascienden y desaparecen)
+    function makeFloat(random) {
+      return {
+        x:       Math.random() * (W || 1200),
+        y:       random ? Math.random() * (H || 800) : (H || 800) + 8,
+        vy:      -(Math.random() * 0.45 + 0.15),
+        sz:      Math.random() < 0.55 ? 2 : 4,
+        alpha:   0,
+        maxA:    Math.random() * 0.55 + 0.2,
+        fadeIn:  true,
+        pink:    Math.random() > 0.7
+      };
+    }
+    floatPts = Array.from({ length: 38 }, function() { return makeFloat(true); });
+
     function frame() {
       ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < pts.length; i++) {
-        for (var j = i + 1; j < pts.length; j++) {
-          var dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+
+      // Líneas de red
+      for (var i = 0; i < netPts.length; i++) {
+        for (var j = i + 1; j < netPts.length; j++) {
+          var dx = netPts[i].x - netPts[j].x, dy = netPts[i].y - netPts[j].y;
           var d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 140) {
+          if (d < 130) {
             ctx.beginPath();
-            ctx.strokeStyle = 'rgba(79,172,254,' + (1 - d / 140) * 0.18 + ')';
-            ctx.lineWidth = 0.8;
-            ctx.moveTo(pts[i].x, pts[i].y);
-            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = 'rgba(79,172,254,' + (1 - d / 130) * 0.14 + ')';
+            ctx.lineWidth = 1;
+            ctx.moveTo(netPts[i].x, netPts[i].y);
+            ctx.lineTo(netPts[j].x, netPts[j].y);
             ctx.stroke();
           }
         }
       }
-      pts.forEach(function(p) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.cyan ? 'rgba(79,172,254,0.7)' : 'rgba(155,89,255,0.7)';
-        ctx.fill();
+
+      // Píxeles de red (cuadrados)
+      netPts.forEach(function(p) {
+        ctx.fillStyle = p.cyan ? 'rgba(79,172,254,0.8)' : 'rgba(168,85,247,0.8)';
+        ctx.fillRect(Math.round(p.x - p.sz / 2), Math.round(p.y - p.sz / 2), p.sz, p.sz);
         p.x += p.vx; p.y += p.vy;
         if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
         if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
       });
+
+      // Partículas flotantes tipo brasa
+      floatPts.forEach(function(p, idx) {
+        if (p.fadeIn) {
+          p.alpha += 0.012;
+          if (p.alpha >= p.maxA) { p.alpha = p.maxA; p.fadeIn = false; }
+        } else {
+          p.alpha -= 0.007;
+          if (p.alpha <= 0) { floatPts[idx] = makeFloat(false); return; }
+        }
+        ctx.fillStyle = p.pink
+          ? 'rgba(236,72,153,' + p.alpha.toFixed(3) + ')'
+          : 'rgba(79,172,254,' + p.alpha.toFixed(3) + ')';
+        ctx.fillRect(Math.round(p.x), Math.round(p.y), p.sz, p.sz);
+        p.y += p.vy;
+      });
+
       requestAnimationFrame(frame);
     }
     frame();
+  }
+
+  /* ── HERO PARALLAX + KEN BURNS (JS) ─────────────────────── */
+  function initHeroParallax() {
+    var hero = document.querySelector('.hero');
+    var bg   = document.querySelector('.hero__bg');
+    if (!hero || !bg) return;
+
+    // JS toma el control — desactiva animación CSS residual
+    bg.style.animation = 'none';
+
+    var mouseX = 0.5, mouseY = 0.5;
+    var curX   = 0.5, curY   = 0.5;
+    var kbTime = 0;
+
+    hero.addEventListener('mousemove', function(e) {
+      var r = hero.getBoundingClientRect();
+      mouseX = (e.clientX - r.left) / r.width;
+      mouseY = (e.clientY - r.top)  / r.height;
+    });
+    hero.addEventListener('mouseleave', function() { mouseX = 0.5; mouseY = 0.5; });
+
+    function tick() {
+      // Suavizado
+      curX += (mouseX - curX) * 0.04;
+      curY += (mouseY - curY) * 0.04;
+
+      // Ken Burns: escala oscila entre 1.04 y 1.10
+      kbTime += 0.00025;
+      var scale = 1.07 + Math.sin(kbTime) * 0.03;
+
+      // Parallax: ±3% según posición del ratón (invertido = imagen sigue suavemente)
+      var px = 50 + (curX - 0.5) * (-6);
+      var py = 50 + (curY - 0.5) * (-4);
+
+      bg.style.backgroundSize     = (scale * 100).toFixed(2) + '%';
+      bg.style.backgroundPosition = px.toFixed(2) + '% ' + py.toFixed(2) + '%';
+
+      requestAnimationFrame(tick);
+    }
+    tick();
   }
 
   /* ── HERO PLAYER CARDS ───────────────────────────────────── */
@@ -332,6 +408,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     window.GT.onDataReady(function () {
       safe(initHeroCanvas,        'initHeroCanvas');
+      safe(initHeroParallax,      'initHeroParallax');
       safe(initHeroPlayerStats,   'initHeroPlayerStats');
       safe(initStats,             'initStats');
       safe(initCalendar,          'initCalendar');

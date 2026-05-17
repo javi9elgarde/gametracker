@@ -1,6 +1,6 @@
 /* ============================================================
    GAMETRACKER — Global Stylesheet
-   Version: 20260517
+   Version: 20260518b
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap');
@@ -598,22 +598,53 @@ option { background: var(--bg2); }
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
-  opacity: 0.7;
+  z-index: 1;
+  opacity: 0.9;
 }
 .hero__bg {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,172,254,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 60% at 85% 90%, rgba(155,89,255,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(236,72,153,0.08) 0%, transparent 60%);
-  animation: heroBgPulse 8s ease-in-out infinite;
+  background-image: url('hero-bg.jpg');
+  background-size: 106%;
+  background-position: 50% 50%;
+  /* Ken Burns + parallax manejados por JS */
 }
-@keyframes heroBgPulse {
-  0%,100% { opacity: 1; }
-  50%      { opacity: 0.7; }
+/* Overlay oscuro degradado para legibilidad del texto */
+.hero__bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(7,7,15,0.28) 0%,
+      rgba(7,7,15,0.45) 55%,
+      rgba(7,7,15,0.82) 100%),
+    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(79,172,254,0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 85% 90%, rgba(155,89,255,0.18) 0%, transparent 55%);
+}
+/* Scanlines retro-CRT */
+.hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.07) 3px,
+    rgba(0,0,0,0.07) 4px
+  );
+  pointer-events: none;
+}
+/* Neon glow en los bordes del hero */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 120px rgba(79,172,254,0.06), inset 0 -2px 0 rgba(79,172,254,0.3);
 }
 .hero__grid {
   position: absolute;
