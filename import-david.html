@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Import — Pendientes David</title>
+  <style>
+    body { font-family: sans-serif; background: #0d0d1a; color: #e8e8f8; padding: 2rem; max-width: 800px; margin: 0 auto; }
+    h1 { color: #4facfe; }
+    .warn { background: rgba(255,200,0,.1); border: 1px solid rgba(255,200,0,.4); border-radius:8px; padding: 1rem; margin-bottom:1.5rem; color:#ffd700; font-size:0.9rem; }
+    .btn { padding: 0.75rem 2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 700; margin-right: 0.5rem; }
+    .btn-primary { background: #4facfe; color: #07070f; }
+    .btn-danger  { background: #e74c3c; color: #fff; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    #log { margin-top: 1.5rem; font-family: monospace; font-size: 0.8rem; background: #07070f; border-radius: 8px; padding: 1rem; max-height: 400px; overflow-y: auto; line-height: 1.7; }
+    .ok   { color: #2ecc71; }
+    .skip { color: #f39c12; }
+    .err  { color: #e74c3c; }
+    .info { color: #4facfe; }
+    ul { columns: 2; gap: 2rem; font-size: 0.85rem; color: #a0a0c0; padding-left: 1.2rem; }
+    li { margin-bottom: 0.25rem; }
+    .done-box { background: rgba(46,204,113,.1); border: 1px solid rgba(46,204,113,.4); border-radius: 8px; padding: 1rem; margin-top: 1rem; display: none; }
+  </style>
+</head>
+<body>
+
+<h1>📥 Importar Pendientes — David</h1>
+
+<div class="warn">
+  ⚠️ <strong>Usa esta página una sola vez.</strong> Comprobará si cada juego ya existe en la biblioteca
+  (por título) y actualizará su <code>pendientePor</code> para incluir a David. Los juegos nuevos se
+  añadirán con los metadatos básicos para que puedas editarlos después desde Biblioteca.
+  <br><br>
+  Borra este archivo (<code>import-david.html</code>) cuando termines.
+</div>
+
+<p><strong>Juegos a importar / actualizar para David (<span id="count">0</span> títulos):</strong></p>
+<ul id="gameList"></ul>
+
+<br>
+<button class="btn btn-primary" id="btnImport">🚀 Importar ahora</button>
+<button class="btn" style="background:#1a1a2e;border:1px solid #333;color:#e8e8f8" id="btnBack" onclick="location.href='biblioteca.html'">← Volver a Biblioteca</button>
+
+<div id="log"></div>
+<div class="done-box" id="doneBox">
+  ✅ <strong>Importación completada.</strong> Todos los juegos de David ya están en la base de datos.
+  <br>Puedes ir a <a href="pendientes.html" style="color:#4facfe">Jugadores</a> para verlos, o editar cada juego en la
+  <a href="biblioteca.html" style="color:#4facfe">Biblioteca</a> para añadir portada, géneros, etc.
+  <br><br><strong>Recuerda borrar este archivo import-david.html.</strong>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  var firebaseConfig = {
+    apiKey:            "AIzaSyDMytLn2U7MN-YPiW6X9Jdq5SsT6lIfvWo",
+    authDomain:        "proyectodmj-f3707.firebaseapp.com",
+    projectId:         "proyectodmj-f3707",
+    storageBucket:     "proyectodmj-f3707.firebasestorage.app",
+    messagingSenderId: "717604978468",
+    appId:             "1:717604978468:web:3f52353e384a59d670bdb1"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore();
+
+  // ── Lista completa de juegos pendientes de David ──────────────
+  var DAVID_GAMES = [
+    { titulo: 'Persona 5 Royal',                   generos: ['RPG', 'JRPG'],          plataformas: ['PS5', 'PC'] },
+    { titulo: 'Monster Hunter Freedom Unite',       generos: ['Acción', 'RPG'],        plataformas: ['PC'] },
+    { titulo: 'Divinity: Original Sin 2',           generos: ['RPG', 'Estrategia'],    plataformas: ['PC', 'PS5'] },
+    { titulo: 'Warhammer 40,000: Rogue Trader',     generos: ['RPG', 'Estrategia'],    plataformas: ['PC'] },
+    { titulo: 'Wartales',                           generos: ['RPG', 'Estrategia'],    plataformas: ['PC'] },
+    { titulo: 'The Witcher 3: Wild Hunt',           generos: ['RPG', 'Acción'],        plataformas: ['PC', 'PS5'] },
+    { titulo: 'Dragon Age: Origins',                generos: ['RPG'],                  plataformas: ['PC'] },
+    { titulo: 'Core Keeper',                        generos: ['Survival', 'Sandbox'],  plataformas: ['PC'] },
+    { titulo: 'Ghost of Yotei',                     generos: ['Acción', 'Aventura'],   plataformas: ['PS5'] },
+    { titulo: 'Final Fantasy IX',                   generos: ['JRPG'],                 plataformas: ['PC', 'PS5'] },
+    { titulo: 'Monster Hunter Wilds',               generos: ['Acción', 'RPG'],        plataformas: ['PS5', 'PC'] },
+    { titulo: 'The First Berserker: Khazan',        generos: ['Acción', 'Soulslike'],  plataformas: ['PS5', 'PC'] },
+    { titulo: 'Moonstone Island',                   generos: ['RPG', 'Casual'],        plataformas: ['PC'] },
+    { titulo: "Assassin's Creed IV: Black Flag",    generos: ['Acción', 'Aventura'],   plataformas: ['PC', 'PS5'] },
+    { titulo: 'Enter the Gungeon',                  generos: ['Roguelite', 'Acción'],  plataformas: ['PC'] },
+    { titulo: 'Wasteland 3',                        generos: ['RPG', 'Estrategia'],    plataformas: ['PC'] },
+    { titulo: 'Shapez 2',                           generos: ['Gestión', 'Puzzle'],    plataformas: ['PC'] },
+    { titulo: 'Dave the Diver',                     generos: ['Aventura', 'Casual'],   plataformas: ['PC'] },
+    { titulo: 'Pokémon Negro / Blanco',             generos: ['JRPG'],                 plataformas: ['Nintendo Switch'] },
+    { titulo: 'The Outer Worlds 2',                 generos: ['RPG', 'Acción'],        plataformas: ['PC', 'Xbox Series X'] },
+    { titulo: 'Avowed',                             generos: ['RPG', 'Acción'],        plataformas: ['PC', 'Xbox Series X'] },
+    { titulo: 'XCOM: Enemy Unknown',                generos: ['Estrategia', 'Táctica'],plataformas: ['PC'] },
+    { titulo: 'The Alters',                         generos: ['Supervivencia', 'RPG'], plataformas: ['PC', 'PS5'] },
+    { titulo: 'Stellar Blade',                      generos: ['Acción'],               plataformas: ['PS5'] },
+    { titulo: 'Schedule I',                         generos: ['Simulación'],           plataformas: ['PC'] },
+    { titulo: 'Elden Ring Nightreign',              generos: ['Acción', 'Soulslike'],  plataformas: ['PS5', 'PC'] },
+    { titulo: 'Towerborne',                         generos: ['Acción'],               plataformas: ['PC', 'Xbox Series X'] },
+    { titulo: 'Deus Ex: Mankind Divided',           generos: ['RPG', 'Acción'],        plataformas: ['PC'] },
+    { titulo: 'Chrono Trigger',                     generos: ['JRPG'],                 plataformas: ['PC'] },
+    { titulo: 'Nine Sols',                          generos: ['Acción', 'Plataformas'],plataformas: ['PC'] },
+    { titulo: 'Middle-earth: Shadow of Mordor',     generos: ['Acción', 'Aventura'],   plataformas: ['PC', 'PS5'] },
+    { titulo: 'The Outer Worlds',                   generos: ['RPG', 'Acción'],        plataformas: ['PC'] },
+    { titulo: 'Blue Prince',                        generos: ['Puzzle', 'Aventura'],   plataformas: ['PC', 'PS5'] },
+    { titulo: 'The Long Dark',                      generos: ['Supervivencia'],        plataformas: ['PC'] },
+    { titulo: 'Metal Gear Solid: Peace Walker',     generos: ['Acción', 'Sigilo'],     plataformas: ['PC'] },
+    { titulo: 'Discounty',                          generos: ['Simulación', 'Gestión'],plataformas: ['PC'] },
+    { titulo: 'The Evil Within',                    generos: ['Terror', 'Acción'],     plataformas: ['PC'] },
+    { titulo: 'Ashen',                              generos: ['Acción', 'RPG'],        plataformas: ['PC'] },
+    { titulo: 'Mandragora: Whispers of the Witch Tree', generos: ['RPG', 'Acción'],   plataformas: ['PC', 'PS5'] },
+    { titulo: 'Outer Wilds',                        generos: ['Aventura', 'Exploración'],plataformas:['PC'] },
+    { titulo: 'Dead Island',                        generos: ['Acción', 'Survival'],   plataformas: ['PC'] },
+    { titulo: "Another Crab's Treasure",            generos: ['Acción', 'Soulslike'],  plataformas: ['PC', 'Nintendo Switch'] },
+    { titulo: 'Psychonauts 2',                      generos: ['Plataformas', 'Aventura'],plataformas:['PC'] },
+    { titulo: 'Hotel Dusk: Room 215',               generos: ['Aventura', 'Visual Novel'],plataformas:['Nintendo Switch'] },
+    { titulo: 'Ratchet & Clank',                    generos: ['Plataformas', 'Acción'],plataformas: ['PS5'] },
+    { titulo: 'Sly 2: Band of Thieves',             generos: ['Plataformas', 'Sigilo'],plataformas:['PS5'] },
+    { titulo: 'MIO: Memories in Orbit',             generos: ['Aventura', 'Puzzle'],   plataformas: ['PC'] },
+    { titulo: 'Conscript',                          generos: ['Survival Horror'],      plataformas: ['PC'] },
+    { titulo: 'Silent Hill f',                      generos: ['Terror', 'Aventura'],   plataformas: ['PS5', 'PC'] },
+    { titulo: 'Psychonauts',                        generos: ['Plataformas', 'Aventura'],plataformas:['PC'] }
+  ];
+
+  // Render list
+  var listEl  = document.getElementById('gameList');
+  var countEl = document.getElementById('count');
+  countEl.textContent = DAVID_GAMES.length;
+  listEl.innerHTML = DAVID_GAMES.map(function(g){ return '<li>' + g.titulo + '</li>'; }).join('');
+
+  var logEl  = document.getElementById('log');
+  var doneEl = document.getElementById('doneBox');
+  var btn    = document.getElementById('btnImport');
+
+  function log(msg, cls) {
+    var line = document.createElement('div');
+    line.className = cls || '';
+    line.textContent = msg;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  btn.addEventListener('click', function(){
+    btn.disabled = true;
+    btn.textContent = '⏳ Importando...';
+    logEl.innerHTML = '';
+    log('Cargando biblioteca existente...', 'info');
+
+    // Load all existing games first
+    db.collection('biblioteca').get().then(function(snap){
+      var existing = {};
+      snap.forEach(function(doc){
+        var d = doc.data();
+        if (d.titulo) existing[d.titulo.trim().toLowerCase()] = { id: doc.id, data: d };
+      });
+      log('Biblioteca cargada: ' + snap.size + ' juego(s) encontrado(s).', 'info');
+
+      var promises = DAVID_GAMES.map(function(game){
+        var key = game.titulo.trim().toLowerCase();
+        if (existing[key]) {
+          // Game exists — update pendientePor
+          var cur = existing[key].data;
+          var pPor = Array.isArray(cur.pendientePor) ? cur.pendientePor.slice() : [];
+          if (!pPor.includes('David')) pPor.push('David');
+          return db.collection('biblioteca').doc(existing[key].id).update({
+            pendientePor: pPor,
+            pendiente: true
+          }).then(function(){
+            log('↻ Actualizado: ' + game.titulo, 'skip');
+          });
+        } else {
+          // New game — add it
+          var newGame = {
+            titulo:           game.titulo,
+            portadaUrl:       '',
+            portadaPos:       'center top',
+            desarrollador:    '',
+            fechaLanzamiento: '',
+            duracion:         null,
+            generos:          game.generos  || [],
+            plataformas:      game.plataformas || [],
+            descripcion:      '',
+            pendientePor:     ['David'],
+            pendiente:        true,
+            tipoLanzamiento:  '',
+            creadoEn:         firebase.firestore.FieldValue.serverTimestamp()
+          };
+          return db.collection('biblioteca').add(newGame).then(function(){
+            log('✚ Añadido: ' + game.titulo, 'ok');
+          });
+        }
+      });
+
+      return Promise.all(promises);
+    }).then(function(){
+      log('', '');
+      log('✅ Importación completada con éxito.', 'ok');
+      doneEl.style.display = 'block';
+      btn.textContent = '✓ Hecho';
+    }).catch(function(err){
+      log('❌ Error: ' + err.message, 'err');
+      btn.disabled = false;
+      btn.textContent = '🚀 Reintentar';
+    });
+  });
+})();
+</script>
+</body>
+</html>
