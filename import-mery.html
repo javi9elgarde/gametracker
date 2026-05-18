@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Import — Pendientes Mery</title>
+  <style>
+    body { font-family: sans-serif; background: #0d0d1a; color: #e8e8f8; padding: 2rem; max-width: 800px; margin: 0 auto; }
+    h1 { color: #9b59ff; }
+    .warn { background: rgba(155,89,255,.1); border: 1px solid rgba(155,89,255,.4); border-radius:8px; padding: 1rem; margin-bottom:1.5rem; color:#b57aff; font-size:0.9rem; }
+    .btn { padding: 0.75rem 2rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 700; margin-right: 0.5rem; }
+    .btn-primary { background: #9b59ff; color: #fff; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    #log { margin-top: 1.5rem; font-family: monospace; font-size: 0.8rem; background: #07070f; border-radius: 8px; padding: 1rem; max-height: 400px; overflow-y: auto; line-height: 1.7; }
+    .ok   { color: #2ecc71; }
+    .skip { color: #f39c12; }
+    .err  { color: #e74c3c; }
+    .info { color: #9b59ff; }
+    ul { font-size: 0.9rem; color: #a0a0c0; padding-left: 1.2rem; }
+    li { margin-bottom: 0.3rem; }
+    .done-box { background: rgba(155,89,255,.1); border: 1px solid rgba(155,89,255,.4); border-radius: 8px; padding: 1rem; margin-top: 1rem; display: none; }
+    .remake { color: #f093fb; font-size: 0.75em; margin-left: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>📥 Importar Pendientes — Mery</h1>
+
+<div class="warn">
+  ⚠️ <strong>Usa esta página una sola vez.</strong> Comprobará si cada juego ya existe en la biblioteca
+  (por título) y actualizará su <code>pendientePor</code> para incluir a Mery. Los juegos nuevos se añaden
+  con metadatos básicos para editar después desde Biblioteca.
+  <br><br>
+  Borra este archivo (<code>import-mery.html</code>) cuando termines.
+</div>
+
+<p><strong>Juegos a importar / actualizar para Mery (<span id="count">0</span> títulos):</strong></p>
+<ul id="gameList"></ul>
+
+<br>
+<button class="btn btn-primary" id="btnImport">🚀 Importar ahora</button>
+<button class="btn" style="background:#1a1a2e;border:1px solid #333;color:#e8e8f8" onclick="location.href='biblioteca.html'">← Volver a Biblioteca</button>
+
+<div id="log"></div>
+<div class="done-box" id="doneBox">
+  ✅ <strong>Importación completada.</strong> Todos los juegos de Mery ya están en la base de datos.
+  <br>Puedes ir a <a href="pendientes.html" style="color:#9b59ff">Jugadores</a> para verlos, o editar cada juego en la
+  <a href="biblioteca.html" style="color:#9b59ff">Biblioteca</a> para añadir portada, géneros, etc.
+  <br><br><strong>Recuerda borrar este archivo import-mery.html.</strong>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  var firebaseConfig = {
+    apiKey:            "AIzaSyDMytLn2U7MN-YPiW6X9Jdq5SsT6lIfvWo",
+    authDomain:        "proyectodmj-f3707.firebaseapp.com",
+    projectId:         "proyectodmj-f3707",
+    storageBucket:     "proyectodmj-f3707.firebasestorage.app",
+    messagingSenderId: "717604978468",
+    appId:             "1:717604978468:web:3f52353e384a59d670bdb1"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore();
+
+  /* ── Lista completa de juegos pendientes de Mery ───────────── */
+  var MERY_GAMES = [
+    { titulo: "Baldur's Gate III",              generos: ['RPG', 'Estrategia'],       plataformas: ['PC', 'PS5'],         tipoLanzamiento: '' },
+    { titulo: 'Dead Take',                      generos: ['Acción'],                  plataformas: ['PC'],                tipoLanzamiento: '' },
+    { titulo: 'Ghost of Yotei',                 generos: ['Acción', 'Aventura'],      plataformas: ['PS5'],               tipoLanzamiento: '' },
+    { titulo: 'Life is Strange: Reunion',        generos: ['Aventura', 'Narrativo'],   plataformas: ['PC', 'PS5'],         tipoLanzamiento: '' },
+    { titulo: 'Luto',                           generos: ['Terror', 'Aventura'],      plataformas: ['PC', 'PS5'],         tipoLanzamiento: '' },
+    { titulo: 'Sackboy: Una Aventura a lo Grande', generos: ['Plataformas'],          plataformas: ['PS5'],               tipoLanzamiento: '' },
+    { titulo: 'Silent Hill 2 Remake',           generos: ['Terror', 'Aventura'],      plataformas: ['PS5', 'PC'],         tipoLanzamiento: 'remake' },
+    { titulo: 'The Alters',                     generos: ['Supervivencia', 'RPG'],    plataformas: ['PC', 'PS5'],         tipoLanzamiento: '' },
+    { titulo: 'The Witcher 3: Wild Hunt',        generos: ['RPG', 'Acción'],          plataformas: ['PC', 'PS5'],         tipoLanzamiento: '' }
+  ];
+
+  /* Render list */
+  var listEl  = document.getElementById('gameList');
+  var countEl = document.getElementById('count');
+  countEl.textContent = MERY_GAMES.length;
+  listEl.innerHTML = MERY_GAMES.map(function(g){
+    var tag = g.tipoLanzamiento ? ' <span class="remake">' +
+      (g.tipoLanzamiento === 'remake' ? '🔄 remake' : '✨ remaster') + '</span>' : '';
+    return '<li>' + g.titulo + tag + '</li>';
+  }).join('');
+
+  var logEl  = document.getElementById('log');
+  var doneEl = document.getElementById('doneBox');
+  var btn    = document.getElementById('btnImport');
+
+  function log(msg, cls) {
+    var line = document.createElement('div');
+    line.className = cls || '';
+    line.textContent = msg;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  btn.addEventListener('click', function(){
+    btn.disabled = true;
+    btn.textContent = '⏳ Importando...';
+    logEl.innerHTML = '';
+    log('Cargando biblioteca existente...', 'info');
+
+    db.collection('biblioteca').get().then(function(snap){
+      var existing = {};
+      snap.forEach(function(doc){
+        var d = doc.data();
+        if (d.titulo) existing[d.titulo.trim().toLowerCase()] = { id: doc.id, data: d };
+      });
+      log('Biblioteca cargada: ' + snap.size + ' juego(s) encontrado(s).', 'info');
+
+      var promises = MERY_GAMES.map(function(game){
+        var key = game.titulo.trim().toLowerCase();
+        if (existing[key]) {
+          var cur  = existing[key].data;
+          var pPor = Array.isArray(cur.pendientePor) ? cur.pendientePor.slice() : [];
+          if (!pPor.includes('Mery')) pPor.push('Mery');
+          var upd = { pendientePor: pPor, pendiente: true };
+          if (game.tipoLanzamiento && !cur.tipoLanzamiento) {
+            upd.tipoLanzamiento = game.tipoLanzamiento;
+          }
+          return db.collection('biblioteca').doc(existing[key].id).update(upd).then(function(){
+            log('↻ Actualizado: ' + game.titulo, 'skip');
+          });
+        } else {
+          var newGame = {
+            titulo:           game.titulo,
+            portadaUrl:       '',
+            portadaPos:       'center top',
+            desarrollador:    '',
+            fechaLanzamiento: '',
+            duracion:         null,
+            generos:          game.generos    || [],
+            plataformas:      game.plataformas || [],
+            descripcion:      '',
+            pendientePor:     ['Mery'],
+            pendiente:        true,
+            tipoLanzamiento:  game.tipoLanzamiento || '',
+            creadoEn:         firebase.firestore.FieldValue.serverTimestamp()
+          };
+          return db.collection('biblioteca').add(newGame).then(function(){
+            log('✚ Añadido: ' + game.titulo, 'ok');
+          });
+        }
+      });
+
+      return Promise.all(promises);
+    }).then(function(){
+      log('', '');
+      log('✅ Importación completada con éxito.', 'ok');
+      doneEl.style.display = 'block';
+      btn.textContent = '✓ Hecho';
+    }).catch(function(err){
+      log('❌ Error: ' + err.message, 'err');
+      btn.disabled = false;
+      btn.textContent = '🚀 Reintentar';
+    });
+  });
+})();
+</script>
+</body>
+</html>
