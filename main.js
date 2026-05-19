@@ -374,8 +374,8 @@ window.GT.GameDetailModal = (function () {
     document.getElementById('gdLibLink').href = 'biblioteca.html?open=' + gameId;
     var sc = Utils.scoreColor(notaMedia);
     document.getElementById('gdBody').innerHTML =
-      '<div style="display:grid;grid-template-columns:140px 1fr;gap:1.5rem;align-items:start">' +
-        '<div style="aspect-ratio:2/3;background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:10px;overflow:hidden;position:relative">' +
+      '<div style="display:grid;grid-template-columns:260px 1fr;gap:1.5rem;align-items:start">' +
+        '<div style="aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:10px;overflow:hidden;position:relative">' +
           (game.portadaUrl
             ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" style="width:100%;height:100%;object-fit:cover;object-position:' + Utils.escapeHtml(game.portadaPos || 'center top') + '" onerror="this.style.display=\'none\'">'
             : '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:2.5rem;font-weight:900;color:rgba(79,172,254,0.4)">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>') +
