@@ -1,11 +1,11 @@
-/* ============================================================
-   GAMETRACKER — Global Stylesheet
+﻿/* ============================================================
+   GAMETRACKER â€” Global Stylesheet
    Version: 20260518b
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap');
 
-/* ── DESIGN TOKENS ─────────────────────────────────────────── */
+/* â”€â”€ DESIGN TOKENS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
   --bg:           #07070f;
   --bg2:          #0d0d1a;
@@ -42,7 +42,7 @@
   --nav-h:        64px;
 }
 
-/* ── RESET ─────────────────────────────────────────────────── */
+/* â”€â”€ RESET â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 body {
@@ -58,12 +58,12 @@ button { cursor: pointer; font-family: inherit; }
 input, select, textarea { font-family: inherit; }
 ul, ol { list-style: none; }
 
-/* ── SCROLLBAR ─────────────────────────────────────────────── */
+/* â”€â”€ SCROLLBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
 
-/* ── NAVIGATION ─────────────────────────────────────────────── */
+/* â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -142,10 +142,10 @@ ul, ol { list-style: none; }
 .nav__mobile.open { display: flex; }
 .nav__mobile .nav__link { font-size: 1rem; padding: 0.75rem 1rem; }
 
-/* ── PAGE WRAPPER ───────────────────────────────────────────── */
+/* â”€â”€ PAGE WRAPPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .page { padding-top: var(--nav-h); min-height: 100vh; }
 
-/* ── SECTION ────────────────────────────────────────────────── */
+/* â”€â”€ SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .section { padding: 4rem 2rem; max-width: 1400px; margin: 0 auto; }
 .section--full { max-width: none; }
 .section__header {
@@ -171,7 +171,7 @@ ul, ol { list-style: none; }
   margin-top: 0.25rem;
 }
 
-/* ── GLASS CARD ─────────────────────────────────────────────── */
+/* â”€â”€ GLASS CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -189,7 +189,7 @@ ul, ol { list-style: none; }
   box-shadow: 0 0 30px rgba(79,172,254,0.15), 0 8px 24px rgba(0,0,0,0.4);
 }
 
-/* ── BUTTONS ────────────────────────────────────────────────── */
+/* â”€â”€ BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -248,7 +248,7 @@ ul, ol { list-style: none; }
 }
 .btn-fab:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 8px 32px rgba(79,172,254,0.5); }
 
-/* ── BADGES ─────────────────────────────────────────────────── */
+/* â”€â”€ BADGES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -291,7 +291,7 @@ ul, ol { list-style: none; }
 .badge-genre:hover { background: rgba(79,172,254,0.12); color: var(--cyan); border-color: rgba(79,172,254,0.25); cursor: pointer; }
 .badge-genre.active { background: rgba(79,172,254,0.15); color: var(--cyan); border-color: rgba(79,172,254,0.4); }
 
-/* ── SCORE BAR ──────────────────────────────────────────────── */
+/* â”€â”€ SCORE BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .score-wrap {
   display: flex;
   align-items: center;
@@ -317,7 +317,7 @@ ul, ol { list-style: none; }
   text-align: right;
 }
 
-/* ── MODAL ──────────────────────────────────────────────────── */
+/* â”€â”€ MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -379,7 +379,7 @@ ul, ol { list-style: none; }
   border-top: 1px solid var(--border);
 }
 
-/* ── FORMS ──────────────────────────────────────────────────── */
+/* â”€â”€ FORMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .form-group { margin-bottom: 1.2rem; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1rem; }
 .form-label {
@@ -427,7 +427,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .chip-group .badge-genre { cursor: pointer; }
 
-/* ── TABLES ─────────────────────────────────────────────────── */
+/* â”€â”€ TABLES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
 .table {
   width: 100%;
@@ -455,7 +455,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .table tbody tr:hover { background: rgba(255,255,255,0.025); }
 .table tbody tr:last-child td { border-bottom: none; }
 
-/* ── GAME COVER ─────────────────────────────────────────────── */
+/* â”€â”€ GAME COVER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .cover {
   border-radius: var(--radius-sm);
   overflow: hidden;
@@ -487,7 +487,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   line-height: 1.3;
 }
 
-/* ── FILTERS BAR ─────────────────────────────────────────────── */
+/* â”€â”€ FILTERS BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .filters {
   display: flex;
   flex-direction: column;
@@ -569,7 +569,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .game-link:hover { color: var(--accent); text-decoration: underline; }
 
-/* ── PLAYER TABS ─────────────────────────────────────────────── */
+/* â”€â”€ PLAYER TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .player-tabs {
   display: flex;
   gap: 0.5rem;
@@ -594,7 +594,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .player-tab.active-javi   { background: rgba(155,23,66,.2);     color: var(--player-javi); }
 .player-tab.active-mery   { background: rgba(155,89,255,.2);    color: var(--player-mery); }
 
-/* ── TOAST ───────────────────────────────────────────────────── */
+/* â”€â”€ TOAST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .toast-container {
   position: fixed;
   bottom: 2rem;
@@ -627,7 +627,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── HERO ────────────────────────────────────────────────────── */
+/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero {
   min-height: 92vh;
   display: flex;
@@ -779,6 +779,91 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .hero__pcard-name { font-weight: 700; font-size: 0.875rem; margin-bottom: 0.2rem; }
 .hero__pcard-stat { font-size: 0.72rem; color: var(--txt3); }
+
+/* â”€â”€ HERO PIXEL ART CHARACTERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.hero__characters {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+.hero__char {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.hero__char-wrap {
+  position: relative;
+  animation: pixelFloat 3.5s ease-in-out infinite;
+}
+.hero__char:nth-child(1) .hero__char-wrap { animation-delay: 0s; }
+.hero__char:nth-child(2) .hero__char-wrap { animation-delay: 1.15s; }
+.hero__char:nth-child(3) .hero__char-wrap { animation-delay: 0.58s; }
+.hero__char-img {
+  display: block;
+  width: 240px;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transition: filter 0.35s ease, transform 0.35s ease;
+  filter: drop-shadow(0 10px 28px rgba(0,0,0,0.65));
+}
+.hero__char:hover .hero__char-img {
+  filter: drop-shadow(0 0 30px var(--pc)) brightness(1.12);
+  transform: scale(1.06);
+}
+.hero__char-shadow {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52%;
+  height: 14px;
+  background: radial-gradient(ellipse at center, var(--pc) 0%, transparent 70%);
+  opacity: 0.3;
+  filter: blur(10px);
+  transition: opacity 0.35s, width 0.35s;
+  pointer-events: none;
+}
+.hero__char:hover .hero__char-shadow {
+  opacity: 0.9;
+  width: 78%;
+}
+.hero__char-info {
+  text-align: center;
+  margin-top: 0.4rem;
+}
+.hero__char-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--pc);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero__char-stat {
+  font-size: 0.66rem;
+  color: var(--txt3);
+  margin-top: 0.15rem;
+  font-family: monospace;
+}
+@keyframes pixelFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@media (max-width: 860px) {
+  .hero__char-img { width: 170px; }
+}
+@media (max-width: 540px) {
+  .hero__char-img { width: 115px; }
+  .hero__char-name { font-size: 0.6rem; }
+  .hero__characters { gap: 0; }
+}
+
 .hero__cta {
   display: flex;
   gap: 0.75rem;
@@ -786,7 +871,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   flex-wrap: wrap;
 }
 
-/* ── NAV CARDS (index) ──────────────────────────────────────── */
+/* â”€â”€ NAV CARDS (index) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .nav-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -816,7 +901,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .nav-card__desc { font-size: 0.78rem; color: var(--txt3); }
 
-/* ── CALENDAR (index) ───────────────────────────────────────── */
+/* â”€â”€ CALENDAR (index) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .calendar-nav {
   display: flex;
   align-items: center;
@@ -885,7 +970,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   cursor: pointer;
 }
 
-/* ── TOP 5 CARDS ────────────────────────────────────────────── */
+/* â”€â”€ TOP 5 CARDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .top5-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -973,7 +1058,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   font-weight: 700;
 }
 
-/* ── RANKING TABLE ──────────────────────────────────────────── */
+/* â”€â”€ RANKING TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ranking-row td:first-child {
   font-family: 'Orbitron', sans-serif;
   font-size: 0.8rem;
@@ -983,7 +1068,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .rank-2 td:first-child { color: #c0c0c0; }
 .rank-3 td:first-child { color: #cd7f32; }
 
-/* ── ALPHA BAR (horizontal sticky) ──────────────────────────── */
+/* â”€â”€ ALPHA BAR (horizontal sticky) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .alpha-bar-wrap {
   position: sticky;
   top: var(--nav-h);
@@ -1022,7 +1107,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .alpha-bar__letter.is-active  { color: var(--accent); font-weight: 900; }
 .alpha-bar__letter.is-disabled { opacity: 0.1 !important; cursor: default; pointer-events: none; }
 
-/* ── LETTER SECTION HEADER ───────────────────────────────────── */
+/* â”€â”€ LETTER SECTION HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .letter-header {
   grid-column: 1 / -1;
   font-family: 'Orbitron', sans-serif;
@@ -1044,7 +1129,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .letter-header:first-child { padding-top: 0.25rem; }
 
-/* ── GAME GRID (biblioteca) ─────────────────────────────────── */
+/* â”€â”€ GAME GRID (biblioteca) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .game-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -1052,7 +1137,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   align-items: start;
 }
 
-/* ── GAME CARD — library portrait style ─────────────────────── */
+/* â”€â”€ GAME CARD â€” library portrait style â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .game-card {
   display: flex;
   flex-direction: column;
@@ -1198,7 +1283,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   white-space: nowrap;
 }
 
-/* ── STATS PAGE ─────────────────────────────────────────────── */
+/* â”€â”€ STATS PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .stat-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1270,7 +1355,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .player-card__stat-label { font-size: 0.75rem; color: var(--txt3); }
 
-/* ── PENDIENTES ─────────────────────────────────────────────── */
+/* â”€â”€ PENDIENTES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
@@ -1279,7 +1364,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .empty-state__icon { font-size: 3rem; margin-bottom: 1rem; }
 .empty-state__title { font-size: 1.1rem; color: var(--txt2); margin-bottom: 0.5rem; font-weight: 600; }
 
-/* ── PAGE HEADER ─────────────────────────────────────────────── */
+/* â”€â”€ PAGE HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .page-header {
   background: linear-gradient(180deg, rgba(79,172,254,0.07) 0%, transparent 100%);
   border-bottom: 1px solid var(--border);
@@ -1306,7 +1391,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .page-header__sub { font-size: 0.85rem; color: var(--txt3); margin-top: 0.35rem; }
 
-/* ── MINI COVER TABLE ───────────────────────────────────────── */
+/* â”€â”€ MINI COVER TABLE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .mini-cover {
   width: 36px; height: 52px;
   border-radius: 4px;
@@ -1331,14 +1416,14 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .game-cell { display: flex; align-items: center; gap: 0.75rem; }
 
-/* ── DIVIDER ─────────────────────────────────────────────────── */
+/* â”€â”€ DIVIDER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .divider {
   height: 1px;
   background: var(--border);
   margin: 0 2rem;
 }
 
-/* ── UPCOMING CARDS GRID (index — próximos 30 días) ─────────── */
+/* â”€â”€ UPCOMING CARDS GRID (index â€” prÃ³ximos 30 dÃ­as) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .upcoming-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -1379,7 +1464,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
 }
 
-/* ── HALL OF FAME (index — GOTY) ────────────────────────────── */
+/* â”€â”€ HALL OF FAME (index â€” GOTY) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hof-podium {
   display: grid; grid-template-columns: 1fr 1.45fr 1fr;
   gap: 1rem; align-items: end; margin-bottom: 1rem;
@@ -1434,7 +1519,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   50%      { box-shadow: 0 0 42px rgba(255,215,0,0.30), 0 6px 32px rgba(0,0,0,0.5); }
 }
 
-/* ── RANK LIST (sin portadas) ───────────────────────────────── */
+/* â”€â”€ RANK LIST (sin portadas) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .rank-list { display: flex; flex-direction: column; gap: 0.45rem; }
 .rank-list-row {
   display: flex; align-items: center; gap: 0.75rem;
@@ -1457,7 +1542,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .rank-list-dev   { font-size: 0.7rem; color: var(--txt3); margin-top: 0.05rem; }
 .rank-list-score-wrap { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 
-/* ── RANK SECTION HEADER (Clasificación Completa centrada) ─── */
+/* â”€â”€ RANK SECTION HEADER (ClasificaciÃ³n Completa centrada) â”€â”€â”€ */
 .rank-section-header {
   text-align: center;
   margin: 3rem 0 1.25rem;
@@ -1485,7 +1570,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .rank-list-pos  { min-width: 30px; height: 30px; font-size: 0.68rem; }
 .rank-list .score-bar { display: none; }
 
-/* ── FOOTER ──────────────────────────────────────────────────── */
+/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .footer {
   border-top: 1px solid var(--border);
   padding: 2rem;
@@ -1496,7 +1581,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .footer span { color: var(--cyan); }
 
-/* ── ANIMATIONS ─────────────────────────────────────────────── */
+/* â”€â”€ ANIMATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -1520,12 +1605,12 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 }
 .card-appear { animation: cardAppear 0.3s ease both; }
 
-/* ── REGISTRO — player colored row border ───────────────────── */
+/* â”€â”€ REGISTRO â€” player colored row border â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 tr.reg-row-david { box-shadow: inset 4px 0 0 var(--player-david); }
 tr.reg-row-javi  { box-shadow: inset 4px 0 0 var(--player-javi);  }
 tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 
-/* ── PLAYER PROFILES — Pendientes page ──────────────────────── */
+/* â”€â”€ PLAYER PROFILES â€” Pendientes page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .player-profiles { display: flex; flex-direction: column; gap: 2rem; }
 
 .player-profile {
@@ -1581,7 +1666,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   padding-bottom: 0.35rem; border-bottom: 1px solid var(--border);
 }
 
-/* ── Pending list — scrollable ────────────────────────────────── */
+/* â”€â”€ Pending list â€” scrollable â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .pp-pend-list {
   display: flex; flex-direction: column; gap: 0.3rem;
   max-height: 320px;
@@ -1604,7 +1689,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 }
 .pp-pend-item:hover { background: rgba(255,255,255,0.05); border-color: var(--border); }
 
-/* ── FAVORITES LIST ─────────────────────────────────────────── */
+/* â”€â”€ FAVORITES LIST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .pp-fav-list { display: flex; flex-direction: column; gap: 0.2rem; }
 
 .pp-fav-slot {
@@ -1656,7 +1741,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 }
 .pp-fav-remove:hover { color: #e74c3c; }
 
-/* ── PLATINOS BOX ────────────────────────────────────────────── */
+/* â”€â”€ PLATINOS BOX â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .pp-sub--plat { display: flex; flex-direction: column; }
 .pp-plat-box {
   display: flex; flex-direction: column;
@@ -1679,7 +1764,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   text-transform: uppercase; letter-spacing: 0.1em;
 }
 
-/* ── FAV PICKER MODAL ────────────────────────────────────────── */
+/* â”€â”€ FAV PICKER MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 #favPickerOverlay {
   position: fixed; inset: 0;
   background: rgba(7,7,15,0.82);
@@ -1729,7 +1814,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 .fav-picker-year { font-size: 0.7rem; color: var(--txt3); flex-shrink: 0; margin-left: 0.5rem; }
 .fav-picker-empty { text-align: center; color: var(--txt3); padding: 1.5rem; font-size: 0.85rem; }
 
-/* ── PENDING ITEM — portrait cover + duration ───────────────── */
+/* â”€â”€ PENDING ITEM â€” portrait cover + duration â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .pp-pend-cover {
   position: relative;
   width: 36px; height: 50px;
@@ -1758,7 +1843,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   margin-top: 0.15rem; letter-spacing: 0.02em;
 }
 
-/* ── DONE BUTTON ────────────────────────────────────────────── */
+/* â”€â”€ DONE BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .pp-done-btn {
   width: 32px; height: 32px;
   border-radius: 50%;
@@ -1779,7 +1864,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   box-shadow: 0 0 10px rgba(67,233,123,0.25);
 }
 
-/* ── DONE MODAL ─────────────────────────────────────────────── */
+/* â”€â”€ DONE MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 #pendDoneOverlay {
   position: fixed; inset: 0;
   background: rgba(7,7,15,0.82);
@@ -1848,7 +1933,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 }
 .pend-done-cancel:hover { color: var(--txt2); }
 
-/* ── CELEBRATION OVERLAY ────────────────────────────────────── */
+/* â”€â”€ CELEBRATION OVERLAY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 #celebrationOverlay {
   position: fixed; inset: 0; z-index: 4000;
   display: flex; align-items: center; justify-content: center;
@@ -1909,12 +1994,12 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   100% { transform: scale(1)   rotate(0deg); opacity: 1; }
 }
 
-/* ── GAME GRID BREAKPOINTS ───────────────────────────────────── */
+/* â”€â”€ GAME GRID BREAKPOINTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 1400px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 1060px) { .game-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 720px)  { .game-grid { grid-template-columns: repeat(2, 1fr); } }
 
-/* ── RESPONSIVE ─────────────────────────────────────────────── */
+/* â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 900px) {
   .nav__links { display: none; }
   .nav__year  { display: none; }
@@ -1942,7 +2027,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   .game-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
-/* ── LOGROS ──────────────────────────────────────────────────── */
+/* â”€â”€ LOGROS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .logros-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -2073,7 +2158,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   text-align: right;
 }
 
-/* ── RAWG COVER PICKER ──────────────────────────────────────── */
+/* â”€â”€ RAWG COVER PICKER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .rawg-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -2127,7 +2212,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   font-family: 'Orbitron', monospace;
 }
 
-/* ── UTILITY ─────────────────────────────────────────────────── */
+/* â”€â”€ UTILITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .items-center { align-items: center; }
@@ -2150,3 +2235,4 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 
 /* Defensive: reveal never hides content permanently */
 .reveal { opacity: 1; transform: none; }
+
