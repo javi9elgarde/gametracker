@@ -93,10 +93,6 @@
         '<div class="game-card__ph" style="display:none"><span class="game-card__ph-letter">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</span></div>'
       : '<div class="game-card__ph"><span class="game-card__ph-letter">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</span></div>';
 
-    var scorePill = notaMedia !== null
-      ? '<div class="game-card__score-pill" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</div>'
-      : '';
-
     var pendPor = game.pendientePor || (game.pendiente ? ['?'] : []);
     var pendDots = pendPor.length
       ? '<div class="game-card__pend-dot">' + pendPor.map(function(p) {
@@ -109,7 +105,7 @@
 
     return '<div class="game-card" data-id="' + game.id + '">' +
       '<div class="game-card__cover">' +
-        coverContent + scorePill + pendDots +
+        coverContent + pendDots +
         '<div class="game-card__overlay">' +
           '<button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();window.GT_Bib.openDetail(\'' + game.id + '\')">👁 Ver</button>' +
           '<button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();window.GT_Bib.openEdit(\'' + game.id + '\')">✏️ Editar</button>' +
