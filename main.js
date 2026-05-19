@@ -149,6 +149,7 @@ window.GT.Biblioteca = (function () {
     if (filters) {
       if (filters.genero)     all = all.filter(function(g){ return (g.generos||[]).includes(filters.genero); });
       if (filters.plataforma) all = all.filter(function(g){ return (g.plataformas||[]).includes(filters.plataforma); });
+      if (filters.año)        all = all.filter(function(g){ return g.fechaLanzamiento && g.fechaLanzamiento.startsWith(String(filters.año)); });
       if (filters.pendiente !== undefined) all = all.filter(function(g){ return !!g.pendiente === filters.pendiente; });
       if (filters.pendientePor) all = all.filter(function(g){ return (g.pendientePor||[]).includes(filters.pendientePor); });
     }

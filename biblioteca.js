@@ -17,7 +17,7 @@
   var PLATFORMS = ['PC','PS5','PS4','PS3','Xbox Series X','Xbox One','Xbox 360',
     'Nintendo Switch 2','Nintendo Switch','PS2'];
 
-  var state = { search:'', genero:'', plataforma:'', editId: null, detailId: null };
+  var state = { search:'', genero:'', plataforma:'', año:'', editId: null, detailId: null };
   var selectedGeneros    = [];
   var selectedPlataformas = [];
   var coverPreview = null;
@@ -90,8 +90,8 @@
 
     var coverContent = game.portadaUrl
       ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" alt="" loading="lazy" style="object-position:' + objPos + '" onerror="this.style.display=\'none\';this.parentElement.querySelector(\'.game-card__ph\').style.display=\'flex\'">' +
-        '<div class="game-card__ph" style="display:none"><span class="game-card__ph-letter">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</span><span class="game-card__ph-name">' + Utils.escapeHtml(game.titulo) + '</span></div>'
-      : '<div class="game-card__ph"><span class="game-card__ph-letter">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</span><span class="game-card__ph-name">' + Utils.escapeHtml(game.titulo) + '</span></div>';
+        '<div class="game-card__ph" style="display:none"><span class="game-card__ph-letter">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</span></div>'
+      : '<div class="game-card__ph"><span class="game-card__ph-letter">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</span></div>';
 
     var scorePill = notaMedia !== null
       ? '<div class="game-card__score-pill" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</div>'
@@ -105,14 +105,7 @@
         }).join('') + '</div>'
       : '';
 
-    var tipoMap = { remake:'🔄 Remake', remaster:'✨ Remaster', relanzamiento:'📦 Port' };
-    var tipoBadge = game.tipoLanzamiento && tipoMap[game.tipoLanzamiento]
-      ? '<span class="badge" style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.3);font-size:0.6rem">' + tipoMap[game.tipoLanzamiento] + '</span>'
-      : '';
-
-    var scoreBar = notaMedia !== null
-      ? '<div class="score-wrap"><div class="score-bar"><div class="score-bar__fill" style="width:' + Utils.scoreWidth(notaMedia) + ';background:' + sc + '"></div></div><span class="score-num" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span></div>'
-      : '<div style="font-size:0.68rem;color:var(--txt3)">Sin nota</div>';
+    var durStr = game.duracion ? '⏱ ~' + game.duracion + 'h' : '';
 
     return '<div class="game-card" data-id="' + game.id + '">' +
       '<div class="game-card__cover">' +
@@ -125,9 +118,10 @@
       '<div class="game-card__body">' +
         '<div class="game-card__title">' + Utils.escapeHtml(game.titulo) + '</div>' +
         (game.desarrollador ? '<div class="game-card__dev">' + Utils.escapeHtml(game.desarrollador) + '</div>' : '') +
-        '<div class="game-card__platforms">' + Utils.platformBadgesHtml(game.plataformas) + '</div>' +
-        '<div class="game-card__genres">' + (game.generos && game.generos.length ? Utils.genreBadgesHtml(game.generos.slice(0, 2)) : '') + tipoBadge + '</div>' +
-        '<div class="game-card__score-wrap">' + scoreBar + '</div>' +
+        '<div class="game-card__meta">' +
+          (durStr ? '<span class="game-card__dur">' + durStr + '</span>' : '<span></span>') +
+          (notaMedia !== null ? '<span class="game-card__score-inline" style="color:' + sc + '">★ ' + Utils.formatScore(notaMedia) + '</span>' : '') +
+        '</div>' +
       '</div>' +
     '</div>';
   }
@@ -137,6 +131,7 @@
     var filters = {};
     if (state.genero)     filters.genero     = state.genero;
     if (state.plataforma) filters.plataforma = state.plataforma;
+    if (state.año)        filters.año        = state.año;
     var games = Biblioteca.search(state.search, filters);
 
     var grid    = document.getElementById('gameGrid');
@@ -204,33 +199,41 @@
     });
   }
 
-  /* ── FILTER CHIPS ────────────────────────────────────────── */
-  function renderFilterChips() {
-    var genres = Biblioteca.getAllGenres();
-    var gc = document.getElementById('genreChips');
-    gc.innerHTML = genres.map(function(g){
-      return '<span class="badge badge-genre' + (state.genero===g?' active':'') + '" data-genre="' + Utils.escapeHtml(g) + '">' + Utils.escapeHtml(g) + '</span>';
-    }).join('');
-    gc.querySelectorAll('[data-genre]').forEach(function(el){
-      el.addEventListener('click', function(){
-        state.genero = state.genero === this.dataset.genre ? '' : this.dataset.genre;
-        renderFilterChips();
-        renderGrid();
-      });
+  /* ── FILTER DROPDOWNS ───────────────────────────────────── */
+  function getAllYears() {
+    var set = {};
+    Biblioteca.getAll().forEach(function(g) {
+      if (g.fechaLanzamiento) {
+        var y = g.fechaLanzamiento.slice(0, 4);
+        if (/^\d{4}$/.test(y)) set[y] = true;
+      }
     });
+    return Object.keys(set).sort(function(a, b) { return parseInt(b) - parseInt(a); });
+  }
+
+  function renderFilterDropdowns() {
+    var genres = Biblioteca.getAllGenres();
+    var genreSel = document.getElementById('genreFilter');
+    var prevG = genreSel.value;
+    genreSel.innerHTML = '<option value="">🎮 Géneros</option>' +
+      genres.map(function(g) {
+        return '<option value="' + Utils.escapeHtml(g) + '"' + (g === state.genero ? ' selected' : '') + '>' + Utils.escapeHtml(g) + '</option>';
+      }).join('');
+    if (!genres.includes(state.genero)) state.genero = '';
 
     var plats = Biblioteca.getAllPlatforms();
-    var pc = document.getElementById('platChips');
-    pc.innerHTML = plats.map(function(p){
-      return '<span class="badge badge-genre' + (state.plataforma===p?' active':'') + '" data-plat="' + Utils.escapeHtml(p) + '">' + Utils.escapeHtml(p) + '</span>';
-    }).join('');
-    pc.querySelectorAll('[data-plat]').forEach(function(el){
-      el.addEventListener('click', function(){
-        state.plataforma = state.plataforma === this.dataset.plat ? '' : this.dataset.plat;
-        renderFilterChips();
-        renderGrid();
-      });
-    });
+    var platSel = document.getElementById('platFilter');
+    platSel.innerHTML = '<option value="">🖥 Plataformas</option>' +
+      plats.map(function(p) {
+        return '<option value="' + Utils.escapeHtml(p) + '"' + (p === state.plataforma ? ' selected' : '') + '>' + Utils.escapeHtml(p) + '</option>';
+      }).join('');
+
+    var years = getAllYears();
+    var yearSel = document.getElementById('yearFilter');
+    yearSel.innerHTML = '<option value="">📅 Año</option>' +
+      years.map(function(y) {
+        return '<option value="' + y + '"' + (y === state.año ? ' selected' : '') + '>' + y + '</option>';
+      }).join('');
   }
 
   /* ── MODAL FORM CHIPS ────────────────────────────────────── */
@@ -269,7 +272,7 @@
     });
   }
 
-  /* ── ALPHA SIDEBAR ──────────────────────────────────────── */
+  /* ── ALPHA BAR (horizontal) ─────────────────────────────── */
   function initAlphaBar() {
     var bar = document.getElementById('alphaBar');
     if (!bar) return;
@@ -280,12 +283,12 @@
 
     var isDragging = false;
 
-    function getLetterAt(clientY) {
+    function getLetterAt(clientX) {
       var items = bar.querySelectorAll('.alpha-bar__letter:not(.is-disabled)');
       var best = null, bestDist = Infinity;
       items.forEach(function(el) {
         var rect = el.getBoundingClientRect();
-        var dist = Math.abs(clientY - (rect.top + rect.height / 2));
+        var dist = Math.abs(clientX - (rect.left + rect.width / 2));
         if (dist < bestDist) { bestDist = dist; best = el; }
       });
       return best ? best.dataset.letter : null;
@@ -297,11 +300,11 @@
       items.forEach(function(el, i) {
         var d = fi >= 0 ? Math.abs(i - fi) : 99;
         var s, op;
-        if      (d === 0) { s = 1.95; op = 1;    el.style.color = 'var(--accent)'; el.style.fontWeight = '900'; }
-        else if (d === 1) { s = 1.35; op = 0.78; el.style.color = ''; el.style.fontWeight = ''; }
+        if      (d === 0) { s = 1.7;  op = 1;    el.style.color = 'var(--accent)'; el.style.fontWeight = '900'; }
+        else if (d === 1) { s = 1.25; op = 0.78; el.style.color = ''; el.style.fontWeight = ''; }
         else if (d === 2) { s = 1.0;  op = 0.55; el.style.color = ''; el.style.fontWeight = ''; }
-        else              { s = 0.82; op = 0.28; el.style.color = ''; el.style.fontWeight = ''; }
-        el.style.transform = 'scale(' + s + ') translateX(-' + ((s - 1) * 7) + 'px)';
+        else              { s = 0.85; op = 0.28; el.style.color = ''; el.style.fontWeight = ''; }
+        el.style.transform = 'scaleY(' + s + ')';
         el.style.opacity   = op;
       });
     }
@@ -328,23 +331,20 @@
       if (header) header.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Mouse events
     bar.addEventListener('mousedown', function(e) {
       isDragging = true;
-      var l = getLetterAt(e.clientY);
+      var l = getLetterAt(e.clientX);
       if (l) { applyLens(l); goTo(l); }
       e.preventDefault();
     });
     document.addEventListener('mousemove', function(e) {
       if (!isDragging) return;
-      var l = getLetterAt(e.clientY);
+      var l = getLetterAt(e.clientX);
       if (l) applyLens(l);
     });
     document.addEventListener('mouseup', function() {
       if (isDragging) { isDragging = false; clearLens(); }
     });
-
-    // Hover (non-drag) — lens preview
     bar.addEventListener('mouseover', function(e) {
       if (isDragging) return;
       var l = e.target && e.target.dataset && e.target.dataset.letter;
@@ -353,25 +353,20 @@
     bar.addEventListener('mouseleave', function() {
       if (!isDragging) clearLens();
     });
-
-    // Click
     bar.addEventListener('click', function(e) {
       var l = e.target && e.target.dataset && e.target.dataset.letter;
       if (l && !e.target.classList.contains('is-disabled')) goTo(l);
     });
-
-    // Touch events
     bar.addEventListener('touchstart', function(e) {
-      var l = getLetterAt(e.touches[0].clientY);
+      var l = getLetterAt(e.touches[0].clientX);
       if (l) { applyLens(l); goTo(l); }
     }, { passive: true });
     bar.addEventListener('touchmove', function(e) {
-      var l = getLetterAt(e.touches[0].clientY);
+      var l = getLetterAt(e.touches[0].clientX);
       if (l) { applyLens(l); goTo(l); }
     }, { passive: true });
     bar.addEventListener('touchend', function() { clearLens(); }, { passive: true });
 
-    // IntersectionObserver → follow page scroll
     _alphaObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) setActive(entry.target.dataset.letter);
@@ -683,11 +678,24 @@
       renderGrid();
     });
 
+    // Filter dropdowns
+    document.getElementById('genreFilter').addEventListener('change', function() {
+      state.genero = this.value; renderGrid();
+    });
+    document.getElementById('platFilter').addEventListener('change', function() {
+      state.plataforma = this.value; renderGrid();
+    });
+    document.getElementById('yearFilter').addEventListener('change', function() {
+      state.año = this.value; renderGrid();
+    });
+
     // Clear filters
     document.getElementById('clearFilters').addEventListener('click', function(){
-      state.search = ''; state.genero = ''; state.plataforma = '';
+      state.search = ''; state.genero = ''; state.plataforma = ''; state.año = '';
       document.getElementById('searchInput').value = '';
-      renderFilterChips();
+      document.getElementById('genreFilter').value = '';
+      document.getElementById('platFilter').value = '';
+      document.getElementById('yearFilter').value = '';
       renderGrid();
     });
 
@@ -722,7 +730,7 @@
       }
     });
 
-    renderFilterChips();
+    renderFilterDropdowns();
     renderGrid();
 
     // Handle ?open=gameId (cross-page navigation)
@@ -747,8 +755,8 @@
     window.GT.onDataReady(function () {
       safe(init, 'init');
       window.GT.onDataChange(function () {
-        safe(renderGrid,        'renderGrid');
-        safe(renderFilterChips, 'renderFilterChips');
+        safe(renderGrid,             'renderGrid');
+        safe(renderFilterDropdowns, 'renderFilterDropdowns');
       });
     });
   });
