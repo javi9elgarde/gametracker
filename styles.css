@@ -985,15 +985,20 @@ option { background: var(--bg2); }
   position: sticky;
   top: var(--nav-h);
   z-index: 90;
-  background: var(--bg1);
-  border-bottom: 1px solid rgba(79,172,254,0.1);
-  padding: 0.3rem 2rem;
+  background: rgba(7,7,15,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(79,172,254,0.15);
+  padding: 0.3rem 0;
 }
 .alpha-bar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
   user-select: none;
   touch-action: none;
   cursor: pointer;
