@@ -1960,13 +1960,14 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 }
 .player-profile--char .pp-header,
 .player-profile--char .pp-body {
-  padding-left: 9rem;
+  padding-left: 12rem;
 }
 
 .pp-char {
   position: absolute;
   left: 0; bottom: 0;
-  height: 92%;
+  width: 11rem;
+  height: auto;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   pointer-events: none;
@@ -1974,17 +1975,17 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   -webkit-user-drag: none;
   animation: ppCharFloat 3.2s ease-in-out infinite;
   filter: drop-shadow(4px 0 20px rgba(155,23,66,0.45));
-  mask-image: linear-gradient(to right, black 55%, transparent 95%);
-  -webkit-mask-image: linear-gradient(to right, black 55%, transparent 95%);
+  mask-image: linear-gradient(to right, black 60%, transparent 98%);
+  -webkit-mask-image: linear-gradient(to right, black 60%, transparent 98%);
   z-index: 1;
 }
 @keyframes ppCharFloat {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-10px); }
 }
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .player-profile--char .pp-header,
-  .player-profile--char .pp-body { padding-left: 1.25rem; }
+  .player-profile--char .pp-body { padding-left: 1.5rem; }
   .pp-char { display: none; }
 }
 
