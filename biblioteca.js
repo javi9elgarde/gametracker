@@ -101,7 +101,7 @@
         }).join('') + '</div>'
       : '';
 
-    var durStr = game.duracion ? '⏱ ~' + game.duracion + 'h' : '';
+    var durStr = game.duracion ? '⏱ ' + Utils.formatDuracion(game.duracion, true) : '';
 
     return '<div class="game-card" data-id="' + game.id + '">' +
       '<div class="game-card__cover">' +
@@ -636,7 +636,7 @@
     var stats = '';
     if (game.desarrollador)    stats += '<div class="detail-stat"><span class="detail-stat__icon">🏢</span><span>' + Utils.escapeHtml(game.desarrollador) + '</span></div>';
     if (game.fechaLanzamiento) stats += '<div class="detail-stat"><span class="detail-stat__icon">📅</span><span>' + fmtDate(game.fechaLanzamiento) + '</span></div>';
-    if (game.duracion)         stats += '<div class="detail-stat"><span class="detail-stat__icon">⏱</span><span>~' + game.duracion + ' horas</span></div>';
+    if (game.duracion)         stats += '<div class="detail-stat"><span class="detail-stat__icon">⏱</span><span>' + Utils.formatDuracion(game.duracion, false) + '</span></div>';
 
     /* ── Tipo lanzamiento ──────────────────────────────────── */
     var tipoMap = { remake:'🔄 Remake', remaster:'✨ Remaster', relanzamiento:'📦 Relanzamiento / Port' };

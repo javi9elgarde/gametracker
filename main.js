@@ -66,7 +66,13 @@ window.GT.Utils = (function () {
       return '<span class="badge badge-genre">' + escapeHtml(g) + '</span>';
     }).join('');
   }
-  return { uuid, scoreColor, scoreWidth, formatScore, monthName, platformClass,
+  function formatDuracion(d, short) {
+    if (d === null || d === undefined || d === '') return '';
+    var n = parseFloat(d);
+    if (n >= 999) return short ? '∞' : '∞ Infinitas';
+    return short ? '~' + n + 'h' : '~' + n + ' horas';
+  }
+  return { uuid, scoreColor, scoreWidth, formatScore, formatDuracion, monthName, platformClass,
            playerBadge, statusBadge, escapeHtml, platformBadgesHtml, genreBadgesHtml, MONTHS };
 })();
 
@@ -385,7 +391,7 @@ window.GT.GameDetailModal = (function () {
           '<div style="margin-bottom:0.75rem">' + Utils.genreBadgesHtml(game.generos) + '</div>' +
           (game.desarrollador ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">🏢 ' + Utils.escapeHtml(game.desarrollador) + '</div>' : '') +
           (game.fechaLanzamiento ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">📅 ' + Utils.escapeHtml(game.fechaLanzamiento) + '</div>' : '') +
-          (game.duracion ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">⏱ ~' + game.duracion + 'h</div>' : '') +
+          (game.duracion ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">⏱ ' + Utils.formatDuracion(game.duracion, true) + '</div>' : '') +
           (game.tipoLanzamiento ? '<div style="margin-bottom:0.5rem"><span style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.3);padding:0.2rem 0.6rem;border-radius:6px;font-size:0.75rem;font-weight:600">' + ({remake:'🔄 Remake',remaster:'✨ Remaster',relanzamiento:'📦 Relanzamiento / Port'}[game.tipoLanzamiento]||'') + ' · No computa en rankings</span></div>' : '') +
           (notaMedia !== null
             ? '<div style="margin:1rem 0;display:flex;align-items:center;gap:0.75rem">' +
