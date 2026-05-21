@@ -572,58 +572,115 @@
     document.getElementById('gameModal').classList.remove('open');
   }
 
+  /* ── SONIDO DE APERTURA DE FICHA ──────────────────────────── */
+  function playDetailSound() {
+    try {
+      var ac  = new (window.AudioContext || window.webkitAudioContext)();
+      var now = ac.currentTime;
+      // Tres tonos suaves ascendentes — "card reveal"
+      [[330, 0, 'sine'], [440, 0.07, 'sine'], [550, 0.13, 'triangle']].forEach(function (note) {
+        var osc = ac.createOscillator();
+        var g   = ac.createGain();
+        osc.connect(g); g.connect(ac.destination);
+        osc.type = note[2]; osc.frequency.value = note[0];
+        var t = now + note[1];
+        g.gain.setValueAtTime(0.045, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+        osc.start(t); osc.stop(t + 0.3);
+      });
+    } catch (e) {}
+  }
+
+  /* ── HELPER: formatear fecha ──────────────────────────────── */
+  function fmtDate(d) {
+    if (!d) return '';
+    var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    var p = d.split('-');
+    if (p.length < 2) return d;
+    var day = parseInt(p[2], 10);
+    var mon = months[parseInt(p[1], 10) - 1] || '';
+    return (day ? day + ' ' + mon + ' ' : mon + ' ') + p[0];
+  }
+
   /* ── DETAIL MODAL ───────────────────────────────────────── */
   function openDetail(id) {
     var game = Biblioteca.getById(id);
     if (!game) return;
     state.detailId = id;
+
+    playDetailSound();
+
     document.getElementById('detailTitle').textContent = game.titulo;
 
     var notaMedia = Registro.getNotaMedia(game.id);
     var entries   = Registro.filter({ juegoId: id });
-    var sc = Utils.scoreColor(notaMedia);
+    var sc        = Utils.scoreColor(notaMedia);
 
-    var html = '<div style="display:grid;grid-template-columns:140px 1fr;gap:1.5rem;align-items:start">' +
-      '<div style="aspect-ratio:2/3;background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:10px;overflow:hidden;position:relative">' +
-        (game.portadaUrl
-          ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" style="width:100%;height:100%;object-fit:cover;object-position:' + Utils.escapeHtml(game.portadaPos || 'center top') + '" onerror="this.style.display=\'none\'">'
-          : '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:2.5rem;font-weight:900;color:rgba(79,172,254,0.4)">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>') +
-      '</div>' +
-      '<div>' +
-        '<div style="margin-bottom:0.75rem">' + Utils.platformBadgesHtml(game.plataformas) + '</div>' +
-        '<div style="margin-bottom:0.75rem">' + Utils.genreBadgesHtml(game.generos) + '</div>' +
-        (game.desarrollador ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">🏢 ' + Utils.escapeHtml(game.desarrollador) + '</div>' : '') +
-        (game.fechaLanzamiento ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">📅 ' + Utils.escapeHtml(game.fechaLanzamiento) + '</div>' : '') +
-        (game.duracion ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">⏱ ~' + game.duracion + 'h</div>' : '') +
-        (game.tipoLanzamiento ? '<div style="margin-bottom:0.5rem"><span style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.3);padding:0.2rem 0.6rem;border-radius:6px;font-size:0.75rem;font-weight:600">' + ({remake:'🔄 Remake',remaster:'✨ Remaster',relanzamiento:'📦 Relanzamiento / Port'}[game.tipoLanzamiento]||'') + ' · No computa en rankings</span></div>' : '') +
-        (notaMedia !== null
-          ? '<div class="score-wrap" style="margin-top:1rem"><div class="score-bar"><div class="score-bar__fill" style="width:' + Utils.scoreWidth(notaMedia) + ';background:' + sc + '"></div></div><span class="score-num" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span></div>'
-          : '<div style="color:var(--txt3);font-size:0.85rem;margin-top:1rem">Sin nota aún</div>') +
-        (game.descripcion ? '<p style="margin-top:1rem;font-size:0.85rem;color:var(--txt2);line-height:1.6">' + Utils.escapeHtml(game.descripcion) + '</p>' : '') +
-      '</div>' +
-    '</div>';
+    /* ── Portada 16:9 + badge nota ─────────────────────────── */
+    var coverInner = game.portadaUrl
+      ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" style="object-position:' + Utils.escapeHtml(game.portadaPos || 'center top') + '" onerror="this.style.display=\'none\'">'
+      : '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:3rem;font-weight:900;color:rgba(79,172,254,0.35)">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>';
 
+    var scGlow = notaMedia !== null ? sc.replace('hsl(', 'hsla(').replace(')', ',0.35)') : 'transparent';
+
+    var scoreBadge = notaMedia !== null
+      ? '<div class="detail-score-badge" style="--sc:' + sc + ';--sc-glow:' + scGlow + '">' +
+          '<div class="detail-score-badge__val">' + Utils.formatScore(notaMedia) + '</div>' +
+          '<div class="detail-score-badge__lbl">NOTA MEDIA</div>' +
+        '</div>'
+      : '<div class="detail-score-badge detail-score-badge--empty">' +
+          '<div class="detail-score-badge__val">SIN NOTA</div>' +
+        '</div>';
+
+    /* ── Stats ─────────────────────────────────────────────── */
+    var stats = '';
+    if (game.desarrollador)    stats += '<div class="detail-stat"><span class="detail-stat__icon">🏢</span><span>' + Utils.escapeHtml(game.desarrollador) + '</span></div>';
+    if (game.fechaLanzamiento) stats += '<div class="detail-stat"><span class="detail-stat__icon">📅</span><span>' + fmtDate(game.fechaLanzamiento) + '</span></div>';
+    if (game.duracion)         stats += '<div class="detail-stat"><span class="detail-stat__icon">⏱</span><span>~' + game.duracion + ' horas</span></div>';
+
+    /* ── Tipo lanzamiento ──────────────────────────────────── */
+    var tipoMap = { remake:'🔄 Remake', remaster:'✨ Remaster', relanzamiento:'📦 Relanzamiento / Port' };
+    var tipoHtml = game.tipoLanzamiento
+      ? '<div class="detail-tipo">' + (tipoMap[game.tipoLanzamiento] || '') + ' <span style="opacity:0.6">· no computa en rankings</span></div>'
+      : '';
+
+    /* ── HTML final ────────────────────────────────────────── */
+    var html =
+      '<div class="detail-cover">' +
+        '<div class="detail-cover__wrap">' + coverInner + '</div>' +
+        scoreBadge +
+      '</div>' +
+
+      '<div class="detail-info">' +
+        '<div class="detail-badges-row">' +
+          Utils.platformBadgesHtml(game.plataformas) +
+          Utils.genreBadgesHtml(game.generos) +
+        '</div>' +
+        (stats ? '<div class="detail-stats-grid">' + stats + '</div>' : '') +
+        tipoHtml +
+        (game.descripcion ? '<p class="detail-desc">' + Utils.escapeHtml(game.descripcion) + '</p>' : '') +
+      '</div>';
+
+    /* ── Entradas del registro ─────────────────────────────── */
     if (entries.length) {
-      html += '<div style="margin-top:1.5rem"><h3 style="font-family:Rajdhani,sans-serif;font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--txt3);margin-bottom:0.75rem">Entradas en el Registro</h3>' +
-        '<div style="display:flex;flex-direction:column;gap:0.4rem">' +
-        entries.map(function(r){
+      html += '<div class="detail-entries-hdr">Entradas en el Registro</div>' +
+        entries.map(function (r) {
           var rSc = Utils.scoreColor(r.nota);
-          return '<div style="display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0.75rem;background:rgba(255,255,255,0.03);border-radius:8px;flex-wrap:wrap">' +
+          return '<div class="detail-entry">' +
             '<span class="badge ' + Utils.playerBadge(r.jugador) + '">' + Utils.escapeHtml(r.jugador) + '</span>' +
-            '<span style="font-size:0.8rem;color:var(--txt3)">' + Utils.monthName(r.mes) + ' ' + r.año + '</span>' +
+            '<span style="font-size:0.78rem;color:var(--txt3)">' + Utils.monthName(r.mes) + ' ' + r.año + '</span>' +
             '<span class="badge ' + Utils.statusBadge(r.estado) + '">' + Utils.escapeHtml(r.estado) + '</span>' +
             (r.nota !== null && r.nota !== '' && r.nota !== undefined
-              ? '<span style="font-family:Orbitron,sans-serif;font-size:0.8rem;font-weight:700;color:' + rSc + '">' + Utils.formatScore(r.nota) + '</span>'
+              ? '<span class="detail-entry__score" style="color:' + rSc + '">' + Utils.formatScore(r.nota) + '</span>'
               : '') +
-            (r.horas ? '<span style="font-size:0.8rem;color:var(--txt3)">' + r.horas + 'h</span>' : '') +
+            (r.horas ? '<span class="detail-entry__hours">' + r.horas + 'h</span>' : '') +
           '</div>';
-        }).join('') +
-        '</div></div>';
+        }).join('');
     }
 
     document.getElementById('detailBody').innerHTML = html;
     document.getElementById('detailModal').classList.add('open');
-    document.getElementById('detailEdit').onclick = function(){ openEdit(id); };
+    document.getElementById('detailEdit').onclick = function () { openEdit(id); };
   }
 
   function closeDetail() {

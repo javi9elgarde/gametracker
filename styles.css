@@ -381,6 +381,188 @@ ul, ol { list-style: none; }
   border-top: 1px solid var(--border);
 }
 
+/* ── DETAIL MODAL REDISENO ───────────────────────────────── */
+#detailModal .modal { max-width: 700px; overflow: visible; }
+#detailModal .modal__header {
+  position: relative;
+  justify-content: center;
+  border-bottom: none;
+  padding-bottom: 0.5rem;
+  background: linear-gradient(135deg, rgba(79,172,254,0.04), rgba(168,85,247,0.04));
+  border-radius: 14px 14px 0 0;
+}
+#detailModal .modal__title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(0.85rem, 2.2vw, 1.25rem);
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(135deg, #fff 30%, rgba(79,172,254,0.9));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 2.5rem;
+  line-height: 1.3;
+}
+#detailModal .modal__close {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#detailModal .modal__body { padding: 0 1.5rem 1.5rem; overflow: visible; }
+
+/* Portada 16:9 */
+.detail-cover { position: relative; width: 100%; margin-bottom: 2.5rem; }
+.detail-cover__wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  border: 1px solid rgba(79,172,254,0.18);
+}
+.detail-cover__wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.detail-cover__wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7,7,15,0.7) 0%, transparent 45%);
+  pointer-events: none;
+}
+/* Corchetes gaming en esquinas */
+.detail-cover__wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--cyan),var(--cyan)) top    left  / 22px 2px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) top    left  / 2px 22px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) top    right / 22px 2px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) top    right / 2px 22px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) bottom left  / 22px 2px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) bottom left  / 2px 22px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) bottom right / 22px 2px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) bottom right / 2px 22px no-repeat;
+  opacity: 0.5;
+}
+/* Badge nota circular superpuesto en esquina inferior derecha */
+.detail-score-badge {
+  position: absolute;
+  bottom: -34px;
+  right: 1.25rem;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--bg1);
+  border: 3px solid var(--sc, #6b7280);
+  box-shadow: 0 0 22px var(--sc-glow, transparent), 0 4px 18px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.detail-score-badge:hover { transform: scale(1.12); }
+.detail-score-badge__val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--sc, #6b7280);
+  line-height: 1;
+}
+.detail-score-badge__lbl {
+  font-size: 0.37rem;
+  letter-spacing: 0.1em;
+  color: var(--txt3);
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+  font-family: monospace;
+}
+.detail-score-badge--empty { border-color: rgba(107,114,128,0.35); }
+.detail-score-badge--empty .detail-score-badge__val { font-size: 0.46rem; color: var(--txt3); letter-spacing: 0.05em; }
+
+/* Info section */
+.detail-info { padding-top: 0.2rem; }
+.detail-badges-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.85rem; }
+.detail-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+.detail-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.81rem;
+  color: var(--txt2);
+  transition: background 0.2s, border-color 0.2s;
+}
+.detail-stat:hover { background: rgba(255,255,255,0.05); border-color: rgba(79,172,254,0.2); }
+.detail-stat__icon { font-size: 1rem; flex-shrink: 0; }
+.detail-tipo {
+  display: inline-flex;
+  gap: 0.4rem;
+  background: rgba(168,85,247,0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168,85,247,0.25);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+.detail-desc {
+  font-size: 0.82rem;
+  color: var(--txt2);
+  line-height: 1.7;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255,255,255,0.02);
+  border-left: 2px solid rgba(79,172,254,0.35);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 0.5rem;
+}
+/* Registro entries */
+.detail-entries-hdr {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0.6rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--txt3);
+}
+.detail-entries-hdr::before,
+.detail-entries-hdr::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.detail-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.85rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 9px;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+  transition: background 0.2s;
+}
+.detail-entry:hover { background: rgba(255,255,255,0.05); }
+.detail-entry__score { margin-left: auto; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 900; }
+.detail-entry__hours { font-size: 0.77rem; color: var(--txt3); font-family: monospace; }
+
 /* â”€â”€ FORMS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .form-group { margin-bottom: 1.2rem; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1rem; }
