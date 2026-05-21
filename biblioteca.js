@@ -101,11 +101,18 @@
         }).join('') + '</div>'
       : '';
 
-    var durStr = game.duracion ? '⏱ ' + Utils.formatDuracion(game.duracion, true) : '';
+    var hasDur = game.duracion !== null && game.duracion !== undefined && game.duracion !== '';
+    var durStr = hasDur ? '⏱ ' + Utils.formatDuracion(game.duracion, true) : '';
+    var proxRibbon = !hasDur ? '<div class="game-card__prox">PRÓXIMAMENTE</div>' : '';
+    var metaLeft = hasDur
+      ? (durStr ? '<span class="game-card__dur">' + durStr + '</span>' : '<span></span>')
+      : (game.fechaLanzamiento
+          ? '<span class="game-card__prox-date">📅 ' + fmtDate(game.fechaLanzamiento) + '</span>'
+          : '<span></span>');
 
     return '<div class="game-card" data-id="' + game.id + '">' +
       '<div class="game-card__cover">' +
-        coverContent + pendDots +
+        coverContent + pendDots + proxRibbon +
         '<div class="game-card__overlay">' +
           '<button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();window.GT_Bib.openDetail(\'' + game.id + '\')">👁 Ver</button>' +
           '<button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();window.GT_Bib.openEdit(\'' + game.id + '\')">✏️ Editar</button>' +
@@ -115,7 +122,7 @@
         '<div class="game-card__title">' + Utils.escapeHtml(game.titulo) + '</div>' +
         (game.desarrollador ? '<div class="game-card__dev">' + Utils.escapeHtml(game.desarrollador) + '</div>' : '') +
         '<div class="game-card__meta">' +
-          (durStr ? '<span class="game-card__dur">' + durStr + '</span>' : '<span></span>') +
+          metaLeft +
           (notaMedia !== null ? '<span class="game-card__score-inline" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span>' : '') +
         '</div>' +
       '</div>' +
