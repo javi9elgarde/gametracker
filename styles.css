@@ -1976,7 +1976,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   z-index: 1;
 }
 
-/* Javi idle — 4 frames desde sprite sheet 1792×2400 */
+/* Javi — idle (4 frames) y walk (8 frames), mismo bg-size */
 .pp-char--javi {
   width: 176px;
   height: 378px;
@@ -1990,6 +1990,17 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 @keyframes javiIdle {
   from { background-position: -45px  -1183px; }
   to   { background-position: -749px -1183px; }
+}
+
+/* Walk override — se quita con JS tras la entrada */
+.pp-char--javi.pp-char--walk {
+  background-position: -49px -196px;
+  animation: javiWalk 0.7s steps(8) infinite,
+             ppCharFloat 3.4s ease-in-out infinite;
+}
+@keyframes javiWalk {
+  from { background-position: -49px   -196px; }
+  to   { background-position: -1457px -196px; }
 }
 @keyframes ppCharFloat {
   0%, 100% { transform: translateY(0px); }

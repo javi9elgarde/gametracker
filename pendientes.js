@@ -181,7 +181,7 @@
 
     var charSprites = { Javi: 'javi-sheet.png' };
     var charImg = charSprites[key]
-      ? '<div class="pp-char pp-char--' + key.toLowerCase() + '" role="img" aria-label="' + Utils.escapeHtml(player.name) + '"></div>'
+      ? '<div class="pp-char pp-char--' + key.toLowerCase() + ' pp-char--walk" role="img" aria-label="' + Utils.escapeHtml(player.name) + '"></div>'
       : '';
 
     var headerHtml =
@@ -280,10 +280,19 @@
   }
 
   /* ── RENDER ALL ─────────────────────────────────────────────── */
+  var _walkTimer = null;
   function render() {
     var container = document.getElementById('playerProfiles');
     if (!container) return;
     container.innerHTML = PLAYERS.map(function(p) { return renderPlayer(p); }).join('');
+
+    // Walk → idle transition after entry
+    if (_walkTimer) clearTimeout(_walkTimer);
+    _walkTimer = setTimeout(function() {
+      container.querySelectorAll('.pp-char--walk').forEach(function(el) {
+        el.classList.remove('pp-char--walk');
+      });
+    }, 2500);
 
     // Scroll to player anchor if navigated from another page
     try {
