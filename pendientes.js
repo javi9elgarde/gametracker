@@ -180,7 +180,7 @@
       (avgScore ? ' · ★ ' + avgScore.toFixed(2).replace('.', ',') : '');
 
     /* Player headshot icons */
-    var playerIcons = { Javi: 'iconjavineutral.png' };
+    var playerIcons = { David: 'icondavidneutral.png', Javi: 'iconjavineutral.png', Mery: 'iconmeryneutral.png' };
     var iconSrc = playerIcons[key] || null;
 
     var headerHtml =
