@@ -246,7 +246,7 @@
   /* ── INIT ───────────────────────────────────────────────── */
   function init() {
     document.getElementById('navYear').textContent = new Date().getFullYear();
-    document.getElementById('footerYear').textContent = new Date().getFullYear();
+    var fy = document.getElementById('footerYear'); if (fy) fy.textContent = new Date().getFullYear();
     buildYearOptions();
     initPlayerCards();
 
