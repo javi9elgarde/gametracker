@@ -2,15 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="logo.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameTracker — Menú Principal</title>
+  <title>Refugio 111 — Menú Principal</title>
   <link rel="stylesheet" href="styles.css?v=20260522a">
 </head>
 <body>
 
 <!-- Loading overlay -->
 <div id="gtLoading" style="position:fixed;inset:0;background:#07070f;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:1rem">
-  <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#fff,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.1em">GAMETRACKER</div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#fff,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.1em">REFUGIO 111</div>
   <div style="display:flex;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .2s infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .4s infinite"></span></div>
   <div style="font-size:.8rem;color:rgba(232,232,248,.4);letter-spacing:.05em">Conectando con Firebase...</div>
 </div>
@@ -18,12 +19,15 @@
 
 <!-- NAVBAR -->
 <nav class="nav">
-  <a href="index.html" class="nav__logo">🎮 <span>GAME</span>TRACKER</a>
-  <div class="nav__links">
-    <a href="hub.html"          class="nav__link nav__link--hub">🏠 Hub</a>
-    <a href="index.html"        class="nav__link">Inicio</a>
+  <a href="hub.html" class="nav__link nav__link--hub nav__hub">🏠 Hub</a>
+  <div class="nav__links nav__links--left">
     <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
     <a href="registro.html"     class="nav__link">Registro</a>
+  </div>
+  <a href="index.html" class="nav__logo">
+    <img src="logo.png" alt="Refugio 111" class="nav__logo-img">
+  </a>
+  <div class="nav__links nav__links--right">
     <a href="estadisticas.html" class="nav__link">Estadísticas</a>
     <a href="pendientes.html"   class="nav__link">Jugadores</a>
   </div>

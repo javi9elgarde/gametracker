@@ -77,24 +77,31 @@ ul, ol { list-style: none; }
   border-bottom: 1px solid var(--border);
   gap: 2rem;
 }
+.nav__hub {
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+}
 .nav__logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.08em;
-  color: var(--txt);
-  white-space: nowrap;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0 1rem;
 }
-.nav__logo span { color: var(--cyan); }
+.nav__logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
+  transition: opacity 0.2s;
+}
+.nav__logo:hover .nav__logo-img { opacity: 0.8; }
 .nav__links {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  flex: 1;
 }
+.nav__links--left  { flex: 1; justify-content: flex-end; }
+.nav__links--right { flex: 1; justify-content: flex-start; }
 .nav__link {
   padding: 0.45rem 0.9rem;
   border-radius: var(--radius-sm);
@@ -111,7 +118,7 @@ ul, ol { list-style: none; }
 /* ── Active player pill in navbar ── */
 .nav__player-pill {
   display: flex; align-items: center; gap: 0.45rem;
-  text-decoration: none; margin-left: auto;
+  text-decoration: none; margin-left: 0.5rem;
   padding: 0.2rem 0.6rem 0.2rem 0.2rem;
   border-radius: 100px;
   border: 1px solid rgba(255,255,255,0.08);
