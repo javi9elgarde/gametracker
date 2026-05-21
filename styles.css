@@ -964,6 +964,45 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .hero__pcard-name { font-weight: 700; font-size: 0.875rem; margin-bottom: 0.2rem; }
 .hero__pcard-stat { font-size: 0.72rem; color: var(--txt3); }
 
+/* ── HERO PIXEL CHARACTERS ── */
+.hero__char {
+  position: absolute;
+  bottom: 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  animation: heroCharFloat 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.7));
+  z-index: 2;
+}
+.hero__char--javi {
+  right: 6%;
+  height: 72%;
+  max-height: 520px;
+  animation-delay: 0.4s;
+}
+.hero__char--david {
+  left: 4%;
+  height: 68%;
+  max-height: 490px;
+  animation-delay: 0s;
+}
+.hero__char--mery {
+  right: 18%;
+  height: 62%;
+  max-height: 450px;
+  animation-delay: 0.8s;
+}
+@keyframes heroCharFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+@media (max-width: 768px) {
+  .hero__char { display: none; }
+}
+
 /* â”€â”€ HERO PIXEL ART CHARACTERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero__characters {
   display: flex;
