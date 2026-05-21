@@ -1488,6 +1488,88 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   white-space: nowrap;
 }
 
+/* ── PENDIENTE PARA — player cards ── */
+.pend-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.pend-card {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.pend-card input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+.pend-card__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 1rem 0.5rem 0.85rem;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--bg2);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  position: relative;
+}
+.pend-card:hover .pend-card__inner {
+  border-color: var(--pc);
+}
+.pend-card__avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.15rem; font-weight: 900;
+  background: var(--bg3);
+  border: 2px solid var(--border);
+  color: var(--txt2);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.pend-card__name {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--txt2);
+  letter-spacing: 0.04em;
+  transition: color 0.18s ease;
+}
+.pend-card__tick {
+  position: absolute;
+  top: 0.4rem; right: 0.5rem;
+  opacity: 0;
+  color: var(--pc);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  transform: scale(0.5);
+}
+/* checked state */
+.pend-card input:checked ~ .pend-card__inner {
+  border-color: var(--pc);
+  box-shadow: 0 0 0 1px var(--pc), 0 0 18px -4px var(--pc);
+  background: var(--bg3);
+}
+.pend-card input:checked ~ .pend-card__inner .pend-card__avatar {
+  background: var(--pc);
+  border-color: var(--pc);
+  color: #07070f;
+}
+.pend-card input:checked ~ .pend-card__inner .pend-card__name {
+  color: var(--pc);
+}
+.pend-card input:checked ~ .pend-card__inner .pend-card__tick {
+  opacity: 1;
+  transform: scale(1);
+}
+/* colors per player */
+.pend-card--david { --pc: var(--player-david); }
+.pend-card--javi  { --pc: var(--player-javi); }
+.pend-card--mery  { --pc: var(--player-mery); }
+
 /* â”€â”€ STATS PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .stat-cards {
   display: grid;

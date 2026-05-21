@@ -406,6 +406,9 @@
     var hint     = document.getElementById('coverDragHint');
     var posInput = document.getElementById('fPortadaPos');
 
+    // Elements removed from UI — return null so callers skip gracefully
+    if (!wrap || !img) return null;
+
     function applyPos(val) {
       posInput.value = val;
       img.style.objectPosition = val;
@@ -549,7 +552,6 @@
     document.getElementById('fPendJavi').checked  = false;
     document.getElementById('fPendMery').checked  = false;
     document.getElementById('fTipoLanzamiento').value = '';
-    document.getElementById('fDescripcion').value = '';
     document.getElementById('btnDelete').style.display = 'none';
     if (coverPreview) coverPreview.update('', '');
     populateDevSuggestions();
@@ -578,7 +580,6 @@
     document.getElementById('fPendJavi').checked  = pPor.includes('Javi');
     document.getElementById('fPendMery').checked  = pPor.includes('Mery');
     document.getElementById('fTipoLanzamiento').value = game.tipoLanzamiento || '';
-    document.getElementById('fDescripcion').value = game.descripcion || '';
     document.getElementById('btnDelete').style.display = 'inline-flex';
     populateDevSuggestions();
     renderGeneroChips();
@@ -725,7 +726,6 @@
                         document.getElementById('fPendJavi').checked  ||
                         document.getElementById('fPendMery').checked,
       tipoLanzamiento:  document.getElementById('fTipoLanzamiento').value,
-      descripcion:      document.getElementById('fDescripcion').value.trim(),
       generos:          selectedGeneros.slice(),
       plataformas:      selectedPlataformas.slice()
     };
