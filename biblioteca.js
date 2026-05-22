@@ -927,14 +927,7 @@
       });
     }
 
-    // Pre-select active player
-    var ap = window.GT && window.GT.getActivePlayer ? window.GT.getActivePlayer() : null;
-    if (ap && ap !== 'All') {
-      state.jugador = ap;
-      var apRadio = document.querySelector('#bibPlayerCards input[value="' + ap + '"]');
-      if (apRadio) apRadio.checked = true;
-    }
-
+    // Biblioteca always defaults to "Todos" regardless of active player
     renderFilterDropdowns();
     renderGrid();
 
