@@ -113,36 +113,12 @@
     }
     .pp-fav-card--empty:hover .pp-fav-card__empty-plus { color: var(--pp-color); }
 
-    /* ── Logros chips ── */
-    .pp-logros-section { margin-top: 1.25rem; }
+    /* ── Logros — tarjetas grandes (reutiliza .logro-card de styles.css) ── */
+    .pp-logros-section { margin-top: 1.5rem; }
     .pp-logros-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-    }
-    .pp-logro-chip {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 0.65rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      transition: border-color 0.18s, background 0.18s;
-    }
-    .pp-logro-chip:hover {
-      border-color: var(--pp-color);
-      background: rgba(255,255,255,0.06);
-    }
-    .pp-logro-chip__icon { font-size: 1rem; line-height: 1; flex-shrink: 0; }
-    .pp-logro-chip__body { display: flex; flex-direction: column; gap: 0.1rem; }
-    .pp-logro-chip__name {
-      font-size: 0.65rem; font-weight: 700;
-      color: var(--txt3); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1;
-    }
-    .pp-logro-chip__val {
-      font-size: 0.78rem; font-weight: 600;
-      color: var(--pp-color); line-height: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.85rem;
     }
 
     /* ── Stats bajo platinos ── */
@@ -228,6 +204,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
 <script src="firebase-config.js?v=20260519b" defer></script>
 <script src="main.js?v=20260522f"            defer></script>
-<script src="pendientes.js?v=20260522d"      defer></script>
+<script src="pendientes.js?v=20260522e"      defer></script>
 </body>
 </html>
