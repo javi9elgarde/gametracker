@@ -101,16 +101,22 @@
         }).join('') + '</div>'
       : '';
 
+    var today = new Date().toISOString().slice(0, 10);
     var hasDur = game.duracion !== null && game.duracion !== undefined && game.duracion !== '';
+    var isFuture = game.fechaLanzamiento && game.fechaLanzamiento > today;
+    var isReleasedNoDur = !hasDur && game.fechaLanzamiento && game.fechaLanzamiento <= today;
+
     var durStr = hasDur ? '⏱ ' + Utils.formatDuracion(game.duracion, true) : '';
-    var proxRibbon = !hasDur ? '<div class="game-card__prox">PRÓXIMAMENTE</div>' : '';
+    var proxRibbon = (!hasDur && isFuture) ? '<div class="game-card__prox">PRÓXIMAMENTE</div>' : '';
     var metaLeft = hasDur
       ? (durStr ? '<span class="game-card__dur">' + durStr + '</span>' : '<span></span>')
-      : (game.fechaLanzamiento
-          ? '<span class="game-card__prox-date">📅 ' + fmtDate(game.fechaLanzamiento) + '</span>'
-          : '<span class="game-card__no-date">Sin fecha</span>');
+      : (isReleasedNoDur
+          ? '<span class="game-card__dur game-card__dur--missing">⏱ ~0h</span>'
+          : (game.fechaLanzamiento
+              ? '<span class="game-card__prox-date">📅 ' + fmtDate(game.fechaLanzamiento) + '</span>'
+              : '<span class="game-card__no-date">Sin fecha</span>'));
 
-    return '<div class="game-card" data-id="' + game.id + '">' +
+    return '<div class="game-card' + (isReleasedNoDur ? ' game-card--nodur' : '') + '" data-id="' + game.id + '">' +
       '<div class="game-card__cover">' +
         coverContent + pendDots + proxRibbon +
         '<div class="game-card__overlay">' +
@@ -127,6 +133,41 @@
         '</div>' +
       '</div>' +
     '</div>';
+  }
+
+  /* ── NOTICE: juegos lanzados sin duración ──────────────── */
+  function renderNoduNotice() {
+    var el = document.getElementById('noduNotice');
+    if (!el) return;
+    var today = new Date().toISOString().slice(0, 10);
+    var games = Biblioteca.getAll().filter(function(g) {
+      var hasDur = g.duracion !== null && g.duracion !== undefined && g.duracion !== '';
+      return !hasDur && g.fechaLanzamiento && g.fechaLanzamiento <= today;
+    });
+    if (!games.length) { el.innerHTML = ''; return; }
+    var chips = games.map(function(g) {
+      return '<span class="nodur-notice__chip" onclick="window.GT_Bib.goToGame(\'' + g.id + '\')">' +
+        Utils.escapeHtml(g.titulo) + '</span>';
+    }).join('');
+    el.innerHTML =
+      '<div class="nodur-notice">' +
+        '<div class="nodur-notice__header">' +
+          '<span class="nodur-notice__icon">⚠️</span>' +
+          '<strong class="nodur-notice__count">' + games.length + ' juego' + (games.length !== 1 ? 's' : '') + '</strong>' +
+          '<span class="nodur-notice__label"> ya lanzado' + (games.length !== 1 ? 's' : '') + ' sin duración — pincha para ir al juego:</span>' +
+        '</div>' +
+        '<div class="nodur-notice__chips">' + chips + '</div>' +
+      '</div>';
+  }
+
+  function goToGame(id) {
+    var card = document.querySelector('.game-card[data-id="' + id + '"]');
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('game-card--highlight');
+      setTimeout(function() { card.classList.remove('game-card--highlight'); }, 1800);
+    }
+    openDetail(id);
   }
 
   /* ── RENDER GRID ────────────────────────────────────────── */
@@ -147,6 +188,7 @@
       grid.innerHTML = '';
       empty.classList.remove('hidden');
       updateAlphaAvailable([]);
+      renderNoduNotice();
       return;
     }
     empty.classList.add('hidden');
@@ -212,6 +254,8 @@
         window.GT_Bib.openDetail(this.dataset.id);
       });
     });
+
+    renderNoduNotice();
   }
 
   /* ── FILTER DROPDOWNS ───────────────────────────────────── */
@@ -839,7 +883,7 @@
   }
 
   // Expose for inline onclick
-  window.GT_Bib = { openDetail: openDetail, openEdit: openEdit, pickRawgCover: pickRawgCover };
+  window.GT_Bib = { openDetail: openDetail, openEdit: openEdit, pickRawgCover: pickRawgCover, goToGame: goToGame };
 
   document.addEventListener('DOMContentLoaded', function () {
     window.GT.onDataReady(function () {

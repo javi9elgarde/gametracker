@@ -1838,6 +1838,74 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   text-shadow: 0 1px 0 rgba(255,255,255,0.25);
   border-top: 1px solid rgba(251,191,36,0.5);
 }
+/* ── Tarjeta: juego lanzado sin duración ── */
+.game-card--nodur {
+  border-color: rgba(220,38,38,0.55) !important;
+  box-shadow: 0 0 0 1px rgba(220,38,38,0.4), 0 0 18px rgba(220,38,38,0.25), 0 4px 16px rgba(0,0,0,0.4);
+}
+.game-card--nodur .game-card__cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(220,38,38,0.08);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Duración ~0h en rojo para juegos sin registrar ── */
+.game-card__dur--missing {
+  color: #ef4444 !important;
+  font-weight: 700;
+}
+
+/* ── Flash highlight al navegar desde el aviso ── */
+@keyframes cardHighlight {
+  0%   { box-shadow: 0 0 0 2px #ef4444, 0 0 30px rgba(239,68,68,0.7); }
+  60%  { box-shadow: 0 0 0 3px #ef4444, 0 0 50px rgba(239,68,68,0.5); }
+  100% { box-shadow: 0 0 0 1px rgba(220,38,38,0.4), 0 0 18px rgba(220,38,38,0.25), 0 4px 16px rgba(0,0,0,0.4); }
+}
+.game-card--highlight {
+  animation: cardHighlight 1.8s ease-out forwards;
+}
+
+/* ── Aviso global: juegos lanzados sin duración ── */
+.nodur-notice {
+  background: linear-gradient(90deg, rgba(220,38,38,0.1), rgba(239,68,68,0.06));
+  border: 1px solid rgba(220,38,38,0.35);
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  margin: 0 1rem 0.75rem;
+  font-size: 0.84rem;
+  color: var(--txt2);
+}
+.nodur-notice__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.nodur-notice__icon { font-size: 1rem; flex-shrink: 0; }
+.nodur-notice__count { color: #ef4444; font-family: 'Orbitron', sans-serif; font-size: 0.82rem; font-weight: 700; }
+.nodur-notice__label { font-size: 0.82rem; color: var(--txt3); }
+.nodur-notice__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.nodur-notice__chip {
+  display: inline-block;
+  background: rgba(220,38,38,0.15);
+  border: 1px solid rgba(220,38,38,0.4);
+  color: #fca5a5;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.nodur-notice__chip:hover {
+  background: rgba(220,38,38,0.3);
+  border-color: rgba(239,68,68,0.7);
+  color: #fff;
+}
+
 .game-card__score-inline {
   font-family: 'Orbitron', monospace;
   font-size: 0.88rem;
