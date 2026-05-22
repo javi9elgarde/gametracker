@@ -404,6 +404,13 @@ window.GT.GameDetailModal = (function () {
       ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" style="object-position:' + Utils.escapeHtml(game.portadaPos || 'center top') + '" onerror="this.style.display=\'none\'">'
       : '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:3rem;font-weight:900;color:rgba(79,172,254,0.35)">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>';
 
+    /* Bandas sobre la portada */
+    var _todayBand  = new Date().toISOString().slice(0, 10);
+    var _hasDurBand = game.duracion !== null && game.duracion !== undefined && game.duracion !== '' && parseFloat(game.duracion) > 0;
+    var _isFutBand  = game.fechaLanzamiento && game.fechaLanzamiento > _todayBand;
+    if (game.earlyAccess)               coverInner += '<div class="detail-cover__ea-band">⚡ EARLY ACCESS</div>';
+    if (!_hasDurBand && _isFutBand)     coverInner += '<div class="detail-cover__prox-band">PRÓXIMAMENTE</div>';
+
     var scGlow = notaMedia !== null ? sc.replace('hsl(', 'hsla(').replace(')', ',0.35)') : 'transparent';
     var scoreBadge = notaMedia !== null
       ? '<div class="detail-score-badge" style="--sc:' + sc + ';--sc-glow:' + scGlow + '">' +

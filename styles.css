@@ -1913,6 +1913,42 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   letter-spacing: 0.04em;
 }
 
+/* Bandas sobre portada en ficha de detalle */
+.detail-cover__ea-band {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #0c4a6e 0%, #0284c7 25%, #38bdf8 50%, #0284c7 75%, #0c4a6e 100%);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 900;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.2em;
+  text-align: center;
+  padding: 0.42rem 0.75rem;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 3px 14px rgba(56,189,248,0.45);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  border-bottom: 1px solid rgba(56,189,248,0.55);
+}
+.detail-cover__prox-band {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #b45309 0%, #f59e0b 25%, #fbbf24 50%, #f59e0b 75%, #b45309 100%);
+  color: #07070f;
+  font-size: 0.65rem;
+  font-weight: 900;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.2em;
+  text-align: center;
+  padding: 0.42rem 0.75rem;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 -3px 14px rgba(251,191,36,0.4);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+  border-top: 1px solid rgba(251,191,36,0.55);
+}
+
 /* Toggle Early Access en formulario */
 .ea-toggle {
   display: inline-flex;
