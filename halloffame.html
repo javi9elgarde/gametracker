@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="logonavegador.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refugio 111 — Hall of Fame</title>
+  <link rel="stylesheet" href="styles.css?v=20260522d">
+</head>
+<body>
+
+<div id="gtLoading" style="position:fixed;inset:0;background:#07070f;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:1rem">
+  <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#f5c842,#fff,#f5c842);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.1em">REFUGIO 111</div>
+  <div style="display:flex;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#f5c842;animation:dotPulse 1.2s ease-in-out infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#f5c842;animation:dotPulse 1.2s ease-in-out .2s infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#f5c842;animation:dotPulse 1.2s ease-in-out .4s infinite"></span></div>
+  <div style="font-size:.8rem;color:rgba(245,200,66,.5);letter-spacing:.05em">Cargando Hall of Fame...</div>
+</div>
+<style>@keyframes dotPulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}</style>
+
+<nav class="nav">
+  <a href="hub.html" class="nav__link nav__link--hub nav__hub">🏠 Hub</a>
+  <div class="nav__links nav__links--left">
+    <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
+    <a href="registro.html"     class="nav__link">Registro</a>
+    <a href="halloffame.html"   class="nav__link nav__link--hof">🏆 Hall of Fame</a>
+  </div>
+  <a href="index.html" class="nav__logo">
+    <img src="logo.png" alt="Refugio 111" class="nav__logo-img">
+  </a>
+  <div class="nav__links nav__links--right">
+    <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+    <a href="pendientes.html"   class="nav__link">Jugadores</a>
+    <a href="backlog.html"      class="nav__link">Pendientes</a>
+  </div>
+  <button class="nav__hamburger" id="navHamburger" aria-label="Menú">☰</button>
+</nav>
+<div class="nav__mobile" id="navMobile">
+  <a href="hub.html"          class="nav__link nav__link--hub">🏠 Hub</a>
+  <a href="index.html"        class="nav__link">Inicio</a>
+  <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
+  <a href="registro.html"     class="nav__link">Registro</a>
+  <a href="halloffame.html"   class="nav__link nav__link--hof">🏆 Hall of Fame</a>
+  <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+  <a href="pendientes.html"   class="nav__link">Jugadores</a>
+  <a href="backlog.html"      class="nav__link">Pendientes</a>
+</div>
+
+<div class="page">
+
+  <!-- HOF HERO HEADER -->
+  <div class="hof-page-hero">
+    <div class="hof-page-hero__glow"></div>
+    <div class="hof-page-hero__inner">
+      <div class="hof-page-hero__crown">👑</div>
+      <h1 class="hof-page-hero__title">HALL OF FAME</h1>
+      <p class="hof-page-hero__sub">Los mejores juegos del Refugio 111 · clasificados por nota media</p>
+      <div class="hof-page-hero__year-wrap">
+        <label style="font-size:0.78rem;color:rgba(245,200,66,0.6);letter-spacing:0.06em">AÑO</label>
+        <select class="form-select hof-year-select" id="rankingYear" style="width:100px"></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- PODIUM -->
+  <div class="section" style="padding-bottom:0">
+    <div class="hof-podium" id="hofPodium"></div>
+    <div class="hof-lower" id="hofLower"></div>
+  </div>
+
+  <!-- FULL RANKING -->
+  <div class="section" style="padding-top:0">
+    <div class="rank-section-header">
+      <h3 class="rank-section-title">Clasificación Completa — <span id="gotyYear" style="color:#f5c842"></span></h3>
+    </div>
+    <div class="rank-list" id="rankingBody"></div>
+  </div>
+
+  <footer class="footer">
+    <span>REFUGIO 111</span> · David · Javi · Mery · <span id="footerYear"></span>
+    <br><small style="color:var(--txt3);margin-top:0.25rem;display:block">Datos sincronizados en tiempo real con Firebase 🔥</small>
+  </footer>
+</div>
+
+<style>
+/* ── HOF PAGE HERO ── */
+.hof-page-hero {
+  position: relative;
+  background: linear-gradient(180deg, rgba(245,200,66,0.06) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(245,200,66,0.2);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+.hof-page-hero__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245,200,66,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hof-page-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.hof-page-hero__crown {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 0 20px rgba(245,200,66,0.7));
+  animation: hofCrownPulse 2.5s ease-in-out infinite;
+}
+@keyframes hofCrownPulse {
+  0%,100% { filter: drop-shadow(0 0 20px rgba(245,200,66,0.5)); transform: scale(1); }
+  50%     { filter: drop-shadow(0 0 36px rgba(245,200,66,0.9)); transform: scale(1.06); }
+}
+.hof-page-hero__title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  background: linear-gradient(90deg, #b8860b 0%, #f5c842 30%, #fff 55%, #f5c842 80%, #b8860b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hofTitleShimmer 4s linear infinite;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+@keyframes hofTitleShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+.hof-page-hero__sub {
+  font-size: 0.82rem;
+  color: rgba(245,200,66,0.55);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.hof-page-hero__year-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.hof-year-select {
+  border-color: rgba(245,200,66,0.3) !important;
+  color: #f5c842 !important;
+}
+.hof-year-select:focus { border-color: rgba(245,200,66,0.7) !important; }
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"       defer></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
+<script src="firebase-config.js?v=20260519n" defer></script>
+<script src="main.js?v=20260522d"            defer></script>
+<script src="index.js?v=20260522d"           defer></script>
+</body>
+</html>

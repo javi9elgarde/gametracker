@@ -123,6 +123,13 @@ ul, ol { list-style: none; }
 .nav__link.active { color: var(--cyan); background: rgba(79,172,254,0.1); }
 .nav__link--hub { color: rgba(0,255,136,0.85); border: 1px solid rgba(0,255,136,0.2); }
 .nav__link--hub:hover { color: #00ff88; background: rgba(0,255,136,0.08); border-color: rgba(0,255,136,0.4); }
+.nav__link--hof {
+  color: #f5c842;
+  border: 1px solid rgba(245,200,66,0.25);
+  text-shadow: 0 0 8px rgba(245,200,66,0.3);
+  font-weight: 600;
+}
+.nav__link--hof:hover { color: #ffda44; background: rgba(245,200,66,0.08); border-color: rgba(245,200,66,0.5); text-shadow: 0 0 12px rgba(245,200,66,0.5); }
 /* ── Active player pill in navbar ── */
 .nav__player-pill {
   display: flex; align-items: center; gap: 0.45rem;
@@ -948,10 +955,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url('hero-bg.jpg');
-  background-size: 106%;
-  background-position: 50% 50%;
-  /* Ken Burns + parallax manejados por JS */
+  background:
+    radial-gradient(ellipse 130% 60% at 50% -10%, rgba(20,14,3,0.95) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 10% 100%, rgba(10,8,2,0.6) 0%, transparent 55%),
+    #070609;
 }
 /* Overlay oscuro degradado para legibilidad del texto */
 .hero__bg::before {

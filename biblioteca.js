@@ -757,7 +757,7 @@
 
   /* ── INIT ───────────────────────────────────────────────── */
   function init() {
-    document.getElementById('navYear').textContent = new Date().getFullYear();
+    var _ny = document.getElementById('navYear'); if (_ny) _ny.textContent = new Date().getFullYear();
 
     safe(initAlphaBar, 'initAlphaBar');
     coverPreview = initCoverPreview();

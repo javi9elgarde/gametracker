@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="logonavegador.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refugio 111 — Pendientes</title>
+  <link rel="stylesheet" href="styles.css?v=20260522d">
+  <style>
+    /* ── BACKLOG PANELS ── */
+    .blg-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    @media (max-width: 900px) { .blg-grid { grid-template-columns: 1fr; } }
+
+    .blg-panel {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s;
+    }
+    .blg-panel:hover { border-color: var(--border); }
+
+    /* Header */
+    .blg-panel__header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 1.1rem 1.25rem;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      min-height: 70px;
+    }
+    .blg-panel__icon {
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 120%;
+      width: auto;
+      image-rendering: pixelated;
+      pointer-events: none;
+      opacity: 0.9;
+      object-fit: contain;
+      object-position: bottom center;
+    }
+    .blg-panel__av {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900; font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      position: relative; z-index: 1;
+      margin-left: 5.5rem;
+    }
+    .blg-panel__info { position: relative; z-index: 1; }
+    .blg-panel__name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--txt);
+    }
+    .blg-panel__count {
+      font-size: 0.74rem;
+      color: var(--txt3);
+      margin-top: 0.1rem;
+    }
+
+    /* List */
+    .blg-panel__list {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 600px;
+      padding: 0.5rem 0;
+    }
+    .blg-panel__list::-webkit-scrollbar { width: 4px; }
+    .blg-panel__list::-webkit-scrollbar-track { background: transparent; }
+    .blg-panel__list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* Item */
+    .blg-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.55rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.15s;
+    }
+    .blg-item:last-child { border-bottom: none; }
+    .blg-item:hover { background: rgba(255,255,255,0.03); }
+
+    .blg-item__cover {
+      width: 46px; height: 64px;
+      border-radius: 4px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .blg-item__cover img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .blg-item__ph {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--txt3);
+    }
+
+    .blg-item__body {
+      flex: 1;
+      min-width: 0;
+    }
+    .blg-item__title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--txt);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.2rem;
+    }
+    .blg-item__dur {
+      font-size: 0.72rem;
+      color: var(--txt3);
+    }
+
+    .blg-item__check {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--pc, rgba(255,255,255,0.15));
+      background: transparent;
+      color: var(--pc, var(--txt3));
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .blg-item__check:hover {
+      background: rgba(var(--pc-rgb, 255,255,255), 0.1);
+      transform: scale(1.12);
+    }
+
+    /* Empty state */
+    .blg-panel__empty {
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: var(--txt3);
+      font-size: 0.85rem;
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+
+<div id="gtLoading" style="position:fixed;inset:0;background:#07070f;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:1rem">
+  <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#fff,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.1em">REFUGIO 111</div>
+  <div style="display:flex;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .2s infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .4s infinite"></span></div>
+  <div style="font-size:.8rem;color:rgba(232,232,248,.4);letter-spacing:.05em">Cargando pendientes...</div>
+</div>
+<style>@keyframes dotPulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}</style>
+
+<nav class="nav">
+  <a href="hub.html" class="nav__link nav__link--hub nav__hub">🏠 Hub</a>
+  <div class="nav__links nav__links--left">
+    <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
+    <a href="registro.html"     class="nav__link">Registro</a>
+    <a href="halloffame.html"   class="nav__link nav__link--hof">🏆 Hall of Fame</a>
+  </div>
+  <a href="index.html" class="nav__logo">
+    <img src="logo.png" alt="Refugio 111" class="nav__logo-img">
+  </a>
+  <div class="nav__links nav__links--right">
+    <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+    <a href="pendientes.html"   class="nav__link">Jugadores</a>
+    <a href="backlog.html"      class="nav__link">Pendientes</a>
+  </div>
+  <button class="nav__hamburger" id="navHamburger" aria-label="Menú">☰</button>
+</nav>
+<div class="nav__mobile" id="navMobile">
+  <a href="hub.html"          class="nav__link nav__link--hub">🏠 Hub</a>
+  <a href="index.html"        class="nav__link">Inicio</a>
+  <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
+  <a href="registro.html"     class="nav__link">Registro</a>
+  <a href="halloffame.html"   class="nav__link nav__link--hof">🏆 Hall of Fame</a>
+  <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+  <a href="pendientes.html"   class="nav__link">Jugadores</a>
+  <a href="backlog.html"      class="nav__link">Pendientes</a>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <h1 class="page-header__title">⏳ Juegos Pendientes</h1>
+        <p class="page-header__sub">Backlog por jugador · pulsa ✓ para marcar como jugado</p>
+      </div>
+      <a href="biblioteca.html" class="btn btn-secondary">📚 Añadir juegos</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="blg-grid" id="backlogGrid">
+      <!-- renderizado por backlog.js -->
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>REFUGIO 111</span> · David · Javi · Mery · <span id="footerYear"></span>
+    <br><small style="color:var(--txt3);margin-top:0.25rem;display:block">Datos sincronizados en tiempo real con Firebase 🔥</small>
+  </footer>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"       defer></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
+<script src="firebase-config.js?v=20260519n" defer></script>
+<script src="main.js?v=20260522d"            defer></script>
+<script src="backlog.js?v=20260522a"         defer></script>
+</body>
+</html>

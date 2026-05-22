@@ -516,8 +516,8 @@
 
   /* ── INIT ───────────────────────────────────────────────── */
   function init() {
-    document.getElementById('navYear').textContent  = currentYear;
-    document.getElementById('footerYear').textContent = currentYear;
+    var _ny = document.getElementById('navYear'); if (_ny) _ny.textContent = currentYear;
+    var _fy = document.getElementById('footerYear'); if (_fy) _fy.textContent = currentYear;
 
     buildYearOptions();
     buildPlayerTabs();

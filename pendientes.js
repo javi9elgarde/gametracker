@@ -501,8 +501,8 @@
      INIT
   ══════════════════════════════════════════════════════════════ */
   function init() {
-    document.getElementById('navYear').textContent    = new Date().getFullYear();
-    document.getElementById('footerYear').textContent = new Date().getFullYear();
+    var _ny = document.getElementById('navYear'); if (_ny) _ny.textContent = new Date().getFullYear();
+    var _fy = document.getElementById('footerYear'); if (_fy) _fy.textContent = new Date().getFullYear();
     injectDoneModal();
     injectFavPicker();
     render();

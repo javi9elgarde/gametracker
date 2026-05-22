@@ -453,8 +453,8 @@ window.GT.Nav = (function () {
           '</div>' +
           '<span class="nav__player-name">' + ap + '</span>';
         var nav = document.querySelector('.nav');
-        var year = document.getElementById('navYear');
-        if (nav && year) nav.insertBefore(indicator, year);
+        var hamburger = document.getElementById('navHamburger');
+        if (nav && hamburger) nav.insertBefore(indicator, hamburger);
         else if (nav) nav.appendChild(indicator);
       }
     } catch(e){}

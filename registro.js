@@ -252,7 +252,7 @@
 
   /* ── INIT ───────────────────────────────────────────────── */
   function init() {
-    document.getElementById('navYear').textContent = new Date().getFullYear();
+    var _ny = document.getElementById('navYear'); if (_ny) _ny.textContent = new Date().getFullYear();
     var fy = document.getElementById('footerYear'); if (fy) fy.textContent = new Date().getFullYear();
 
     /* Pre-select active player from localStorage */

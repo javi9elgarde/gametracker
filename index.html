@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — Menú Principal</title>
-  <link rel="stylesheet" href="styles.css?v=20260522c">
+  <link rel="stylesheet" href="styles.css?v=20260522d">
 </head>
 <body>
 
@@ -23,6 +23,7 @@
   <div class="nav__links nav__links--left">
     <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
     <a href="registro.html"     class="nav__link">Registro</a>
+    <a href="halloffame.html"   class="nav__link nav__link--hof">🏆 Hall of Fame</a>
   </div>
   <a href="index.html" class="nav__logo">
     <img src="logo.png" alt="Refugio 111" class="nav__logo-img">
@@ -30,8 +31,8 @@
   <div class="nav__links nav__links--right">
     <a href="estadisticas.html" class="nav__link">Estadísticas</a>
     <a href="pendientes.html"   class="nav__link">Jugadores</a>
+    <a href="backlog.html"      class="nav__link">Pendientes</a>
   </div>
-  <div class="nav__year" id="navYear">2026</div>
   <button class="nav__hamburger" id="navHamburger" aria-label="Menú">☰</button>
 </nav>
 <div class="nav__mobile" id="navMobile">
@@ -39,8 +40,10 @@
   <a href="index.html"        class="nav__link">Inicio</a>
   <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
   <a href="registro.html"     class="nav__link">Registro</a>
+  <a href="halloffame.html"   class="nav__link nav__link--hof">🏆 Hall of Fame</a>
   <a href="estadisticas.html" class="nav__link">Estadísticas</a>
   <a href="pendientes.html"   class="nav__link">Jugadores</a>
+  <a href="backlog.html"      class="nav__link">Pendientes</a>
 </div>
 
 <div class="page">
@@ -49,7 +52,6 @@
     <canvas id="heroCanvas" class="hero__canvas"></canvas>
     <div class="hero__bg"></div>
     <div class="hero__grid"></div>
-    <img src="javineutro.png" class="hero__char hero__char--javi" alt="Javi" draggable="false">
     <div class="hero__content">
       <div class="hero__eyebrow fade-up">☢ &nbsp;VAULT 111 · SEGUIMIENTO DE VIDEOJUEGOS</div>
       <h1 class="hero__logo fade-up fade-up-1">REFUGIO 111</h1>
@@ -81,27 +83,6 @@
     </div>
     <div id="upcomingCardsGrid" class="upcoming-grid"></div>
   </section>
-
-  <div style="height:1px;background:var(--border);margin:0 2rem"></div>
-
-  <!-- HALL OF FAME -->
-  <section class="section" id="goty">
-    <div class="section__header">
-      <div><h2 class="section__title">🏆 HALL OF FAME <span id="gotyYear">2026</span></h2><p class="section__subtitle">Los mejores juegos del año según nota media</p></div>
-      <div style="display:flex;align-items:center;gap:0.5rem">
-        <label style="font-size:0.8rem;color:var(--txt3)">Año:</label>
-        <select class="form-select" id="rankingYear" style="width:90px"></select>
-      </div>
-    </div>
-    <div class="hof-podium" id="hofPodium"></div>
-    <div class="hof-lower" id="hofLower"></div>
-    <div class="rank-section-header">
-      <h3 class="rank-section-title">Clasificación Completa</h3>
-    </div>
-    <div class="rank-list" id="rankingBody"></div>
-  </section>
-
-  <div style="height:1px;background:var(--border);margin:0 2rem"></div>
 
   <!-- CALENDARIO DE LANZAMIENTOS (al final) -->
   <section class="section">

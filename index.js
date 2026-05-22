@@ -168,8 +168,8 @@
     document.getElementById('statHours').textContent = stats.totalHoras + 'h';
     document.getElementById('statScore').textContent = stats.avgScore ? stats.avgScore.toFixed(2).replace('.',',') : '—';
     document.getElementById('statLibrary').textContent = libCount;
-    document.getElementById('navYear').textContent = year;
-    document.getElementById('footerYear').textContent = year;
+    var navY = document.getElementById('navYear'); if (navY) navY.textContent = year;
+    var footY = document.getElementById('footerYear'); if (footY) footY.textContent = year;
   }
 
   /* ── CALENDAR ────────────────────────────────────────────── */
