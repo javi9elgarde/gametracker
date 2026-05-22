@@ -151,19 +151,15 @@
     var key   = player.key;
     var color = player.color;
 
-    /* --- Pending games ---------------------------------------- */
-    var pendingGames = Biblioteca.getAll().filter(function(g) {
-      return (g.pendientePor || []).includes(key);
-    }).sort(function(a, b) { return a.titulo.localeCompare(b.titulo, 'es'); });
+    /* --- Pending games count ---------------------------------- */
+    var pendingCount = Biblioteca.getAll().filter(function(g) {
+      return (g.pendientePor || []).indexOf(key) !== -1;
+    }).length;
 
     /* --- Registro data ---------------------------------------- */
     var entries     = Registro.filter({ jugador: key });
     var totalJuegos = new Set(entries.map(function(r) { return r.juegoId; })).size;
     var totalHoras  = Math.round(entries.reduce(function(acc, r) { return acc + (parseFloat(r.horas) || 0); }, 0));
-    var scored      = entries.filter(function(r) { return r.nota !== null && r.nota !== undefined && r.nota !== ''; });
-    var avgScore    = scored.length
-      ? Math.round((scored.reduce(function(a, r) { return a + parseFloat(r.nota); }, 0) / scored.length) * 100) / 100
-      : null;
 
     /* --- Platinos --------------------------------------------- */
     var platSeen = {};
@@ -175,84 +171,59 @@
       }
     });
 
-    /* ── HEADER ──────────────────────────────────────────────── */
-    var statsStr = totalJuegos + ' jugados · ' + totalHoras + 'h' +
-      (avgScore ? ' · ★ ' + avgScore.toFixed(2).replace('.', ',') : '');
-
-    /* Player headshot icons */
+    /* ── HEADER — icono + nombre, sin avatar ni stats ───────── */
     var playerIcons = { David: 'icondavidneutral.png', Javi: 'iconjavineutral.png', Mery: 'iconmeryneutral.png' };
     var iconSrc = playerIcons[key] || null;
 
     var headerHtml =
       '<div class="pp-header' + (iconSrc ? ' pp-header--icon' : '') + '">' +
-        (iconSrc
-          ? '<img src="' + iconSrc + '" class="pp-icon" alt="' + Utils.escapeHtml(player.name) + '" draggable="false">'
-          : '') +
-        '<div class="pp-avatar" style="background:' + color + '">' + player.initial + '</div>' +
+        (iconSrc ? '<img src="' + iconSrc + '" class="pp-icon" alt="" draggable="false">' : '') +
         '<div style="flex:1;min-width:0">' +
-          '<div class="pp-name">' + Utils.escapeHtml(player.name) + '</div>' +
-          '<div class="pp-stats">' + pendingGames.length + ' pendientes · ' + statsStr + '</div>' +
+          '<div class="pp-name pp-name--lg">' + Utils.escapeHtml(player.name) + '</div>' +
         '</div>' +
         '<a href="registro.html" class="btn btn-ghost btn-sm" style="font-size:0.75rem;flex-shrink:0">📋 Registro</a>' +
       '</div>';
 
-    /* ── PENDING LIST (scrollable) ──────────────────────────── */
-    var pendListHtml;
-    if (pendingGames.length) {
-      pendListHtml = pendingGames.map(function(game) {
-        var dur    = game.duracion ? '⏱ ' + game.duracion + 'h' : '';
-        var safeId = game.id.replace(/'/g, "\\'");
-        var safeKey = key.replace(/'/g, "\\'");
+    /* ── TOP 10 FAVORITOS — grid 16:9 ───────────────────────── */
+    var favIds  = _favs[key] || [];
+    var safeKey = key.replace(/'/g, "\\'");
+    var favsHtml = '<div class="pp-fav-grid">';
 
-        return '<div class="pp-pend-item">' +
-          '<div class="pp-pend-cover">' +
-            (game.portadaUrl
-              ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" alt="" ' +
-                'style="object-position:' + Utils.escapeHtml(game.portadaPos || 'center top') + '" ' +
-                'onerror="this.style.display=\'none\'">'
-              : '') +
-            '<span class="pp-pend-cover__ph">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</span>' +
-          '</div>' +
-          '<div style="flex:1;min-width:0">' +
-            '<div class="pp-pend-title">' + Utils.escapeHtml(game.titulo) + '</div>' +
-            (dur ? '<div class="pp-pend-dur">' + dur + '</div>' : '') +
-          '</div>' +
-          '<button class="pp-done-btn" title="Marcar como jugado" ' +
-            'onclick="window.GT_Pend.openDoneModal(\'' + safeId + '\',\'' + safeKey + '\')">' +
-            '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><polyline points="4,10 8,14 16,6"/></svg>' +
-          '</button>' +
-        '</div>';
-      }).join('');
-    } else {
-      pendListHtml = '<p style="font-size:0.8rem;color:var(--txt3);font-style:italic;padding:0.5rem 0">Sin juegos pendientes asignados.<br>' +
-        '<a href="biblioteca.html" style="color:' + color + '">Márcarlos en la Biblioteca →</a></p>';
-    }
-
-    /* ── FAVORITES SECTION ──────────────────────────────────── */
-    var favIds = _favs[key] || [];
-    var safeKey2 = key.replace(/'/g, "\\'");
-    var favsHtml = '<div class="pp-fav-list">';
     for (var i = 0; i < 10; i++) {
       var gameId = favIds[i] || null;
       if (gameId) {
         var g = Biblioteca.getById(gameId);
-        favsHtml += '<div class="pp-fav-slot pp-fav-slot--filled">' +
-          '<span class="pp-fav-num" style="color:' + color + '">' + (i + 1) + '</span>' +
-          '<span class="pp-fav-name">' + Utils.escapeHtml(g ? g.titulo : '(juego eliminado)') + '</span>' +
-          '<button class="pp-fav-remove" title="Quitar" ' +
-            'onclick="window.GT_Pend.removeFav(\'' + safeKey2 + '\',' + i + ')">×</button>' +
-        '</div>';
+        var imgHtml = (g && g.portadaUrl)
+          ? '<img src="' + Utils.escapeHtml(g.portadaUrl) + '" class="pp-fav-card__img" ' +
+              'style="object-position:' + Utils.escapeHtml(g.portadaPos || 'center center') + '" ' +
+              'loading="lazy" onerror="this.style.display=\'none\'">'
+          : '<div class="pp-fav-card__ph">' + Utils.escapeHtml((g ? g.titulo : '?').charAt(0)) + '</div>';
+
+        favsHtml +=
+          '<div class="pp-fav-card pp-fav-card--filled">' +
+            '<div class="pp-fav-card__img-wrap">' +
+              imgHtml +
+              '<div class="pp-fav-card__overlay">' +
+                '<span class="pp-fav-card__rank">' + (i + 1) + '</span>' +
+                '<span class="pp-fav-card__title">' + Utils.escapeHtml(g ? g.titulo : '(juego eliminado)') + '</span>' +
+              '</div>' +
+              '<button class="pp-fav-card__remove" title="Quitar" ' +
+                'onclick="event.stopPropagation();window.GT_Pend.removeFav(\'' + safeKey + '\',' + i + ')">×</button>' +
+            '</div>' +
+          '</div>';
       } else {
-        favsHtml += '<div class="pp-fav-slot pp-fav-slot--empty" ' +
-          'onclick="window.GT_Pend.openFavPicker(\'' + safeKey2 + '\',' + i + ')">' +
-          '<span class="pp-fav-num pp-fav-num--empty">' + (i + 1) + '</span>' +
-          '<span class="pp-fav-add">＋ Añadir</span>' +
-        '</div>';
+        favsHtml +=
+          '<div class="pp-fav-card pp-fav-card--empty" onclick="window.GT_Pend.openFavPicker(\'' + safeKey + '\',' + i + ')">' +
+            '<div class="pp-fav-card__img-wrap">' +
+              '<span class="pp-fav-card__empty-num">' + (i + 1) + '</span>' +
+              '<span class="pp-fav-card__empty-plus">＋</span>' +
+            '</div>' +
+          '</div>';
       }
     }
     favsHtml += '</div>';
 
-    /* ── PLATINOS SECTION ───────────────────────────────────── */
+    /* ── PLATINOS ─────────────────────────────────────────────── */
     var platHtml =
       '<div class="pp-plat-box">' +
         '<div class="pp-plat-icon">' + PLAT_SVG + '</div>' +
@@ -260,21 +231,35 @@
         '<div class="pp-plat-label">Platino' + (platCount !== 1 ? 's' : '') + '</div>' +
       '</div>';
 
-    /* ── COMPOSE SECTION ────────────────────────────────────── */
+    /* ── STATS bajo platinos ──────────────────────────────────── */
+    var statsHtml =
+      '<div class="pp-stat-list">' +
+        '<div class="pp-stat-item">' +
+          '<div class="pp-stat-val">' + totalHoras + 'h</div>' +
+          '<div class="pp-stat-lbl">Horas jugadas</div>' +
+        '</div>' +
+        '<div class="pp-stat-item">' +
+          '<div class="pp-stat-val">' + totalJuegos + '</div>' +
+          '<div class="pp-stat-lbl">Juegos jugados</div>' +
+        '</div>' +
+        '<div class="pp-stat-item">' +
+          '<div class="pp-stat-val">' + pendingCount + '</div>' +
+          '<div class="pp-stat-lbl">Pendientes</div>' +
+        '</div>' +
+      '</div>';
+
+    /* ── COMPOSE ──────────────────────────────────────────────── */
     return '<div class="player-profile" id="player-' + key.toLowerCase() + '" style="--pp-color:' + color + ';scroll-margin-top:5rem">' +
       headerHtml +
-      '<div class="pp-body">' +
-        '<div class="pp-sub">' +
-          '<div class="pp-sub-title">⏳ Pendientes (' + pendingGames.length + ')</div>' +
-          '<div class="pp-pend-list">' + pendListHtml + '</div>' +
-        '</div>' +
-        '<div class="pp-sub">' +
+      '<div class="pp-body--2col">' +
+        '<div class="pp-main">' +
           '<div class="pp-sub-title">❤️ Top 10 Favoritos</div>' +
           favsHtml +
         '</div>' +
-        '<div class="pp-sub pp-sub--plat">' +
+        '<div class="pp-sidebar">' +
           '<div class="pp-sub-title">🎮 Platinos</div>' +
           platHtml +
+          statsHtml +
         '</div>' +
       '</div>' +
     '</div>';
