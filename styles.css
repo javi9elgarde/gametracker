@@ -39,7 +39,7 @@
   --transition:   0.22s ease;
   --blur:         blur(18px) saturate(1.8);
 
-  --nav-h:        64px;
+  --nav-h:        68px;
 }
 
 /* â”€â”€ RESET â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -71,11 +71,12 @@ ul, ol { list-style: none; }
   height: var(--nav-h);
   display: flex;
   align-items: center;
-  padding: 0 2rem;
-  background: rgba(7,7,15,0.85);
+  padding: 0 max(1.5rem, calc((100vw - 1400px) / 2));
+  background: rgba(7,7,15,0.88);
   backdrop-filter: var(--blur);
   border-bottom: 1px solid var(--border);
-  gap: 2rem;
+  gap: 0.5rem;
+  overflow: visible;
 }
 .nav__hub {
   flex-shrink: 0;
@@ -86,22 +87,29 @@ ul, ol { list-style: none; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
+  position: relative;
+  z-index: 101;
 }
 .nav__logo-img {
-  height: 36px;
+  height: 76px;
   width: auto;
   display: block;
-  transition: opacity 0.2s;
+  margin-bottom: -8px;
+  filter: drop-shadow(0 6px 18px rgba(79,172,254,0.45));
+  transition: opacity 0.2s, filter 0.3s;
 }
-.nav__logo:hover .nav__logo-img { opacity: 0.8; }
+.nav__logo:hover .nav__logo-img {
+  opacity: 0.92;
+  filter: drop-shadow(0 8px 24px rgba(79,172,254,0.75));
+}
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.15rem;
 }
-.nav__links--left  { flex: 1; justify-content: flex-end; }
-.nav__links--right { flex: 1; justify-content: flex-start; }
+.nav__links--left  { flex: 1; justify-content: flex-end;   padding-right: 0.25rem; }
+.nav__links--right { flex: 1; justify-content: flex-start; padding-left: 0.25rem; }
 .nav__link {
   padding: 0.45rem 0.9rem;
   border-radius: var(--radius-sm);
@@ -2459,7 +2467,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 }
 @media (max-width: 600px) {
   .section { padding: 2rem 1rem; }
-  .nav { padding: 0 1rem; }
+  .nav { padding: 0 1rem; overflow: visible; }
   .top5-grid { grid-template-columns: repeat(2, 1fr); }
   .game-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.65rem; }
   .cal-grid { gap: 2px; }
