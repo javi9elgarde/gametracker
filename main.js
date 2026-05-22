@@ -349,6 +349,17 @@ window.GT.Toast = (function () {
 /* ── GAME DETAIL MODAL (universal, any page) ───────────────── */
 window.GT.GameDetailModal = (function () {
   var overlay;
+
+  function fmtDate(d) {
+    if (!d) return '';
+    var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    var p = d.split('-');
+    if (p.length < 2) return d;
+    var day = parseInt(p[2], 10);
+    var mon = months[parseInt(p[1], 10) - 1] || '';
+    return (day ? day + ' ' + mon + ' ' : mon + ' ') + p[0];
+  }
+
   function ensure() {
     if (overlay) return;
     overlay = document.createElement('div');
@@ -362,8 +373,8 @@ window.GT.GameDetailModal = (function () {
         '</div>' +
         '<div class="modal__body" id="gdBody"></div>' +
         '<div class="modal__footer">' +
-          '<a id="gdLibLink" href="biblioteca.html" class="btn btn-secondary">📚 Ver en Biblioteca</a>' +  // href set dynamically in open()
-          '<a href="registro.html" class="btn btn-primary">📋 Ver Registro</a>' +
+          '<a id="gdEditLink" href="biblioteca.html" class="btn btn-secondary">✏️ Editar</a>' +
+          '<a id="gdLibLink"  href="biblioteca.html" class="btn btn-primary">📚 Ver en Biblioteca</a>' +
         '</div>' +
       '</div>';
     document.body.appendChild(overlay);
@@ -371,40 +382,84 @@ window.GT.GameDetailModal = (function () {
     document.getElementById('gdClose').addEventListener('click', close);
     document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
   }
+
   function open(gameId) {
     ensure();
-    var game = window.GT.Biblioteca.getById(gameId);
+    var game     = window.GT.Biblioteca.getById(gameId);
     if (!game) return;
-    var notaMedia = window.GT.Registro.getNotaMedia(gameId);
-    var Utils     = window.GT.Utils;
+    var Registro = window.GT.Registro;
+    var Utils    = window.GT.Utils;
+
+    var notaMedia = Registro.getNotaMedia(gameId);
+    var entries   = Registro.filter({ juegoId: gameId });
+    var sc        = Utils.scoreColor(notaMedia);
+    var enc       = encodeURIComponent(gameId);
+
     document.getElementById('gdTitle').textContent = game.titulo;
-    document.getElementById('gdLibLink').href = 'biblioteca.html?open=' + gameId;
-    var sc = Utils.scoreColor(notaMedia);
-    document.getElementById('gdBody').innerHTML =
-      '<div style="display:grid;grid-template-columns:260px 1fr;gap:1.5rem;align-items:start">' +
-        '<div style="aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:10px;overflow:hidden;position:relative">' +
-          (game.portadaUrl
-            ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" style="width:100%;height:100%;object-fit:cover;object-position:' + Utils.escapeHtml(game.portadaPos || 'center top') + '" onerror="this.style.display=\'none\'">'
-            : '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:2.5rem;font-weight:900;color:rgba(79,172,254,0.4)">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>') +
+    document.getElementById('gdLibLink').href  = 'biblioteca.html?open=' + enc;
+    document.getElementById('gdEditLink').href = 'biblioteca.html?edit=' + enc;
+
+    /* Portada */
+    var coverInner = game.portadaUrl
+      ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" style="object-position:' + Utils.escapeHtml(game.portadaPos || 'center top') + '" onerror="this.style.display=\'none\'">'
+      : '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:3rem;font-weight:900;color:rgba(79,172,254,0.35)">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>';
+
+    var scGlow = notaMedia !== null ? sc.replace('hsl(', 'hsla(').replace(')', ',0.35)') : 'transparent';
+    var scoreBadge = notaMedia !== null
+      ? '<div class="detail-score-badge" style="--sc:' + sc + ';--sc-glow:' + scGlow + '">' +
+          '<div class="detail-score-badge__val">' + Utils.formatScore(notaMedia) + '</div>' +
+          '<div class="detail-score-badge__lbl">NOTA MEDIA</div>' +
+        '</div>'
+      : '<div class="detail-score-badge detail-score-badge--empty">' +
+          '<div class="detail-score-badge__val">SIN NOTA</div>' +
+        '</div>';
+
+    /* Stats */
+    var stats = '';
+    if (game.desarrollador)    stats += '<div class="detail-stat"><span class="detail-stat__icon">🏢</span><span>' + Utils.escapeHtml(game.desarrollador) + '</span></div>';
+    if (game.fechaLanzamiento) stats += '<div class="detail-stat"><span class="detail-stat__icon">📅</span><span>' + fmtDate(game.fechaLanzamiento) + '</span></div>';
+    if (game.duracion)         stats += '<div class="detail-stat"><span class="detail-stat__icon">⏱</span><span>' + Utils.formatDuracion(game.duracion, false) + '</span></div>';
+
+    var tipoMap  = { remake:'🔄 Remake', remaster:'✨ Remaster', relanzamiento:'📦 Relanzamiento / Port' };
+    var tipoHtml = game.tipoLanzamiento
+      ? '<div class="detail-tipo">' + (tipoMap[game.tipoLanzamiento] || '') + ' <span style="opacity:0.6">· no computa en rankings</span></div>'
+      : '';
+
+    var html =
+      '<div class="detail-cover">' +
+        '<div class="detail-cover__wrap">' + coverInner + '</div>' +
+        scoreBadge +
+      '</div>' +
+      '<div class="detail-info">' +
+        '<div class="detail-badges-row">' +
+          Utils.platformBadgesHtml(game.plataformas) +
+          Utils.genreBadgesHtml(game.generos) +
         '</div>' +
-        '<div>' +
-          '<div style="margin-bottom:0.75rem">' + Utils.genreBadgesHtml(game.generos) + '</div>' +
-          (game.desarrollador ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">🏢 ' + Utils.escapeHtml(game.desarrollador) + '</div>' : '') +
-          (game.fechaLanzamiento ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">📅 ' + Utils.escapeHtml(game.fechaLanzamiento) + '</div>' : '') +
-          (game.duracion ? '<div style="font-size:0.85rem;color:var(--txt2);margin-bottom:0.5rem">⏱ ' + Utils.formatDuracion(game.duracion, true) + '</div>' : '') +
-          (game.tipoLanzamiento ? '<div style="margin-bottom:0.5rem"><span style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.3);padding:0.2rem 0.6rem;border-radius:6px;font-size:0.75rem;font-weight:600">' + ({remake:'🔄 Remake',remaster:'✨ Remaster',relanzamiento:'📦 Relanzamiento / Port'}[game.tipoLanzamiento]||'') + ' · No computa en rankings</span></div>' : '') +
-          (notaMedia !== null
-            ? '<div style="margin:1rem 0;display:flex;align-items:center;gap:0.75rem">' +
-                '<span style="font-family:Orbitron,sans-serif;font-size:2rem;font-weight:900;color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span>' +
-                '<span style="font-size:0.8rem;color:var(--txt3)">nota media</span>' +
-              '</div>'
-            : '') +
-          '<div style="margin-top:0.5rem">' + Utils.platformBadgesHtml(game.plataformas) + '</div>' +
-          (game.descripcion ? '<p style="margin-top:1rem;font-size:0.85rem;color:var(--txt2);line-height:1.6">' + Utils.escapeHtml(game.descripcion) + '</p>' : '') +
-        '</div>' +
+        (stats ? '<div class="detail-stats-grid">' + stats + '</div>' : '') +
+        tipoHtml +
+        (game.descripcion ? '<p class="detail-desc">' + Utils.escapeHtml(game.descripcion) + '</p>' : '') +
       '</div>';
+
+    if (entries.length) {
+      html += '<div class="detail-entries-hdr">Entradas en el Registro</div>' +
+        entries.map(function(r) {
+          var rSc = Utils.scoreColor(r.nota);
+          return '<div class="detail-entry">' +
+            '<span class="badge ' + Utils.playerBadge(r.jugador) + '">' + Utils.escapeHtml(r.jugador) + '</span>' +
+            '<span style="font-size:0.78rem;color:var(--txt3)">' + Utils.monthName(r.mes) + ' ' + r.año + '</span>' +
+            '<span class="badge ' + Utils.statusBadge(r.estado) + '">' + Utils.escapeHtml(r.estado) + '</span>' +
+            (r.nota !== null && r.nota !== '' && r.nota !== undefined
+              ? '<span class="detail-entry__score" style="color:' + rSc + '">' + Utils.formatScore(r.nota) + '</span>'
+              : '') +
+            (r.horas ? '<span class="detail-entry__hours">' + r.horas + 'h</span>' : '') +
+          '</div>';
+        }).join('');
+    }
+
+    document.getElementById('gdBody').innerHTML = html;
     overlay.classList.add('open');
   }
+
   function close() { if (overlay) overlay.classList.remove('open'); }
   return { open, close };
 })();

@@ -931,16 +931,19 @@
     renderFilterDropdowns();
     renderGrid();
 
-    // Handle ?open=gameId (cross-page navigation)
+    // Handle ?open=gameId and ?edit=gameId (cross-page navigation)
     try {
       var params = new URLSearchParams(window.location.search);
       var openId = params.get('open');
-      if (openId) {
+      var editId = params.get('edit');
+      if (openId || editId) {
+        var targetId = openId || editId;
         history.replaceState(null, '', window.location.pathname);
         setTimeout(function() {
-          var card = document.querySelector('.game-card[data-id="' + openId + '"]');
+          var card = document.querySelector('.game-card[data-id="' + targetId + '"]');
           if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          openDetail(openId);
+          if (editId) openEdit(editId);
+          else        openDetail(openId);
         }, 180);
       }
     } catch(e) {}
