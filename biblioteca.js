@@ -186,13 +186,28 @@
   }
 
   function goToGame(id) {
-    var card = document.querySelector('.game-card[data-id="' + id + '"]');
-    if (card) {
-      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      card.classList.add('game-card--highlight');
-      setTimeout(function() { card.classList.remove('game-card--highlight'); }, 1800);
+    // Reset all filters so the card is guaranteed to be in the DOM
+    var needsRerender = state.search || state.genero || state.plataforma || state.año || state.jugador !== 'All';
+    if (needsRerender) {
+      state.search = ''; state.genero = ''; state.plataforma = ''; state.año = ''; state.jugador = 'All';
+      var si = document.getElementById('searchInput');   if (si) si.value = '';
+      var gf = document.getElementById('genreFilter');   if (gf) gf.value = '';
+      var pf = document.getElementById('platFilter');    if (pf) pf.value = '';
+      var yf = document.getElementById('yearFilter');    if (yf) yf.value = '';
+      var ar = document.querySelector('#bibPlayerCards input[value="All"]');
+      if (ar) ar.checked = true;
+      renderGrid();
     }
-    openDetail(id);
+    // Wait one frame for the DOM to update before scrolling
+    requestAnimationFrame(function() {
+      var card = document.querySelector('.game-card[data-id="' + id + '"]');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('game-card--highlight');
+        setTimeout(function() { card.classList.remove('game-card--highlight'); }, 1800);
+      }
+      openDetail(id);
+    });
   }
 
   /* ── RENDER GRID ────────────────────────────────────────── */
