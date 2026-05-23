@@ -245,7 +245,7 @@
   zoneRight.addEventListener('click', function () {
     playCinemaSound();
     doFlash('right');
-    setTimeout(showComingSoon, 200);
+    setTimeout(function () { window.location.href = 'mt-hub.html'; }, 300);
   });
 
   /* ── TOUCH (móvil) ─────────────────────────────────────── */

@@ -1,0 +1,296 @@
+/* ============================================================
+   MEDIA TRACKER HUB — Pantalla de selección
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:   #07070f;
+  --bg2:  #0d0d1a;
+  --txt1: rgba(232,232,248,1);
+  --txt2: rgba(232,232,248,0.65);
+  --txt3: rgba(232,232,248,0.35);
+}
+
+html, body { height: 100%; overflow: hidden; }
+body {
+  background: var(--bg);
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
+  color: var(--txt1);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── FONDO ──────────────────────────────────────────────── */
+.mth-bg {
+  position: fixed; inset: 0; z-index: 0; overflow: hidden;
+}
+.mth-bg__film {
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.012) 3px,
+      rgba(255,255,255,0.012) 4px
+    );
+  animation: scanMove 8s linear infinite;
+  pointer-events: none;
+}
+@keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 60px; } }
+.mth-bg__glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.25;
+  transition: background 1s ease;
+  pointer-events: none;
+}
+.mth-bg__glow--a {
+  background: #e63946;
+  top: -150px; left: -100px;
+}
+.mth-bg__glow--b {
+  background: #b5179e;
+  bottom: -150px; right: -100px;
+}
+
+/* ── WRAPPER DE FASE ────────────────────────────────────── */
+.mth-phase {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem; padding: 1.5rem;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.mth-phase--hidden { display: none; }
+.mth-phase--exit   { opacity: 0; transform: translateY(-20px); pointer-events: none; }
+.mth-phase--enter  { animation: phaseIn 0.4s ease forwards; }
+@keyframes phaseIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MARCA ──────────────────────────────────────────────── */
+.mth-brand {
+  text-align: center;
+}
+.mth-brand__eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  color: var(--txt3);
+  margin-bottom: 0.4rem;
+}
+.mth-brand__name {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  background: linear-gradient(135deg, #fff 0%, #e63946 50%, #b5179e 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+.mth-brand__tagline {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--txt3);
+  margin-top: 0.5rem;
+}
+
+/* ── PROMPT ─────────────────────────────────────────────── */
+.mth-prompt {
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  color: var(--txt3);
+  text-align: center;
+}
+
+/* ── PLAYER CARDS ───────────────────────────────────────── */
+.mth-players {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.mth-pcard {
+  width: 170px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 1.5rem 1rem 1.25rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  position: relative; overflow: hidden;
+}
+.mth-pcard::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(230,57,70,0.08) 100%);
+  opacity: 0; transition: opacity 0.22s;
+}
+.mth-pcard:hover { transform: translateY(-6px) scale(1.03); }
+.mth-pcard:hover::before { opacity: 1; }
+
+.mth-pcard--david:hover { border-color: rgba(59,130,246,0.5); box-shadow: 0 8px 30px rgba(59,130,246,0.2); }
+.mth-pcard--javi:hover  { border-color: rgba(155,23,66,0.5);  box-shadow: 0 8px 30px rgba(155,23,66,0.2); }
+.mth-pcard--mery:hover  { border-color: rgba(155,89,255,0.5); box-shadow: 0 8px 30px rgba(155,89,255,0.2); }
+
+.mth-pcard__img-wrap {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+}
+.mth-pcard__img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block; transition: transform 0.3s ease;
+}
+.mth-pcard:hover .mth-pcard__img { transform: scale(1.08); }
+.mth-pcard__name {
+  font-size: 1rem; font-weight: 900; letter-spacing: 0.1em;
+}
+.mth-pcard--david .mth-pcard__name { color: #60a5fa; }
+.mth-pcard--javi  .mth-pcard__name { color: #f87171; }
+.mth-pcard--mery  .mth-pcard__name { color: #c084fc; }
+
+.mth-pcard__fullname {
+  font-size: 0.62rem; font-weight: 400;
+  color: var(--txt3); letter-spacing: 0.06em;
+}
+
+/* ── BACK LINK ──────────────────────────────────────────── */
+.mth-back {
+  font-size: 0.7rem; letter-spacing: 0.14em;
+  color: var(--txt3); text-decoration: none;
+  padding: 0.5rem 1rem; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: color 0.18s, border-color 0.18s;
+  font-family: inherit;
+}
+.mth-back:hover { color: var(--txt1); border-color: rgba(255,255,255,0.15); }
+
+/* ── PHASE 2: CATEGORY CARDS ────────────────────────────── */
+.mth-greeting {
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-weight: 700; text-align: center; letter-spacing: 0.08em;
+  color: var(--txt2);
+}
+.mth-greeting span { color: #fff; }
+
+.mth-cats {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.mth-cat {
+  width: 240px;
+  border-radius: 20px;
+  padding: 2.5rem 1.5rem 2rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.mth-cat::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0.07;
+  transition: opacity 0.25s;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.3), transparent 70%);
+}
+.mth-cat:hover { transform: translateY(-8px) scale(1.03); }
+.mth-cat:hover::before { opacity: 0.14; }
+
+/* Películas — rojo cinematográfico */
+.mth-cat--peliculas {
+  background: linear-gradient(160deg, #1a0305 0%, #3b090e 50%, #1a0305 100%);
+  border-color: rgba(230,57,70,0.25);
+  box-shadow: 0 4px 24px rgba(230,57,70,0.12);
+}
+.mth-cat--peliculas:hover {
+  box-shadow: 0 12px 45px rgba(230,57,70,0.3), 0 0 0 1px rgba(230,57,70,0.4);
+}
+
+/* Series — azul eléctrico */
+.mth-cat--series {
+  background: linear-gradient(160deg, #03050f 0%, #07103a 50%, #03050f 100%);
+  border-color: rgba(67,97,238,0.25);
+  box-shadow: 0 4px 24px rgba(67,97,238,0.12);
+}
+.mth-cat--series:hover {
+  box-shadow: 0 12px 45px rgba(67,97,238,0.3), 0 0 0 1px rgba(67,97,238,0.4);
+}
+
+/* Anime — morado/rosa */
+.mth-cat--anime {
+  background: linear-gradient(160deg, #0d0317 0%, #23083a 50%, #0d0317 100%);
+  border-color: rgba(181,23,158,0.25);
+  box-shadow: 0 4px 24px rgba(181,23,158,0.12);
+}
+.mth-cat--anime:hover {
+  box-shadow: 0 12px 45px rgba(181,23,158,0.3), 0 0 0 1px rgba(181,23,158,0.4);
+}
+
+.mth-cat__icon {
+  font-size: 3.2rem; line-height: 1;
+  filter: drop-shadow(0 0 12px currentColor);
+}
+.mth-cat__name {
+  font-size: 1.15rem; font-weight: 900; letter-spacing: 0.1em;
+}
+.mth-cat--peliculas .mth-cat__name { color: #fc6d79; }
+.mth-cat--series    .mth-cat__name { color: #748ffc; }
+.mth-cat--anime     .mth-cat__name { color: #da77f2; }
+
+.mth-cat__desc {
+  font-size: 0.65rem; letter-spacing: 0.08em;
+  color: var(--txt3); text-align: center; line-height: 1.5;
+}
+
+.mth-cat__enter {
+  margin-top: 0.5rem;
+  font-size: 0.65rem; letter-spacing: 0.18em;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.mth-cat--peliculas .mth-cat__enter { color: #fc6d79; }
+.mth-cat--series    .mth-cat__enter { color: #748ffc; }
+.mth-cat--anime     .mth-cat__enter { color: #da77f2; }
+.mth-cat:hover .mth-cat__enter { opacity: 1; transform: translateY(0); }
+
+.mth-backplayer {
+  background: none; border: 1px solid rgba(255,255,255,0.06);
+  color: var(--txt3); font-family: inherit; font-size: 0.68rem;
+  letter-spacing: 0.14em; padding: 0.5rem 1.1rem;
+  border-radius: 8px; cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+}
+.mth-backplayer:hover { color: var(--txt1); border-color: rgba(255,255,255,0.18); }
+
+/* ── FLASH OVERLAY ──────────────────────────────────────── */
+.mth-flash {
+  position: fixed; inset: 0; z-index: 999;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.mth-flash--active { opacity: 1; }
+.mth-flash--peliculas { background: radial-gradient(ellipse at center, rgba(230,57,70,0.35), #07070f 70%); }
+.mth-flash--series    { background: radial-gradient(ellipse at center, rgba(67,97,238,0.35), #07070f 70%); }
+.mth-flash--anime     { background: radial-gradient(ellipse at center, rgba(181,23,158,0.35), #07070f 70%); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .mth-players { gap: 0.75rem; }
+  .mth-pcard   { width: 130px; padding: 1.1rem 0.75rem 1rem; }
+  .mth-pcard__img-wrap { width: 68px; height: 68px; }
+  .mth-cats    { gap: 0.75rem; }
+  .mth-cat     { width: 100%; max-width: 320px; padding: 1.75rem 1.25rem 1.5rem; flex-direction: row; justify-content: flex-start; gap: 1rem; }
+  .mth-cat__icon { font-size: 2.2rem; }
+  .mth-cat__desc { display: none; }
+}

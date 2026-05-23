@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es" data-mt-cat="peliculas">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="logonavegador.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e63946">
+  <title>Refugio 111 — Biblioteca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mt-styles.css?v=20260522a">
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="mtLoading">
+  <div class="mt-loading__brand" id="mtLoadingBrand">🎬 REFUGIO 111</div>
+  <div class="mt-loading__dots">
+    <div class="mt-loading__dot"></div>
+    <div class="mt-loading__dot"></div>
+    <div class="mt-loading__dot"></div>
+  </div>
+  <div class="mt-loading__sub">Cargando biblioteca...</div>
+</div>
+
+<!-- ── NAVEGACIÓN ─────────────────────────────────────────── -->
+<nav class="mt-nav">
+  <a href="hub.html" class="mt-nav__hub">🏠 Hub</a>
+
+  <!-- Tabs categoría -->
+  <div class="mt-cat-tabs">
+    <button class="mt-cat-tab mt-cat-tab--active" data-cat="peliculas">🎬 <span class="label">Películas</span></button>
+    <button class="mt-cat-tab" data-cat="series">📺 <span class="label">Series</span></button>
+    <button class="mt-cat-tab" data-cat="anime">🌸 <span class="label">Anime</span></button>
+  </div>
+
+  <!-- Links secundarios -->
+  <div class="mt-nav__links">
+    <a href="mt-biblioteca.html" class="mt-nav__link mt-nav__link--active">Biblioteca</a>
+    <a href="mt-registro.html"   class="mt-nav__link">Registro</a>
+  </div>
+
+  <!-- Jugador activo -->
+  <a href="mt-hub.html" class="mt-nav__player-pill" id="mtPlayerPill" title="Cambiar jugador">
+    <div class="mt-nav__player-avatar mt-nav__player-avatar--javi">J</div>
+    <span class="mt-player-pill-name">Javi</span>
+  </a>
+
+  <button class="mt-nav__hamburger" id="mtHamburger" aria-label="Menú">☰</button>
+</nav>
+<div class="mt-accent-bar" id="mtAccentBar"></div>
+
+<!-- ── CONTENIDO ──────────────────────────────────────────── -->
+<div class="mt-page">
+
+  <!-- Cabecera -->
+  <div class="mt-page-header">
+    <div>
+      <h1 class="mt-page-header__title" id="pageTitle">🎬 Películas</h1>
+      <p class="mt-page-header__sub" id="pageCount">Cargando...</p>
+    </div>
+    <button class="mt-btn mt-btn--primary" id="btnAdd">+ Añadir</button>
+  </div>
+
+  <!-- Filtro jugadores -->
+  <div class="mt-player-filter" id="playerFilter">
+    <label class="mt-pcard mt-pcard--all">
+      <input type="radio" name="mtPlayer" value="All" checked>
+      <div style="display:flex;align-items:center;gap:0.5rem;padding:0">
+        <div class="mt-pcard__avatar" style="background:rgba(255,255,255,0.08);color:var(--txt2)">★</div>
+        <div class="mt-pcard__name">Todos</div>
+      </div>
+    </label>
+    <label class="mt-pcard mt-pcard--david">
+      <input type="radio" name="mtPlayer" value="David">
+      <div style="display:flex;align-items:center;gap:0.5rem;padding:0">
+        <div class="mt-pcard__avatar mt-player-row__avatar--david">D</div>
+        <div class="mt-pcard__name">David</div>
+      </div>
+    </label>
+    <label class="mt-pcard mt-pcard--javi">
+      <input type="radio" name="mtPlayer" value="Javi">
+      <div style="display:flex;align-items:center;gap:0.5rem;padding:0">
+        <div class="mt-pcard__avatar mt-player-row__avatar--javi">J</div>
+        <div class="mt-pcard__name">Javi</div>
+      </div>
+    </label>
+    <label class="mt-pcard mt-pcard--mery">
+      <input type="radio" name="mtPlayer" value="Mery">
+      <div style="display:flex;align-items:center;gap:0.5rem;padding:0">
+        <div class="mt-pcard__avatar mt-player-row__avatar--mery">M</div>
+        <div class="mt-pcard__name">Mery</div>
+      </div>
+    </label>
+  </div>
+
+  <!-- Buscador y filtros -->
+  <div class="mt-filters">
+    <div class="mt-search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" class="mt-search" id="searchInput" placeholder="Buscar título, director, estudio...">
+    </div>
+    <select class="mt-select" id="genreFilter"><option value="">🏷 Géneros</option></select>
+    <select class="mt-select" id="statusFilter">
+      <option value="">▶ Estado</option>
+      <option value="visto">Visto / Terminado</option>
+      <option value="viendo">Viendo</option>
+      <option value="pendiente">Pendiente</option>
+      <option value="pausado">Pausado</option>
+      <option value="abandonado">Abandonado</option>
+    </select>
+    <select class="mt-select" id="yearFilter"><option value="">📅 Año</option></select>
+    <button class="mt-btn mt-btn--ghost mt-btn--sm" id="clearFilters" title="Limpiar filtros">✕</button>
+  </div>
+
+  <!-- Grid -->
+  <div class="mt-grid" id="mtGrid">
+    <!-- Renderizado por JS -->
+  </div>
+
+</div>
+
+<!-- FAB -->
+<button class="mt-fab" id="fabAdd" title="Añadir">＋</button>
+
+<!-- ════════════════════════════════════════════
+     MODAL: AÑADIR / EDITAR ITEM
+═══════════════════════════════════════════════ -->
+<div class="mt-modal-overlay" id="editModal">
+  <div class="mt-modal">
+    <div class="mt-modal__header">
+      <h2 class="mt-modal__title" id="editModalTitle">Añadir Película</h2>
+      <button class="mt-modal__close" id="editModalClose">✕</button>
+    </div>
+    <div class="mt-modal__body">
+      <input type="hidden" id="fId">
+      <div class="mt-form-grid">
+
+        <!-- Título -->
+        <div class="mt-form-group mt-form-group--full">
+          <label class="mt-form-label">Título *</label>
+          <input type="text" class="mt-form-input" id="fTitulo" placeholder="Nombre de la película, serie o anime">
+        </div>
+
+        <!-- Portada -->
+        <div class="mt-form-group mt-form-group--full">
+          <label class="mt-form-label">URL de Portada</label>
+          <input type="url" class="mt-form-input" id="fPortada" placeholder="https://...">
+          <div class="mt-form-small">Pega la URL directamente (póster o miniatura)</div>
+        </div>
+
+        <!-- Director / Estudio -->
+        <div class="mt-form-group">
+          <label class="mt-form-label" id="labelDirector">Director / Estudio</label>
+          <input type="text" class="mt-form-input" id="fDirector" placeholder="Ej: Christopher Nolan">
+        </div>
+
+        <!-- Año -->
+        <div class="mt-form-group">
+          <label class="mt-form-label">Año</label>
+          <input type="number" class="mt-form-input" id="fAnio" placeholder="2024" min="1888" max="2099">
+        </div>
+
+        <!-- Duración / Temporadas -->
+        <div class="mt-form-group" id="groupDuracion">
+          <label class="mt-form-label" id="labelDuracion">Duración (min)</label>
+          <input type="number" class="mt-form-input" id="fDuracion" placeholder="120" min="0">
+        </div>
+
+        <!-- Episodios (solo series/anime) -->
+        <div class="mt-form-group" id="groupEpisodios" style="display:none">
+          <label class="mt-form-label">Episodios totales</label>
+          <input type="number" class="mt-form-input" id="fEpisodios" placeholder="24" min="0">
+        </div>
+
+        <!-- Géneros -->
+        <div class="mt-form-group mt-form-group--full">
+          <label class="mt-form-label">Géneros</label>
+          <div class="mt-chip-group" id="generoChips"></div>
+        </div>
+
+        <!-- Plataforma -->
+        <div class="mt-form-group mt-form-group--full">
+          <label class="mt-form-label">Plataforma</label>
+          <div class="mt-chip-group" id="plataformaChips"></div>
+        </div>
+
+        <!-- Estado y nota por jugador -->
+        <div class="mt-form-group mt-form-group--full">
+          <label class="mt-form-label">Estado y nota por jugador</label>
+          <div class="mt-player-rows" id="playerRows">
+            <!-- Generado por JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="mt-modal__footer">
+      <button class="mt-btn mt-btn--danger mt-btn--sm" id="btnDelete" style="margin-right:auto;display:none">Eliminar</button>
+      <button class="mt-btn mt-btn--secondary" id="btnCancel">Cancelar</button>
+      <button class="mt-btn mt-btn--primary" id="btnSave">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MODAL: DETALLE DE ITEM
+═══════════════════════════════════════════════ -->
+<div class="mt-modal-overlay" id="detailModal">
+  <div class="mt-modal" style="max-width:720px">
+    <div class="mt-modal__header">
+      <h2 class="mt-modal__title" id="detailTitle">—</h2>
+      <button class="mt-modal__close" id="detailClose">✕</button>
+    </div>
+    <div class="mt-modal__body" id="detailBody"></div>
+    <div class="mt-modal__footer">
+      <button class="mt-btn mt-btn--secondary" id="detailEdit">✏️ Editar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"       defer></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
+<script src="firebase-config.js?v=20260521c" defer></script>
+<script src="mt-main.js?v=20260522a"         defer></script>
+<script src="mt-biblioteca.js?v=20260522a"   defer></script>
+</body>
+</html>

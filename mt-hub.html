@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="logonavegador.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refugio 111 — Cine, Series y Anime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="mt-hub.css?v=20260522a">
+</head>
+<body>
+
+<!-- Fondo atmosférico -->
+<div class="mth-bg">
+  <div class="mth-bg__film"></div>
+  <div class="mth-bg__glow mth-bg__glow--a"></div>
+  <div class="mth-bg__glow mth-bg__glow--b"></div>
+</div>
+
+<!-- ── FASE 1: SELECCIÓN DE JUGADOR ────────────────────── -->
+<div class="mth-phase" id="phasePlayer">
+
+  <div class="mth-brand">
+    <div class="mth-brand__eyebrow">REFUGIO 111</div>
+    <div class="mth-brand__name">CINE · SERIES · ANIME</div>
+    <div class="mth-brand__tagline">Tu base de datos friki de pantalla grande y pequeña</div>
+  </div>
+
+  <div class="mth-prompt">¿QUIÉN ENTRA?</div>
+
+  <div class="mth-players">
+    <div class="mth-pcard mth-pcard--david" data-player="David">
+      <div class="mth-pcard__img-wrap">
+        <img src="icondavidneutral.png" class="mth-pcard__img" alt="David" draggable="false"
+             onerror="this.style.display='none';this.parentNode.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-family:Orbitron,sans-serif;font-weight:900;color:#60a5fa\'>D</div>'">
+      </div>
+      <div class="mth-pcard__name">DAVID</div>
+      <div class="mth-pcard__fullname">David Garde</div>
+    </div>
+
+    <div class="mth-pcard mth-pcard--javi" data-player="Javi">
+      <div class="mth-pcard__img-wrap">
+        <img src="iconjavineutral.png" class="mth-pcard__img" alt="Javi" draggable="false"
+             onerror="this.style.display='none';this.parentNode.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-family:Orbitron,sans-serif;font-weight:900;color:#f87171\'>J</div>'">
+      </div>
+      <div class="mth-pcard__name">JAVI</div>
+      <div class="mth-pcard__fullname">Javier Garde</div>
+    </div>
+
+    <div class="mth-pcard mth-pcard--mery" data-player="Mery">
+      <div class="mth-pcard__img-wrap">
+        <img src="iconmeryneutral.png" class="mth-pcard__img" alt="Mery" draggable="false"
+             onerror="this.style.display='none';this.parentNode.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-family:Orbitron,sans-serif;font-weight:900;color:#c084fc\'>M</div>'">
+      </div>
+      <div class="mth-pcard__name">MERY</div>
+      <div class="mth-pcard__fullname">Mariam Moreno</div>
+    </div>
+  </div>
+
+  <a href="hub.html" class="mth-back">← Volver al Hub Friki</a>
+
+</div>
+
+<!-- ── FASE 2: SELECCIÓN DE CATEGORÍA ──────────────────── -->
+<div class="mth-phase mth-phase--hidden" id="phaseCat">
+
+  <div class="mth-greeting">Hola, <span id="greetPlayer">—</span> 👋</div>
+
+  <div class="mth-prompt">¿QUÉ QUIERES VER HOY?</div>
+
+  <div class="mth-cats">
+    <div class="mth-cat mth-cat--peliculas" data-cat="peliculas">
+      <div class="mth-cat__icon">🎬</div>
+      <div class="mth-cat__name">PELÍCULAS</div>
+      <div class="mth-cat__desc">Cine · Documentales · Cortometrajes</div>
+      <div class="mth-cat__enter">▶ ENTRAR</div>
+    </div>
+
+    <div class="mth-cat mth-cat--series" data-cat="series">
+      <div class="mth-cat__icon">📺</div>
+      <div class="mth-cat__name">SERIES</div>
+      <div class="mth-cat__desc">TV · Miniseries · Streaming</div>
+      <div class="mth-cat__enter">▶ ENTRAR</div>
+    </div>
+
+    <div class="mth-cat mth-cat--anime" data-cat="anime">
+      <div class="mth-cat__icon">🌸</div>
+      <div class="mth-cat__name">ANIME</div>
+      <div class="mth-cat__desc">Shonen · Shojo · Seinen · Mecha</div>
+      <div class="mth-cat__enter">▶ ENTRAR</div>
+    </div>
+  </div>
+
+  <button class="mth-backplayer" id="backToPlayer">← Cambiar jugador</button>
+
+</div>
+
+<!-- Flash de transición -->
+<div class="mth-flash" id="mthFlash"></div>
+
+<script src="mt-hub.js?v=20260522a"></script>
+</body>
+</html>
