@@ -314,7 +314,7 @@
     document.getElementById('bingoModalName').value = '';
     document.getElementById('bingoModalDelete').style.display = 'none';
     buildModalGrid(null);
-    document.getElementById('bingoModalOverlay').classList.add('modal-overlay--active');
+    document.getElementById('bingoModalOverlay').classList.add('open');
     document.getElementById('bingoModalName').focus();
   }
 
@@ -327,7 +327,7 @@
       document.getElementById('bingoModalName').value = data.titulo || '';
       document.getElementById('bingoModalDelete').style.display = 'inline-flex';
       buildModalGrid(data.cells || null);
-      document.getElementById('bingoModalOverlay').classList.add('modal-overlay--active');
+      document.getElementById('bingoModalOverlay').classList.add('open');
     });
   }
 
@@ -384,7 +384,7 @@
   }
 
   function closeCardModal() {
-    document.getElementById('bingoModalOverlay').classList.remove('modal-overlay--active');
+    document.getElementById('bingoModalOverlay').classList.remove('open');
     _editingCardId = null;
   }
 
