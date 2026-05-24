@@ -2243,14 +2243,12 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   padding: 2.5rem 2rem 2rem;
 }
 .page-header--biblio {
-  background:
-    linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.65) 100%),
-    linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.55) 100%),
-    url('fondobiblio1.jpg') center 35% / cover no-repeat;
+  background: url('fondobiblio1.jpg') center center / 100% auto no-repeat;
   border-bottom: 1px solid rgba(79,172,254,0.2);
-  min-height: 130px;
+  height: 250px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 1rem;
 }
 .page-header__inner {
   max-width: 1400px;
