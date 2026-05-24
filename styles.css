@@ -1368,11 +1368,27 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   font-size: 1.6rem;
   margin-bottom: 0.5rem;
 }
-@media (max-width: 700px) {
-  .hero__nav-cards { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 420px) {
-  .hero__nav-cards { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 768px) {
+  .hero__nav-cards {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.3rem;
+    padding-bottom: 0.5rem;
+    margin-top: auto;
+  }
+  .hero__nav-cards .nav-card {
+    padding: 0.5rem 0.25rem;
+    border-radius: 8px;
+    gap: 0;
+  }
+  .hero__nav-cards .nav-card__icon {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+  .hero__nav-cards .nav-card__title {
+    font-size: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+  .hero__nav-cards .nav-card__desc { display: none; }
 }
 
 /* ── HERO PIXEL CHARACTERS ── */
