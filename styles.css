@@ -125,6 +125,13 @@ ul, ol { list-style: none; }
 .nav__link.active { color: var(--cyan); background: rgba(79,172,254,0.1); }
 .nav__link--hub { color: rgba(0,255,136,0.85); border: 1px solid rgba(0,255,136,0.2); }
 .nav__link--hub:hover { color: #00ff88; background: rgba(0,255,136,0.08); border-color: rgba(0,255,136,0.4); }
+/* Hub extremo izquierdo — separado del grupo de 4 */
+.nav__hub-solo {
+  flex-shrink: 0;
+  margin-right: 0.35rem;
+  padding-right: 1.1rem;
+  border-right: 1px solid rgba(0,255,136,0.12);
+}
 .nav__link--hof {
   color: #f5c842;
   border: 1px solid rgba(245,200,66,0.25);
@@ -136,12 +143,13 @@ ul, ol { list-style: none; }
 .nav__player-pill {
   display: flex; align-items: center; gap: 0.45rem;
   text-decoration: none; margin-left: auto;
-  padding: 0.2rem 0.6rem 0.2rem 0.2rem;
+  padding: 0.2rem 0.6rem 0.2rem 0.8rem;
   border-radius: 100px;
   border: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.04);
   transition: background 0.2s, border-color 0.2s;
   cursor: pointer;
+  flex-shrink: 0;
 }
 .nav__player-pill:hover {
   background: rgba(255,255,255,0.08);
