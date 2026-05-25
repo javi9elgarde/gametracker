@@ -502,6 +502,20 @@ window.GT.Nav = (function () {
       if (ham && mob) ham.addEventListener('click', function(){ mob.classList.toggle('open'); });
     } catch(e){}
 
+    /* Indicador de evento hoy — punto rojo en link Eventos */
+    try {
+      var EVENT_DAYS = ['2026-06-02', '2026-06-05']; /* State of Play, Summer Game Fest */
+      var _t = new Date();
+      var _todayStr = _t.getFullYear() + '-' +
+        String(_t.getMonth() + 1).padStart(2, '0') + '-' +
+        String(_t.getDate()).padStart(2, '0');
+      if (EVENT_DAYS.indexOf(_todayStr) !== -1) {
+        document.querySelectorAll('a[href="eventos.html"]').forEach(function (a) {
+          a.classList.add('nav__link--event-today');
+        });
+      }
+    } catch(e) {}
+
     /* Active player indicator */
     try {
       var ap = window.GT.getActivePlayer();

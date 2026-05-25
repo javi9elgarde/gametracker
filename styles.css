@@ -132,6 +132,24 @@ ul, ol { list-style: none; }
   padding-right: 1.1rem;
   border-right: 1px solid rgba(0,255,136,0.12);
 }
+/* Indicador de evento HOY — punto rojo pulsante en el link Eventos */
+.nav__link--event-today {
+  position: relative;
+}
+.nav__link--event-today::after {
+  content: '';
+  position: absolute;
+  top: 5px; right: 5px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239,68,68,0.8);
+  animation: evtDotPulse 1.4s ease-in-out infinite;
+}
+@keyframes evtDotPulse {
+  0%,100% { transform: scale(1);   opacity: 1; box-shadow: 0 0 0 0   rgba(239,68,68,0.7); }
+  50%     { transform: scale(1.25); opacity: 0.85; box-shadow: 0 0 0 5px rgba(239,68,68,0);   }
+}
 .nav__link--hof {
   color: #f5c842;
   border: 1px solid rgba(245,200,66,0.25);
