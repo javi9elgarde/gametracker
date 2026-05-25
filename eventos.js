@@ -1,12 +1,13 @@
 /* ============================================================
    EVENTOS — Bingo Interactivo de Conferencias Gaming
-   Version: 20260525e
+   Version: 20260525f
    ============================================================ */
 (function () {
   'use strict';
 
   /* ── LISTA DE EVENTOS ──────────────────────────────────────── */
   var EVENTS = [
+    /* ── 1. State of Play ─────────────────────────────────────── */
     {
       id         : 'state-of-play-jun-2026',
       nombre     : 'State of Play',
@@ -15,8 +16,8 @@
       fechaLabel : 'Martes, 2 de junio de 2026',
       hora       : '23:00 h · hora peninsular España',
       donde      : 'YouTube · Twitch · PlayStation.com',
-      duracion   : 'Más de 60 minutos',
-      desc       : 'Más de 60 minutos de noticias, anuncios y tráileres de gameplay de los mejores estudios del mundo. Con un vistazo extendido a <strong style="color:var(--txt)">Marvel\'s Wolverine</strong> de Insomniac Games, que llega a PS5 el 15 de septiembre de 2026.',
+      duracion   : 'Más de 1 hora',
+      desc       : 'Presentación digital de PlayStation con los próximos juegos de PS5. Incluye un vistazo extendido a <strong style="color:var(--txt)">Marvel\'s Wolverine</strong> de Insomniac Games (lanzamiento 15 de septiembre de 2026) y anuncios de PlayStation Studios.',
       img        : 'https://blog.es.playstation.com/tachyon/sites/14/2026/05/4d07649023989d3599bc6d90588574e4487eaf50.jpg',
       link       : 'https://www.youtube.com/@PlayStation',
       linkLabel  : '🔴 Ver en directo — YouTube PlayStation',
@@ -28,16 +29,39 @@
       cdBg       : 'rgba(79,172,254,0.07)',
       cdBorder   : 'rgba(79,172,254,0.2)'
     },
+    /* ── 2. Latin American Games Showcase ─────────────────────── */
+    {
+      id         : 'latin-american-games-showcase-2026',
+      nombre     : 'Latin American Games Showcase',
+      tag        : '🌎 Indie Latinoamérica',
+      isoDate    : '2026-06-04T23:00:00+02:00',
+      fechaLabel : 'Jueves, 4 de junio de 2026',
+      hora       : '23:00 h · hora peninsular España',
+      donde      : 'YouTube · Twitch',
+      duracion   : 'Aproximadamente 1 hora',
+      desc       : 'El showcase de los videojuegos independientes de América Latina. 9 estrenos mundiales y 15 anuncios de fechas de lanzamiento de los estudios indie más prometedores de la región.',
+      img        : '',
+      link       : 'https://www.youtube.com/@LatinAmericanGamesShowcase',
+      linkLabel  : '▶ Ver en directo — YouTube LAGS',
+      linkBg     : 'linear-gradient(135deg,#e63946,#9b1c24)',
+      linkBorder : '#e63946',
+      brand      : 'LATIN AMERICAN GAMES',
+      brandColor : '#e63946',
+      cdColor    : '#f87171',
+      cdBg       : 'rgba(230,57,70,0.07)',
+      cdBorder   : 'rgba(230,57,70,0.25)'
+    },
+    /* ── 3. Summer Game Fest ───────────────────────────────────── */
     {
       id         : 'summer-game-fest-jun-2026',
       nombre     : 'Summer Game Fest',
       tag        : '🎪 Gaming Showcase',
-      isoDate    : '2026-06-05T20:00:00+02:00',
+      isoDate    : '2026-06-05T23:00:00+02:00',
       fechaLabel : 'Viernes, 5 de junio de 2026',
-      hora       : '20:00 h · hora peninsular España',
+      hora       : '23:00 h · hora peninsular España',
       donde      : 'YouTube · Twitch · summergamefest.com',
       duracion   : 'Aproximadamente 2 horas',
-      desc       : 'El mayor evento independiente de verano del gaming mundial. Geoff Keighley reúne a los estudios más importantes para presentar anuncios en exclusiva, tráileres de grandes títulos y sorpresas que nadie espera.',
+      desc       : 'El mayor evento de verano del gaming independiente. Geoff Keighley en el <strong style="color:var(--txt)">Dolby Theater de Los Ángeles</strong> con los anuncios AAA más importantes de la temporada. Incluye Day of the Devs al terminar.',
       img        : '',
       link       : 'https://www.youtube.com/@summergamefest',
       linkLabel  : '▶ Ver en directo — YouTube SGF',
@@ -48,6 +72,116 @@
       cdColor    : '#f5c842',
       cdBg       : 'rgba(245,200,66,0.07)',
       cdBorder   : 'rgba(245,200,66,0.25)'
+    },
+    /* ── 4. Day of the Devs ────────────────────────────────────── */
+    {
+      id         : 'day-of-the-devs-2026',
+      nombre     : 'Day of the Devs',
+      tag        : '🕹️ Indie Showcase',
+      isoDate    : '2026-06-06T01:00:00+02:00',
+      fechaLabel : 'Sábado, 6 de junio de 2026 (madrugada)',
+      hora       : '01:00 h · inmediatamente tras el SGF',
+      donde      : 'YouTube · Twitch',
+      duracion   : 'Aproximadamente 1 hora',
+      desc       : 'El evento indie por excelencia, emitido justo al terminar el Summer Game Fest. Presenta los proyectos más creativos y originales del desarrollo independiente global.',
+      img        : '',
+      link       : 'https://www.youtube.com/@summergamefest',
+      linkLabel  : '▶ Ver en directo — YouTube SGF',
+      linkBg     : 'linear-gradient(135deg,#a855f7,#7c22c4)',
+      linkBorder : '#a855f7',
+      brand      : 'DAY OF THE DEVS',
+      brandColor : '#c084fc',
+      cdColor    : '#c084fc',
+      cdBg       : 'rgba(168,85,247,0.07)',
+      cdBorder   : 'rgba(168,85,247,0.25)'
+    },
+    /* ── 5. Future Games Show ──────────────────────────────────── */
+    {
+      id         : 'future-games-show-2026',
+      nombre     : 'Future Games Show',
+      tag        : '🖥️ PC & Consolas',
+      isoDate    : '2026-06-06T21:00:00+02:00',
+      fechaLabel : 'Sábado, 6 de junio de 2026',
+      hora       : '21:00 h · hora peninsular España',
+      donde      : 'YouTube · Twitch',
+      duracion   : 'Aproximadamente 2 horas',
+      desc       : 'Organizado por PC Gamer, el Future Games Show Summer Showcase presenta más de <strong style="color:var(--txt)">50 títulos</strong> entre juegos AAA, AA e independientes para PC y consolas.',
+      img        : '',
+      link       : 'https://www.youtube.com/@PCGamer',
+      linkLabel  : '▶ Ver en directo — YouTube PC Gamer',
+      linkBg     : 'linear-gradient(135deg,#ef4444,#b91c1c)',
+      linkBorder : '#ef4444',
+      brand      : 'FUTURE GAMES SHOW',
+      brandColor : '#f87171',
+      cdColor    : '#f87171',
+      cdBg       : 'rgba(239,68,68,0.07)',
+      cdBorder   : 'rgba(239,68,68,0.25)'
+    },
+    /* ── 6. Ñ3 ────────────────────────────────────────────────── */
+    {
+      id         : 'n3-2026',
+      nombre     : 'Ñ3',
+      tag        : '🇪🇸 Indie España & LATAM',
+      isoDate    : '2026-06-07T17:30:00+02:00',
+      fechaLabel : 'Domingo, 7 de junio de 2026',
+      hora       : '17:30 h · hora peninsular España',
+      donde      : 'YouTube · Twitch',
+      duracion   : 'Aproximadamente 45 minutos',
+      desc       : 'El evento digital dedicado a los <strong style="color:var(--txt)">videojuegos independientes creados en España y América Latina</strong>. Una ventana a los estudios indie hispanohablantes más talentosos.',
+      img        : '',
+      link       : 'https://www.youtube.com',
+      linkLabel  : '▶ Ver en directo — YouTube',
+      linkBg     : 'linear-gradient(135deg,#fb923c,#c2410c)',
+      linkBorder : '#fb923c',
+      brand      : 'Ñ3',
+      brandColor : '#fb923c',
+      cdColor    : '#fb923c',
+      cdBg       : 'rgba(251,146,60,0.07)',
+      cdBorder   : 'rgba(251,146,60,0.25)'
+    },
+    /* ── 7. Xbox Games Showcase ────────────────────────────────── */
+    {
+      id         : 'xbox-games-showcase-2026',
+      nombre     : 'Xbox Games Showcase',
+      tag        : '🎮 Xbox & Bethesda',
+      isoDate    : '2026-06-07T19:00:00+02:00',
+      fechaLabel : 'Domingo, 7 de junio de 2026',
+      hora       : '19:00 h · hora peninsular España',
+      donde      : 'YouTube · Twitch · Xbox.com',
+      duracion   : 'Aproximadamente 1 hora + Gears of War Direct',
+      desc       : 'Presentación de novedades de <strong style="color:var(--txt)">Xbox Game Studios, Bethesda Softworks y Activision Blizzard</strong>. Seguido del Gears of War: E-Day Direct con todo el detalle del esperado regreso de la saga.',
+      img        : '',
+      link       : 'https://www.youtube.com/@Xbox',
+      linkLabel  : '▶ Ver en directo — YouTube Xbox',
+      linkBg     : 'linear-gradient(135deg,#107c10,#0a5a0a)',
+      linkBorder : '#107c10',
+      brand      : 'XBOX',
+      brandColor : '#4ade80',
+      cdColor    : '#4ade80',
+      cdBg       : 'rgba(74,222,128,0.07)',
+      cdBorder   : 'rgba(74,222,128,0.25)'
+    },
+    /* ── 8. PC Gaming Show ─────────────────────────────────────── */
+    {
+      id         : 'pc-gaming-show-2026',
+      nombre     : 'PC Gaming Show',
+      tag        : '🖱️ PC Gaming',
+      isoDate    : '2026-06-07T21:00:00+02:00',
+      fechaLabel : 'Domingo, 7 de junio de 2026',
+      hora       : '21:00 h · hora peninsular España',
+      donde      : 'YouTube · Twitch · Steam',
+      duracion   : 'Aproximadamente 2 horas',
+      desc       : 'El showcase definitivo para los jugadores de PC. Más de <strong style="color:var(--txt)">50 títulos</strong> presentados entre anuncios exclusivos, actualizaciones de juegos en desarrollo y sorpresas del ecosistema PC.',
+      img        : '',
+      link       : 'https://www.youtube.com/@PCGamingShow',
+      linkLabel  : '▶ Ver en directo — YouTube PC Gaming Show',
+      linkBg     : 'linear-gradient(135deg,#00d4ff,#0088aa)',
+      linkBorder : '#00d4ff',
+      brand      : 'PC GAMING SHOW',
+      brandColor : '#00d4ff',
+      cdColor    : '#00d4ff',
+      cdBg       : 'rgba(0,212,255,0.07)',
+      cdBorder   : 'rgba(0,212,255,0.25)'
     }
   ];
 
