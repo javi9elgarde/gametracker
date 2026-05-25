@@ -324,7 +324,56 @@
         winner:null, detail:'Necesita al menos 2 notas', value:'' });
     }
 
-    /* 6 — Explorador: más géneros distintos jugados */
+    /* 6 — El Generoso: nota media más alta (contrapunto a El Exigente) */
+    var jugConNotasPos = Object.keys(notasPJ).filter(function(p){ return notasPJ[p].length >= 2; });
+    if (jugConNotasPos.length) {
+      var avgFnPos = function(arr){ return arr.reduce(function(s,x){return s+x;},0)/arr.length; };
+      var topPos = jugConNotasPos.sort(function(a,b){ return avgFnPos(notasPJ[b]) - avgFnPos(notasPJ[a]); })[0];
+      var avgPos = avgFnPos(notasPJ[topPos]).toFixed(1).replace('.', ',');
+      logros.push({
+        badge: '😄 EL GENEROSO', desc: 'Nota media más alta — el más optimista',
+        visual: { type: 'bigtext', text: avgPos, sub: '/ 10', bg: 'linear-gradient(135deg,#071a08,#0e3015)' },
+        winner: topPos, valColor: '#4ade80',
+        detail: 'Media de ' + avgPos + ' puntos sobre 10',
+        value:  avgPos + ' ★'
+      });
+    } else {
+      logros.push({ badge:'😄 EL GENEROSO', desc:'Nota media más alta',
+        visual:{ type:'icon', icon:'😄', bg:'linear-gradient(135deg,#071a08,#0e3015)' },
+        winner:null, detail:'Necesita al menos 2 notas', value:'' });
+    }
+
+    /* 7 — El Retro: jugador cuyo juego más antiguo tiene el año de lanzamiento más bajo */
+    var retroPJ = {}; /* jugador → { año, titulo } */
+    entries.forEach(function(r) {
+      var g = Biblioteca.getById(r.juegoId);
+      if (!g || !g.fechaLanzamiento) return;
+      var yr = parseInt((g.fechaLanzamiento + '').substring(0, 4));
+      if (!yr || isNaN(yr)) return;
+      if (!retroPJ[r.jugador] || yr < retroPJ[r.jugador].año) {
+        retroPJ[r.jugador] = { año: yr, titulo: g.titulo, portadaUrl: g.portadaUrl || '', portadaPos: g.portadaPos || 'center top' };
+      }
+    });
+    var retroPlayers = Object.keys(retroPJ);
+    if (retroPlayers.length) {
+      var topRetro = retroPlayers.sort(function(a,b){ return retroPJ[a].año - retroPJ[b].año; })[0];
+      var retroGame = retroPJ[topRetro];
+      logros.push({
+        badge: '🕹️ EL RETRO', desc: 'Juego más antiguo jugado — viaje al pasado',
+        visual: retroGame.portadaUrl
+          ? { type: 'cover', src: retroGame.portadaUrl, pos: retroGame.portadaPos, bg: 'linear-gradient(160deg,#12080a,#251018)' }
+          : { type: 'bigtext', text: retroGame.año + '', sub: 'año', bg: 'linear-gradient(160deg,#12080a,#251018)' },
+        winner: topRetro, valColor: '#f59e0b',
+        detail: retroGame.titulo + ' (' + retroGame.año + ')',
+        value:  retroGame.año + ''
+      });
+    } else {
+      logros.push({ badge:'🕹️ EL RETRO', desc:'Juego más antiguo jugado',
+        visual:{ type:'icon', icon:'🕹️', bg:'linear-gradient(160deg,#12080a,#251018)' },
+        winner:null, detail:'Sin datos de lanzamiento', value:'' });
+    }
+
+    /* 9 — Explorador: más géneros distintos jugados */
     var genPJ = {};
     entries.forEach(function(r){
       var g = Biblioteca.getById(r.juegoId);

@@ -450,12 +450,12 @@
         '</div>' +
       '</div>';
 
-    /* ── TOP 10 FAVORITOS — grid 16:9 ───────────────────────── */
+    /* ── MIS JUEGOS FAVORITOS — grid 16:9 ───────────────────────── */
     var favIds  = _favs[key] || [];
     var safeKey = key.replace(/'/g, "\\'");
     var favsHtml = '<div class="pp-fav-grid">';
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 12; i++) {
       var gameId = favIds[i] || null;
       if (gameId) {
         var g = Biblioteca.getById(gameId);
@@ -519,7 +519,7 @@
       headerHtml +
       '<div class="pp-body--2col">' +
         '<div class="pp-main">' +
-          '<div class="pp-sub-title">❤️ Top 10 Favoritos</div>' +
+          '<div class="pp-sub-title">❤️ Mis Juegos Favoritos</div>' +
           favsHtml +
           logrosHtml +
         '</div>' +
