@@ -325,7 +325,49 @@
         winner:null, detail:'Necesita al menos 2 notas', value:'' });
     }
 
-    /* 6 — La nota más baja: registro individual con la puntuación más baja */
+    /* 6 — El Optimista: nota media más alta */
+    var playersWithNotas = Object.keys(notasPJ).filter(function(p){ return notasPJ[p].length >= 2; });
+    if (playersWithNotas.length) {
+      var avgFnO = function(arr){ return arr.reduce(function(s,x){return s+x;},0)/arr.length; };
+      var topO = playersWithNotas.slice().sort(function(a,b){ return avgFnO(notasPJ[b]) - avgFnO(notasPJ[a]); })[0];
+      var avgO = avgFnO(notasPJ[topO]).toFixed(1).replace('.', ',');
+      logros.push({
+        badge: '🌟 EL OPTIMISTA', desc: 'Nota media más alta — el más generoso',
+        visual: { type: 'bigtext', text: avgO, sub: '/ 10', bg: 'linear-gradient(135deg,#1a1400,#2e2500)' },
+        winner: topO, valColor: '#fbbf24',
+        detail: 'Media de ' + avgO + ' puntos sobre 10',
+        value:  avgO + ' ★'
+      });
+    } else {
+      logros.push({ badge:'🌟 EL OPTIMISTA', desc:'Nota media más alta',
+        visual:{ type:'icon', icon:'🌟', bg:'linear-gradient(135deg,#1a1400,#2e2500)' },
+        winner:null, detail:'Necesita al menos 2 notas', value:'' });
+    }
+
+    /* 7 — Rejugador: más juegos con estado Rejugado */
+    var rejPJ = {};
+    entries.filter(function(r){ return r.estado === 'Rejugado'; }).forEach(function(r){
+      if (!rejPJ[r.jugador]) rejPJ[r.jugador] = new Set();
+      rejPJ[r.jugador].add(r.juegoId);
+    });
+    var topRej = Object.keys(rejPJ).sort(function(a,b){ return rejPJ[b].size - rejPJ[a].size; })[0];
+    if (topRej) {
+      logros.push({
+        badge: '🔥 REJUGADOR', desc: 'Más juegos completados más de una vez',
+        visual: { type: 'bigtext', text: rejPJ[topRej].size + '',
+                  sub: rejPJ[topRej].size !== 1 ? 'juegos' : 'juego',
+                  bg: 'linear-gradient(135deg,#1a0505,#2e0808)' },
+        winner: topRej, valColor: '#fb923c',
+        detail: rejPJ[topRej].size + ' juego' + (rejPJ[topRej].size !== 1 ? 's' : '') + ' rejugado' + (rejPJ[topRej].size !== 1 ? 's' : ''),
+        value:  rejPJ[topRej].size
+      });
+    } else {
+      logros.push({ badge:'🔥 REJUGADOR', desc:'Más juegos completados más de una vez',
+        visual:{ type:'icon', icon:'🔥', bg:'linear-gradient(135deg,#1a0505,#2e0808)' },
+        winner:null, detail:'Nadie ha rejugado aún', value:'' });
+    }
+
+    /* 9 — La nota más baja: registro individual con la puntuación más baja */
     var conNotaMin = entries.filter(function(r){ return r.nota !== null && r.nota !== '' && r.nota !== undefined; })
                             .sort(function(a,b){ return parseFloat(a.nota) - parseFloat(b.nota); });
     if (conNotaMin.length) {
@@ -348,7 +390,7 @@
         winner:null, detail:'Sin notas registradas', value:'' });
     }
 
-    /* 7 — El Retro: jugador cuyo juego más antiguo tiene el año de lanzamiento más bajo */
+    /* 10 — El Retro: jugador cuyo juego más antiguo tiene el año de lanzamiento más bajo */
     var retroPJ = {}; /* jugador → { año, titulo } */
     entries.forEach(function(r) {
       var g = Biblioteca.getById(r.juegoId);

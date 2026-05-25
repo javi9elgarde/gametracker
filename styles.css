@@ -3386,9 +3386,12 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 /* â”€â”€ LOGROS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .logros-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.1rem;
 }
+@media (max-width: 1100px) { .logros-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width:  820px) { .logros-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width:  560px) { .logros-grid { grid-template-columns: repeat(2, 1fr); } }
 .logro-card {
   border-radius: 14px;
   overflow: hidden;
