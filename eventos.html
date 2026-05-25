@@ -195,6 +195,25 @@
 
     .evt-featured__link { align-self:flex-start; }
 
+    /* ── Botón editar evento ── */
+    .evt-edit-btn {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--txt3);
+      font-size: 0.85rem;
+      padding: 0.3rem 0.5rem;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, border-color 0.18s;
+      line-height: 1;
+    }
+    .evt-edit-btn:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.2);
+      color: var(--txt);
+    }
+
     /* ══ HISTÓRICO ══ */
     .evt-historico-section { padding-top: 0; }
     .evt-hist-grid {
@@ -293,6 +312,91 @@
 
 </div>
 
+<!-- MODAL EDITAR EVENTO -->
+<div class="modal-overlay" id="evtEditOverlay">
+  <div class="modal" style="max-width:640px">
+    <div class="modal__header">
+      <h2 class="modal__title">✏️ Editar Evento</h2>
+      <button class="modal__close" onclick="window.GT_Bingo.closeEditEventModal()">✕</button>
+    </div>
+    <div class="modal__body" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.25rem">
+
+      <div class="form-group" style="grid-column:1/-1">
+        <label class="form-label">Nombre del evento *</label>
+        <input type="text" class="form-input" id="evtEditNombre" maxlength="80">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Categoría / tag</label>
+        <input type="text" class="form-input" id="evtEditTag" placeholder="🎮 PlayStation Showcase" maxlength="60">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Nombre de marca</label>
+        <input type="text" class="form-input" id="evtEditBrand" placeholder="PLAYSTATION" maxlength="40">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Fecha y hora</label>
+        <input type="datetime-local" class="form-input" id="evtEditIsoDate">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Color de acento</label>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <input type="color" id="evtEditColor" style="width:44px;height:38px;border:1px solid var(--border);border-radius:6px;background:transparent;cursor:pointer;padding:2px">
+          <span style="font-size:0.72rem;color:var(--txt3)">Cuenta atrás y botón</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Texto de fecha visible</label>
+        <input type="text" class="form-input" id="evtEditFechaLabel" placeholder="Martes, 2 de junio de 2026" maxlength="60">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Texto de hora visible</label>
+        <input type="text" class="form-input" id="evtEditHora" placeholder="23:00 h · hora peninsular" maxlength="60">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Dónde verlo</label>
+        <input type="text" class="form-input" id="evtEditDonde" placeholder="YouTube · Twitch" maxlength="80">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Duración estimada</label>
+        <input type="text" class="form-input" id="evtEditDuracion" placeholder="Aproximadamente 2 horas" maxlength="60">
+      </div>
+
+      <div class="form-group" style="grid-column:1/-1">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-input" id="evtEditDesc" rows="3" style="resize:vertical" maxlength="400" placeholder="Descripción del evento..."></textarea>
+      </div>
+
+      <div class="form-group" style="grid-column:1/-1">
+        <label class="form-label">URL de imagen (portada)</label>
+        <input type="url" class="form-input" id="evtEditImg" placeholder="https://...">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">URL del enlace (stream)</label>
+        <input type="url" class="form-input" id="evtEditLink" placeholder="https://youtube.com/...">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Texto del botón</label>
+        <input type="text" class="form-input" id="evtEditLinkLabel" placeholder="▶ Ver en directo" maxlength="60">
+      </div>
+
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn-secondary" id="evtEditCancel">Cancelar</button>
+      <button class="btn btn-primary"   id="evtEditSave">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL CREAR / EDITAR BINGO -->
 <div class="modal-overlay" id="bingoModalOverlay">
   <div class="modal" style="max-width:680px">
@@ -325,6 +429,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
 <script src="firebase-config.js?v=20260521c" defer></script>
 <script src="main.js?v=20260522n"            defer></script>
-<script src="eventos.js?v=20260525g"         defer></script>
+<script src="eventos.js?v=20260525h"         defer></script>
 </body>
 </html>
