@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — Menú Principal</title>
-  <link rel="stylesheet" href="styles.css?v=20260525k">
+  <link rel="stylesheet" href="styles.css?v=20260525m">
 </head>
 <body>
 
@@ -58,72 +58,63 @@
 
       <!-- ── Panel 1: Noticia Destacada ── -->
       <a href="noticias.html" class="spotlight-panel" id="newsPanel" style="--sp-accent:#4facfe;--sp-glow:rgba(79,172,254,0.18)">
-        <div class="sp-img-wrap" id="newsPanelImgWrap">
-          <div class="sp-img-placeholder sp-img-placeholder--news">
-            <span class="sp-ph-emoji">📰</span>
-          </div>
+        <div class="sp-bg" id="newsPanelImgWrap">
+          <div class="sp-bg__ph sp-bg__ph--news"></div>
+          <div class="sp-bg__overlay"></div>
         </div>
-        <div class="sp-content">
-          <div class="sp-label">📰 Noticia Destacada</div>
-          <div class="sp-title" id="newsPanelTitle">Últimas Noticias Gaming</div>
-          <div class="sp-sub" id="newsPanelSub">Las últimas novedades del mundillo, análisis y anuncios del sector.</div>
-          <div class="sp-footer"><span class="sp-cta">Ver Noticias →</span></div>
-        </div>
+        <div class="sp-label">📰 Noticia Destacada</div>
+        <div class="sp-title" id="newsPanelTitle">Últimas Noticias Gaming</div>
+        <div class="sp-sub" id="newsPanelSub">Las últimas novedades del mundillo, análisis y anuncios del sector.</div>
+        <div class="sp-footer"><span class="sp-cta">Ver Noticias →</span></div>
       </a>
 
       <!-- ── Panel 2: Próximo Evento ── -->
       <a href="eventos.html" id="nextEvtPanel" class="spotlight-panel" style="--sp-accent:#f5c842;--sp-glow:rgba(245,200,66,0.18)">
-        <div class="sp-img-wrap" id="nextEvtImgWrap">
-          <div class="sp-img-placeholder sp-img-placeholder--evt">
-            <span class="sp-ph-emoji">🎮</span>
-          </div>
+        <div class="sp-bg" id="nextEvtImgWrap">
+          <div class="sp-bg__ph sp-bg__ph--evt"></div>
+          <div class="sp-bg__overlay"></div>
         </div>
-        <div class="sp-content">
-          <div class="sp-label">🎮 Próximo Evento</div>
-          <div class="sp-title" id="nextEvtName">Cargando...</div>
-          <div class="sp-date" id="nextEvtDate"></div>
-          <div class="sp-countdown" id="nextEvtCountdown">
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="scdDays">--</span><span class="sp-cd-lbl">días</span></div>
-            <span class="sp-cd-sep">:</span>
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="scdHours">--</span><span class="sp-cd-lbl">horas</span></div>
-            <span class="sp-cd-sep">:</span>
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="scdMins">--</span><span class="sp-cd-lbl">min</span></div>
-            <span class="sp-cd-sep">:</span>
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="scdSecs">--</span><span class="sp-cd-lbl">seg</span></div>
-          </div>
-          <div class="sp-footer"><span class="sp-cta">Ver todos los Eventos →</span></div>
+        <div class="sp-label">🎮 Próximo Evento</div>
+        <div class="sp-title" id="nextEvtName">Cargando...</div>
+        <div class="sp-date" id="nextEvtDate"></div>
+        <div class="sp-countdown" id="nextEvtCountdown">
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="scdDays">--</span><span class="sp-cd-lbl">días</span></div>
+          <span class="sp-cd-sep">:</span>
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="scdHours">--</span><span class="sp-cd-lbl">horas</span></div>
+          <span class="sp-cd-sep">:</span>
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="scdMins">--</span><span class="sp-cd-lbl">min</span></div>
+          <span class="sp-cd-sep">:</span>
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="scdSecs">--</span><span class="sp-cd-lbl">seg</span></div>
         </div>
+        <div class="sp-footer"><span class="sp-cta">Ver todos los Eventos →</span></div>
       </a>
 
       <!-- ── Panel 3: GTA VI ── -->
       <a href="biblioteca.html" id="gtaPanel" class="spotlight-panel spotlight-panel--gta" style="--sp-accent:#fb923c;--sp-glow:rgba(251,146,60,0.18)">
-        <div class="sp-img-wrap" id="gtaImgWrap">
-          <div class="sp-img-placeholder sp-img-placeholder--gta">
-            <div class="sp-gta-title-ph">GTA <span>VI</span></div>
-          </div>
+        <div class="sp-bg" id="gtaImgWrap">
+          <div class="sp-bg__ph sp-bg__ph--gta"></div>
+          <div class="sp-bg__overlay"></div>
         </div>
-        <div class="sp-content">
-          <div class="sp-label">⭐ Juego Más Esperado</div>
-          <div class="sp-gta-title">GTA <span>VI</span></div>
-          <div class="sp-date">Rockstar Games · 19 Nov 2026</div>
-          <div class="sp-countdown">
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaDays">--</span><span class="sp-cd-lbl">días</span></div>
-            <span class="sp-cd-sep">:</span>
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaHours">--</span><span class="sp-cd-lbl">horas</span></div>
-            <span class="sp-cd-sep">:</span>
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaMins">--</span><span class="sp-cd-lbl">min</span></div>
-            <span class="sp-cd-sep">:</span>
-            <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaSecs">--</span><span class="sp-cd-lbl">seg</span></div>
-          </div>
-          <div class="sp-footer"><span class="sp-cta">Ver ficha en Biblioteca →</span></div>
+        <div class="sp-label">⭐ Juego Más Esperado</div>
+        <div class="sp-gta-title">GTA <span>VI</span></div>
+        <div class="sp-date">Rockstar Games · 19 Nov 2026</div>
+        <div class="sp-countdown">
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaDays">--</span><span class="sp-cd-lbl">días</span></div>
+          <span class="sp-cd-sep">:</span>
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaHours">--</span><span class="sp-cd-lbl">horas</span></div>
+          <span class="sp-cd-sep">:</span>
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaMins">--</span><span class="sp-cd-lbl">min</span></div>
+          <span class="sp-cd-sep">:</span>
+          <div class="sp-cd-unit"><span class="sp-cd-val" id="gtaSecs">--</span><span class="sp-cd-lbl">seg</span></div>
         </div>
+        <div class="sp-footer"><span class="sp-cta">Ver ficha en Biblioteca →</span></div>
       </a>
 
     </div>
   </section>
 
   <style>
-    /* ══ SPOTLIGHT PANELS ══ */
+    /* ══ SPOTLIGHT PANELS — imagen de fondo compacta ══ */
     .hero__spotlight {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -131,159 +122,135 @@
       padding: 0 var(--page-pad, 2rem) 0;
       width: 100%;
     }
-    @media (max-width: 900px)  { .hero__spotlight { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
-    @media (max-width: 600px)  { .hero__spotlight { padding: 0 1rem; gap: 0.75rem; } }
+    @media (max-width: 900px) { .hero__spotlight { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
+    @media (max-width: 600px) { .hero__spotlight { padding: 0 1rem; gap: 0.75rem; } }
 
+    /* Panel — mismo tamaño compacto de antes, imagen como fondo */
     .spotlight-panel {
       position: relative; overflow: hidden;
-      background: rgba(7,7,15,0.85);
-      backdrop-filter: blur(18px) saturate(1.4);
-      -webkit-backdrop-filter: blur(18px) saturate(1.4);
       border: 1px solid rgba(255,255,255,0.09);
       border-radius: var(--radius, 12px);
-      padding: 0;
+      padding: 1.1rem 1.25rem 1rem;
       text-decoration: none; color: inherit;
-      display: flex; flex-direction: column;
-      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      min-height: 175px;
+      transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
       cursor: pointer;
     }
     .spotlight-panel:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
       border-color: var(--sp-accent, #4facfe);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 32px var(--sp-glow, rgba(79,172,254,0.15));
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 28px var(--sp-glow, rgba(79,172,254,0.15));
     }
     /* Línea de acento superior */
     .spotlight-panel::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 2.5px; z-index: 4;
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2.5px; z-index: 3;
       background: linear-gradient(90deg, var(--sp-accent, #4facfe), transparent 70%);
     }
 
-    /* ── Imagen 16:9 ── */
-    .sp-img-wrap {
-      position: relative;
-      aspect-ratio: 16 / 9;
+    /* ── Fondo imagen (posición absoluta, detrás del contenido) ── */
+    .sp-bg {
+      position: absolute; inset: 0; z-index: 0;
       overflow: hidden;
-      flex-shrink: 0;
-      background: #0a0a18;
     }
-    .sp-img {
+    /* Imagen real cuando cargue */
+    .sp-bg .sp-img {
+      position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover; display: block;
-      transition: transform 0.42s ease;
+      transition: transform 0.45s ease;
     }
-    .spotlight-panel:hover .sp-img { transform: scale(1.07); }
+    .spotlight-panel:hover .sp-bg .sp-img { transform: scale(1.08); }
 
-    /* Placeholders temáticos */
-    .sp-img-placeholder {
+    /* Placeholders de color cuando no hay imagen */
+    .sp-bg__ph {
       position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
     }
-    .sp-img-placeholder--news {
-      background: linear-gradient(135deg, #071528 0%, #0c1e42 50%, #07101e 100%);
+    .sp-bg__ph--news {
+      background: linear-gradient(135deg, #071528 0%, #0b1c3a 60%, #050e1c 100%);
     }
-    .sp-img-placeholder--evt {
-      background: linear-gradient(135deg, #1a1200 0%, #2a1e00 50%, #120d00 100%);
+    .sp-bg__ph--evt {
+      background: linear-gradient(135deg, #141000 0%, #221900 60%, #0e0d00 100%);
     }
-    .sp-img-placeholder--gta {
-      background: linear-gradient(135deg, #1c0500 0%, #2d0e00 50%, #130200 100%);
+    .sp-bg__ph--gta {
+      background: linear-gradient(135deg, #1a0800 0%, #2c1200 60%, #110400 100%);
     }
-    .sp-ph-emoji { font-size: 2.8rem; opacity: 0.22; }
-    .sp-gta-title-ph {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900;
-      color: rgba(251,146,60,0.2); letter-spacing: 0.06em;
-    }
-    .sp-gta-title-ph span { color: rgba(251,146,60,0.3); }
-
-    /* Degradado inferior sobre la imagen */
-    .sp-img-wrap::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 40%;
-      background: linear-gradient(to top, rgba(7,7,15,0.65), transparent);
-      pointer-events: none;
+    /* Degradado oscuro encima de la imagen para que el texto sea legible */
+    .sp-bg__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(7,7,15,0.72) 0%,
+        rgba(7,7,15,0.55) 40%,
+        rgba(7,7,15,0.80) 100%
+      );
     }
 
-    /* ── Contenido bajo la imagen ── */
-    .sp-content {
-      padding: 0.8rem 1rem 0.85rem;
-      display: flex; flex-direction: column; gap: 0.4rem;
-      flex: 1;
-    }
+    /* Todo el contenido textual va encima (z-index > 0) */
+    .spotlight-panel > *:not(.sp-bg) { position: relative; z-index: 1; }
 
+    /* ── Textos ── */
     .sp-label {
-      font-size: 0.58rem; font-weight: 700;
+      font-size: 0.6rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.13em;
       color: var(--sp-accent, #4facfe);
     }
     .sp-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(0.82rem, 1.6vw, 1rem);
+      font-size: clamp(0.85rem, 1.8vw, 1.1rem);
       font-weight: 700; color: var(--txt, #e8e8f8);
-      line-height: 1.25;
+      line-height: 1.2;
       overflow: hidden; display: -webkit-box;
       -webkit-line-clamp: 2; -webkit-box-orient: vertical;
     }
     .sp-sub {
-      font-size: 0.7rem; color: var(--txt3, rgba(232,232,248,.45));
+      font-size: 0.71rem; color: rgba(232,232,248,0.55);
       line-height: 1.5; flex: 1;
       overflow: hidden; display: -webkit-box;
       -webkit-line-clamp: 2; -webkit-box-orient: vertical;
     }
     .sp-date {
-      font-size: 0.65rem; font-weight: 600;
-      color: var(--sp-accent, #4facfe); opacity: 0.85;
+      font-size: 0.67rem; font-weight: 600;
+      color: var(--sp-accent, #4facfe); opacity: 0.9;
     }
 
     /* Countdown */
-    .sp-countdown {
-      display: flex; align-items: center; gap: 0.28rem; flex-wrap: wrap;
-    }
+    .sp-countdown { display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; }
     .sp-cd-unit {
       display: flex; flex-direction: column; align-items: center;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 6px; padding: 0.24rem 0.38rem; min-width: 34px;
+      background: rgba(7,7,15,0.55);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; padding: 0.28rem 0.42rem; min-width: 36px;
     }
     .sp-cd-val {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem; font-weight: 700; line-height: 1;
+      font-size: 0.98rem; font-weight: 700; line-height: 1;
       color: var(--sp-accent, #4facfe);
       text-shadow: 0 0 10px var(--sp-glow, rgba(79,172,254,0.5));
     }
-    .sp-cd-lbl { font-size: 0.42rem; color: var(--txt3, rgba(232,232,248,.4)); margin-top: 0.1rem; }
-    .sp-cd-sep  { font-size: 0.75rem; color: rgba(255,255,255,0.2); font-weight: 700; margin-bottom: 0.4rem; }
+    .sp-cd-lbl { font-size: 0.45rem; color: rgba(232,232,248,.4); margin-top: 0.1rem; }
+    .sp-cd-sep  { font-size: 0.8rem; color: rgba(255,255,255,0.2); font-weight: 700; margin-bottom: 0.45rem; }
 
     .sp-footer {
       margin-top: auto; padding-top: 0.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
     .sp-cta {
-      font-size: 0.63rem; font-weight: 700;
-      color: var(--sp-accent, #4facfe);
-      letter-spacing: 0.05em;
+      font-size: 0.65rem; font-weight: 700;
+      color: var(--sp-accent, #4facfe); letter-spacing: 0.05em;
     }
 
     /* GTA VI — título especial */
     .sp-gta-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.2rem, 2.8vw, 1.6rem);
-      font-weight: 900; line-height: 1;
-      color: #fff; letter-spacing: 0.06em;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 900; line-height: 1; color: #fff; letter-spacing: 0.06em;
     }
     .sp-gta-title span {
       background: linear-gradient(135deg, #fb923c, #f59e0b);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-    }
-    /* Brillo sutil GTA en el panel */
-    .spotlight-panel--gta .sp-content::after {
-      content: '';
-      position: absolute; bottom: 0; right: 0;
-      width: 60%; height: 60%; pointer-events: none;
-      background: radial-gradient(ellipse at bottom right, rgba(251,146,60,0.06) 0%, transparent 70%);
     }
   </style>
 
@@ -333,16 +300,18 @@
 (function () {
   function pad(n) { return String(n).padStart(2, '0'); }
 
-  /* ── Helper: poner imagen en un panel ──────────────────────── */
+  /* ── Helper: poner imagen de fondo en un panel ─────────────── */
   function setImg(wrapId, url) {
     if (!url) return;
     var wrap = document.getElementById(wrapId);
     if (!wrap) return;
     var img = new window.Image();
     img.onload = function () {
-      wrap.innerHTML = '';
       img.className = 'sp-img';
-      wrap.appendChild(img);
+      /* Insertar antes del overlay para que quede bajo él */
+      var overlay = wrap.querySelector('.sp-bg__overlay');
+      if (overlay) wrap.insertBefore(img, overlay);
+      else wrap.appendChild(img);
     };
     img.src = url;
   }

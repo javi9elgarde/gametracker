@@ -7,28 +7,33 @@
 
   /* ── Fuentes RSS ─────────────────────────────────────────── */
   var SOURCES = {
-    eurogamer: {
-      label: 'Eurogamer España',
-      rss:   'https://www.eurogamer.es/feed',
+    hobbyconsolas: {
+      label: 'HobbyConsolas',
+      rss:   'https://www.hobbyconsolas.com/rss/portada.xml',
       color: '#00c7ff'
     },
     vandal: {
       label: 'Vandal',
-      rss:   'https://vandal.elespanol.com/rss/feed.xml',
+      rss:   'https://vandal.elespanol.com/feed/',
       color: '#f59e0b'
     },
-    '3djuegos': {
-      label: '3DJuegos',
-      rss:   'https://www.3djuegos.com/noticias/rss.xml',
+    meristation: {
+      label: 'Meristation',
+      rss:   'https://as.com/meristation/feed.rss',
       color: '#22c55e'
     }
   };
 
-  var RSS2JSON_BASE = 'https://api.rss2json.com/v1/api.json?count=24&rss_url=';
+  /* Proxies para evitar CORS. Se intenta el primero; si falla, el segundo */
+  var PROXIES = [
+    'https://api.rss2json.com/v1/api.json?count=24&rss_url=',
+    null  /* fallback: allorigins + parse XML manual */
+  ];
+  var ALLORIGINS = 'https://api.allorigins.win/raw?url=';
 
   /* ── Estado ──────────────────────────────────────────────── */
   var _news        = [];
-  var _source      = 'eurogamer';
+  var _source      = 'hobbyconsolas';
   var _featuredUrl = null;
   var _loading     = false;
   var _db          = null;
@@ -84,7 +89,32 @@
     if (tx) tx.textContent = text || 'Cargando...';
   }
 
-  /* ── Fetch RSS via rss2json ──────────────────────────────── */
+  /* ── Parse XML RSS manualmente (fallback) ───────────────── */
+  function parseXmlItems(xmlText) {
+    var parser = new DOMParser();
+    var doc    = parser.parseFromString(xmlText, 'text/xml');
+    var items  = Array.from(doc.querySelectorAll('item'));
+    return items.slice(0, 24).map(function (it) {
+      var title       = it.querySelector('title');
+      var link        = it.querySelector('link');
+      var pubDate     = it.querySelector('pubDate');
+      var description = it.querySelector('description');
+      var enclosure   = it.querySelector('enclosure');
+      var mediaCont   = it.querySelector('content');  /* media:content */
+      var imgUrl = '';
+      if (mediaCont && mediaCont.getAttribute('url')) imgUrl = mediaCont.getAttribute('url');
+      else if (enclosure && enclosure.getAttribute('url')) imgUrl = enclosure.getAttribute('url');
+      return {
+        title:       title       ? title.textContent.trim()       : '',
+        link:        link        ? (link.textContent.trim() || link.getAttribute('href') || '') : '',
+        pubDate:     pubDate     ? pubDate.textContent.trim()     : '',
+        description: description ? description.textContent.trim() : '',
+        thumbnail:   imgUrl
+      };
+    });
+  }
+
+  /* ── Fetch RSS vía rss2json, con fallback a allorigins ──── */
   function fetchNews(source) {
     if (_loading) return;
     _loading = true;
@@ -97,26 +127,39 @@
     setStatus('Cargando ' + src.label + '...', false);
     document.getElementById('newsGrid').innerHTML = '';
 
-    var url = RSS2JSON_BASE + encodeURIComponent(src.rss);
+    /* Intento 1: rss2json */
+    var rss2url = 'https://api.rss2json.com/v1/api.json?count=24&rss_url=' + encodeURIComponent(src.rss);
 
-    fetch(url)
-      .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
+    fetch(rss2url)
+      .then(function (r) { return r.json(); })
       .then(function (data) {
+        if (data.status !== 'ok' || !data.items || !data.items.length) throw new Error('rss2json vacío');
         _loading = false;
-        if (data.status !== 'ok' || !data.items || !data.items.length) {
-          throw new Error('Sin artículos en el feed');
-        }
         _news = data.items;
         setStatus('', true);
         renderGrid();
       })
-      .catch(function (err) {
-        _loading = false;
-        setStatus('', true);
-        renderError(err.message);
+      .catch(function () {
+        /* Intento 2: allorigins + parse XML */
+        var aoUrl = ALLORIGINS + encodeURIComponent(src.rss);
+        fetch(aoUrl)
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.text();
+          })
+          .then(function (xml) {
+            var items = parseXmlItems(xml);
+            if (!items.length) throw new Error('Feed vacío');
+            _loading = false;
+            _news = items;
+            setStatus('', true);
+            renderGrid();
+          })
+          .catch(function (err) {
+            _loading = false;
+            setStatus('', true);
+            renderError(err.message);
+          });
       });
   }
 
@@ -298,7 +341,7 @@
     /* Esperar a Firestore y arrancar */
     waitForDb(function () {
       loadFeatured();
-      fetchNews('eurogamer');
+      fetchNews('hobbyconsolas');
     });
   });
 
