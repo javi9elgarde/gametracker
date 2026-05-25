@@ -420,20 +420,14 @@
       } else {
         bannerInner = '<div class="logro-banner__icon">' + (v.icon || '') + '</div>';
       }
-      return '<div class="logro-card">' +
+      return '<div class="logro-card logro-card--profile">' +
         '<div class="logro-banner" style="background:' + l.bg + '">' +
           bannerInner +
-          '<div class="logro-banner__overlay">' +
-            '<span class="logro-badge">' + Utils.escapeHtml(l.badge) + '</span>' +
-            '<span class="logro-desc-badge">' + Utils.escapeHtml(l.desc) + '</span>' +
-          '</div>' +
         '</div>' +
-        '<div class="logro-footer">' +
-          '<div class="logro-footer__info">' +
-            '<div class="logro-winner-name" style="color:' + color + '">' + Utils.escapeHtml(player.name) + '</div>' +
-            '<div class="logro-winner-detail">' + Utils.escapeHtml(l.detail) + '</div>' +
-          '</div>' +
-          '<div class="logro-footer__val" style="color:' + color + '">' + Utils.escapeHtml(String(l.value)) + '</div>' +
+        '<div class="logro-pp-body">' +
+          '<div class="logro-pp-title">' + Utils.escapeHtml(l.badge) + '</div>' +
+          '<div class="logro-pp-desc">' + Utils.escapeHtml(l.desc) + '</div>' +
+          '<div class="logro-pp-val" style="color:' + color + '">' + Utils.escapeHtml(String(l.value)) + '</div>' +
         '</div>' +
       '</div>';
     }
