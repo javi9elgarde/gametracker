@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="logonavegador.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refugio 111 — Noticias</title>
+  <link rel="stylesheet" href="styles.css?v=20260525k">
+</head>
+<body>
+
+<div id="gtLoading" style="position:fixed;inset:0;background:#07070f;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:1rem">
+  <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#fff,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.1em">REFUGIO 111</div>
+  <div style="display:flex;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .2s infinite"></span><span style="width:8px;height:8px;border-radius:50%;background:#4facfe;animation:dotPulse 1.2s ease-in-out .4s infinite"></span></div>
+  <div style="font-size:.8rem;color:rgba(232,232,248,.4);letter-spacing:.05em">Cargando noticias...</div>
+</div>
+<style>@keyframes dotPulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}</style>
+
+<nav class="nav">
+  <a href="hub.html"          class="nav__link nav__link--hub nav__hub-solo">Hub</a>
+  <div class="nav__links nav__links--left">
+    <a href="halloffame.html"   class="nav__link nav__link--hof">G.O.T.Y</a>
+    <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
+    <a href="registro.html"     class="nav__link">Registro</a>
+    <a href="backlog.html"      class="nav__link">Pendientes</a>
+  </div>
+  <a href="index.html" class="nav__logo">
+    <img src="logo.png" alt="Refugio 111" class="nav__logo-img">
+  </a>
+  <div class="nav__links nav__links--right">
+    <a href="eventos.html"      class="nav__link">Eventos</a>
+    <a href="noticias.html"     class="nav__link nav__link--active">Noticias</a>
+    <a href="pendientes.html"   class="nav__link">Jugadores</a>
+    <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+  </div>
+  <button class="nav__hamburger" id="navHamburger" aria-label="Menú">☰</button>
+</nav>
+<div class="nav__mobile" id="navMobile">
+  <a href="hub.html"          class="nav__link nav__link--hub">🏠 Hub</a>
+  <a href="index.html"        class="nav__link">Inicio</a>
+  <a href="biblioteca.html"   class="nav__link">Biblioteca</a>
+  <a href="registro.html"     class="nav__link">Registro</a>
+  <a href="halloffame.html"   class="nav__link nav__link--hof">🏆 Hall of Fame</a>
+  <a href="estadisticas.html" class="nav__link">Estadísticas</a>
+  <a href="pendientes.html"   class="nav__link">Jugadores</a>
+  <a href="backlog.html"      class="nav__link">Pendientes</a>
+  <a href="eventos.html"      class="nav__link">🎰 Eventos</a>
+  <a href="noticias.html"     class="nav__link">📰 Noticias</a>
+</div>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <h1 class="page-header__title">📰 Noticias Gaming</h1>
+        <p class="page-header__sub">Feed en directo · Marca una noticia con ⭐ para destacarla en el inicio</p>
+      </div>
+      <button class="btn btn-secondary" id="btnRefreshNews">🔄 Actualizar</button>
+    </div>
+  </div>
+
+  <!-- Noticia destacada actual -->
+  <div id="featuredNewsBanner" class="news-featured-banner" style="display:none"></div>
+
+  <!-- Barra de fuentes -->
+  <div class="section" style="padding-bottom:0">
+    <div class="news-sources-bar">
+      <button class="news-source-tab news-source-tab--active" data-source="eurogamer">
+        <span class="news-source-tab__dot" style="background:#00c7ff"></span>
+        Eurogamer España
+      </button>
+      <button class="news-source-tab" data-source="vandal">
+        <span class="news-source-tab__dot" style="background:#f59e0b"></span>
+        Vandal
+      </button>
+      <button class="news-source-tab" data-source="3djuegos">
+        <span class="news-source-tab__dot" style="background:#22c55e"></span>
+        3DJuegos
+      </button>
+    </div>
+  </div>
+
+  <!-- Estado de carga -->
+  <div id="newsStatus" class="section news-status">
+    <div class="news-spinner"></div>
+    <span id="newsStatusText">Cargando noticias...</span>
+  </div>
+
+  <!-- Grid de noticias -->
+  <div class="section">
+    <div id="newsGrid" class="news-grid"></div>
+  </div>
+
+  <footer class="footer">
+    <span>REFUGIO 111</span> · David · Javi · Mery · <span id="footerYear"></span>
+    <br><small style="color:var(--txt3);margin-top:0.25rem;display:block">Noticias vía RSS · Destacadas sincronizadas con Firebase 🔥</small>
+  </footer>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"       defer></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
+<script src="firebase-config.js?v=20260519b" defer></script>
+<script src="main.js?v=20260522n"            defer></script>
+<script src="noticias.js?v=20260525a"        defer></script>
+</body>
+</html>
