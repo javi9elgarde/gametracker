@@ -520,8 +520,8 @@ window.GT.Nav = (function () {
     try {
       var ap = window.GT.getActivePlayer();
       if (ap) {
-        var indicator = document.createElement('a');
-        indicator.href = 'hub.html';
+        var indicator = document.createElement('button');
+        indicator.type  = 'button';
         indicator.title = 'Jugando como ' + ap + ' · Pulsa para cambiar';
         indicator.className = 'nav__player-pill';
         indicator.innerHTML =
@@ -529,6 +529,10 @@ window.GT.Nav = (function () {
             (PLAYER_INITIALS[ap] || ap[0]) +
           '</div>' +
           '<span class="nav__player-name">' + ap + '</span>';
+        indicator.addEventListener('click', function (e) {
+          e.stopPropagation();
+          togglePlayerSwitchModal(indicator);
+        });
         var nav = document.querySelector('.nav');
         var hamburger = document.getElementById('navHamburger');
         if (nav && hamburger) nav.insertBefore(indicator, hamburger);
@@ -536,6 +540,45 @@ window.GT.Nav = (function () {
       }
     } catch(e){}
   }
+
+  /* ── Mini-modal: cambiar jugador desde cualquier página ── */
+  function togglePlayerSwitchModal(anchor) {
+    var existing = document.getElementById('playerSwitchModal');
+    if (existing) { existing.remove(); return; }
+
+    var PLAYERS = [
+      { key: 'David', color: PLAYER_COLORS.David, hex: '#3b82f6' },
+      { key: 'Javi',  color: PLAYER_COLORS.Javi,  hex: '#9b1742' },
+      { key: 'Mery',  color: PLAYER_COLORS.Mery,  hex: '#9b59ff' }
+    ];
+    var current = window.GT.getActivePlayer();
+
+    var modal = document.createElement('div');
+    modal.id = 'playerSwitchModal';
+    modal.innerHTML =
+      '<div class="psw-title">Cambiar jugador</div>' +
+      PLAYERS.map(function (p) {
+        var isActive = p.key === current;
+        return '<button class="psw-btn' + (isActive ? ' psw-btn--active' : '') + '" ' +
+          'style="--psw-c:' + p.color + '" ' +
+          'onclick="window.GT.setActivePlayer(\'' + p.key + '\');location.reload()">' +
+          '<div class="psw-av" style="background:' + p.color + '">' + (PLAYER_INITIALS[p.key] || p.key[0]) + '</div>' +
+          '<span class="psw-name">' + p.key + '</span>' +
+          (isActive ? '<span class="psw-badge">activo</span>' : '') +
+        '</button>';
+      }).join('');
+    document.body.appendChild(modal);
+
+    /* Cerrar al hacer clic fuera */
+    function onOutside(e) {
+      if (!modal.contains(e.target) && e.target !== anchor) {
+        modal.remove();
+        document.removeEventListener('click', onOutside);
+      }
+    }
+    setTimeout(function () { document.addEventListener('click', onOutside); }, 0);
+  }
+
   return { init };
 })();
 

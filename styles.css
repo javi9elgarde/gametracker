@@ -185,6 +185,77 @@ ul, ol { list-style: none; }
 }
 @media (max-width: 900px) { .nav__player-name { display: none; } }
 
+/* ── Player switch dropdown modal ── */
+#playerSwitchModal {
+  position: fixed;
+  top: 56px;
+  right: 1rem;
+  z-index: 9990;
+  background: rgba(14,14,26,0.97);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 0.5rem;
+  min-width: 180px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: pswFadeIn 0.15s ease;
+}
+@keyframes pswFadeIn {
+  from { opacity:0; transform:translateY(-6px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0)    scale(1); }
+}
+.psw-title {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(232,232,248,0.35);
+  padding: 0.3rem 0.6rem 0.5rem;
+}
+.psw-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+}
+.psw-btn:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.1);
+}
+.psw-btn--active {
+  background: rgba(255,255,255,0.07);
+  border-color: color-mix(in srgb, var(--psw-c) 40%, transparent);
+}
+.psw-av {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif; font-size: 0.68rem; font-weight: 900;
+  color: #07070f; flex-shrink: 0;
+}
+.psw-name {
+  font-size: 0.82rem; font-weight: 600;
+  color: rgba(232,232,248,0.85);
+  flex: 1;
+}
+.psw-badge {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(232,232,248,0.4);
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  padding: 0.1rem 0.38rem;
+}
+
 .nav__year {
   margin-left: 0.75rem;
   font-family: 'Orbitron', sans-serif;
