@@ -139,6 +139,15 @@
       transform: scale(1.15);
     }
 
+    /* Fila filtros */
+    .blg-filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
     /* Empty */
     .blg-empty {
       grid-column: 1 / -1;
@@ -204,28 +213,31 @@
 
   <!-- Selector de jugador -->
   <div class="section blg-selector-section">
-    <div class="reg-player-filter" id="blgPlayerCards">
-      <label class="reg-pcard reg-pcard--david">
-        <input type="radio" name="blgPlayer" value="David">
-        <div class="reg-pcard__inner">
-          <div class="reg-pcard__avatar">D</div>
-          <div class="reg-pcard__name">David</div>
-        </div>
-      </label>
-      <label class="reg-pcard reg-pcard--javi">
-        <input type="radio" name="blgPlayer" value="Javi">
-        <div class="reg-pcard__inner">
-          <div class="reg-pcard__avatar">J</div>
-          <div class="reg-pcard__name">Javi</div>
-        </div>
-      </label>
-      <label class="reg-pcard reg-pcard--mery">
-        <input type="radio" name="blgPlayer" value="Mery">
-        <div class="reg-pcard__inner">
-          <div class="reg-pcard__avatar">M</div>
-          <div class="reg-pcard__name">Mery</div>
-        </div>
-      </label>
+    <div class="blg-filter-row">
+      <div class="reg-player-filter" id="blgPlayerCards" style="margin-bottom:0">
+        <label class="reg-pcard reg-pcard--david">
+          <input type="radio" name="blgPlayer" value="David">
+          <div class="reg-pcard__inner">
+            <div class="reg-pcard__avatar">D</div>
+            <div class="reg-pcard__name">David</div>
+          </div>
+        </label>
+        <label class="reg-pcard reg-pcard--javi">
+          <input type="radio" name="blgPlayer" value="Javi">
+          <div class="reg-pcard__inner">
+            <div class="reg-pcard__avatar">J</div>
+            <div class="reg-pcard__name">Javi</div>
+          </div>
+        </label>
+        <label class="reg-pcard reg-pcard--mery">
+          <input type="radio" name="blgPlayer" value="Mery">
+          <div class="reg-pcard__inner">
+            <div class="reg-pcard__avatar">M</div>
+            <div class="reg-pcard__name">Mery</div>
+          </div>
+        </label>
+      </div>
+      <button class="btn btn-secondary btn-sm btn--compact" id="blgSortBtn" title="Cambiar orden">⏱ A–Z</button>
     </div>
   </div>
 
@@ -247,6 +259,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
 <script src="firebase-config.js?v=20260519n" defer></script>
 <script src="main.js?v=20260522n"            defer></script>
-<script src="backlog.js?v=20260522k"         defer></script>
+<script src="backlog.js?v=20260525a"         defer></script>
 </body>
 </html>

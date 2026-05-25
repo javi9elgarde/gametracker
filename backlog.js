@@ -15,7 +15,13 @@
     { key: 'Mery',  name: 'Mariam Moreno', initial: 'M', color: 'var(--player-mery)',  hex: '#9b59ff' }
   ];
 
-  var state = { player: 'David' };
+  var SORT_STATES = [
+    { key: 'alpha',    label: '⏱ A–Z',         title: 'Ordenar: A–Z' },
+    { key: 'dur-asc',  label: '⏱ ↑ Duración',  title: 'Ordenar: menor duración primero' },
+    { key: 'dur-desc', label: '⏱ ↓ Duración',  title: 'Ordenar: mayor duración primero' }
+  ];
+
+  var state = { player: 'David', sort: 'alpha' };
   var _doneModal = { gameId: null, playerKey: null };
 
   function safe(fn, name) {
@@ -96,7 +102,19 @@
 
     var pendingGames = Biblioteca.getAll().filter(function(g) {
       return (g.pendientePor || []).indexOf(key) !== -1;
-    }).sort(function(a, b) { return a.titulo.localeCompare(b.titulo, 'es'); });
+    }).sort(function(a, b) {
+      if (state.sort === 'dur-asc') {
+        var da = (a.duracion === 999 ? Infinity : (parseFloat(a.duracion) || 0));
+        var db = (b.duracion === 999 ? Infinity : (parseFloat(b.duracion) || 0));
+        return da !== db ? da - db : a.titulo.localeCompare(b.titulo, 'es');
+      }
+      if (state.sort === 'dur-desc') {
+        var da2 = (a.duracion === 999 ? Infinity : (parseFloat(a.duracion) || 0));
+        var db2 = (b.duracion === 999 ? Infinity : (parseFloat(b.duracion) || 0));
+        return da2 !== db2 ? db2 - da2 : a.titulo.localeCompare(b.titulo, 'es');
+      }
+      return a.titulo.localeCompare(b.titulo, 'es');
+    });
 
     /* ── Player bar ── */
     var bar = document.getElementById('blgPlayerBar');
@@ -161,6 +179,29 @@
         '</div>' +
       '</div>';
     }).join('');
+  }
+
+  /* ── SORT BUTTON ─────────────────────────────────────────────── */
+  function updateSortBtn() {
+    var btn = document.getElementById('blgSortBtn');
+    if (!btn) return;
+    var cur = SORT_STATES.find(function(s) { return s.key === state.sort; }) || SORT_STATES[0];
+    btn.textContent = cur.label;
+    btn.title       = cur.title;
+    btn.classList.toggle('btn-primary',   state.sort !== 'alpha');
+    btn.classList.toggle('btn-secondary', state.sort === 'alpha');
+  }
+
+  function initSortBtn() {
+    var btn = document.getElementById('blgSortBtn');
+    if (!btn) return;
+    updateSortBtn();
+    btn.addEventListener('click', function() {
+      var idx = SORT_STATES.findIndex(function(s) { return s.key === state.sort; });
+      state.sort = SORT_STATES[(idx + 1) % SORT_STATES.length].key;
+      updateSortBtn();
+      render();
+    });
   }
 
   /* ── PLAYER TABS ─────────────────────────────────────────────── */
@@ -283,6 +324,7 @@
 
     injectDoneModal();
     initPlayerTabs();
+    initSortBtn();
     render();
   }
 
