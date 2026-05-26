@@ -17,6 +17,12 @@
   var PLATFORMS = ['PC','PS5','PS4','PS3','Xbox Series X','Xbox One','Xbox 360',
     'Nintendo Switch 2','Nintendo Switch','PS2'];
 
+  // Logos de sagas: clave = nombre de la saga (case-sensitive), valor = archivo de imagen
+  var SAGA_LOGOS = {
+    "Assassin's Creed": 'Assassins-Creed-Logo.png'
+    // Añadir más sagas aquí con su logo
+  };
+
   var state = { search:'', genero:'', plataforma:'', año:'', jugador:'All', editId: null, detailId: null, detailFace: 'front' };
   var selectedGeneros    = [];
   var selectedPlataformas = [];
@@ -92,6 +98,16 @@
   function getHypeValue() {
     var sel = document.getElementById('fHypeSelector');
     return sel ? parseInt(sel.dataset.val) || 0 : 0;
+  }
+
+  // Muestra u oculta el selector de Hype según si el juego ya ha salido
+  function updateHypeFormVisibility() {
+    var grp = document.getElementById('fHypeGroup');
+    if (!grp) return;
+    var today = new Date().toISOString().slice(0, 10);
+    var date  = getDateFromSelects();
+    var released = !!(date && date <= today);
+    grp.style.display = released ? 'none' : '';
   }
 
   /* ── SAGA SUGGESTIONS ───────────────────────────────────── */
@@ -211,10 +227,13 @@
     return '<div class="game-card' + (isReleasedNoDur ? ' game-card--nodur' : '') + '" data-id="' + game.id + '">' +
       '<div class="game-card__cover">' +
         coverContent + pendDots + proxRibbon + eaBadge +
-        '<div class="game-card__overlay">' +
-          '<button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();window.GT_Bib.openDetail(\'' + game.id + '\')">👁 Ver</button>' +
-          '<button class="btn btn-secondary btn-sm" onclick="event.stopPropagation();window.GT_Bib.openEdit(\'' + game.id + '\')">✏️ Editar</button>' +
-        '</div>' +
+        '<div class="game-card__overlay"></div>' +
+        (SAGA_LOGOS[game.saga]
+          ? '<div class="game-card__saga-overlay">' +
+              '<img src="' + Utils.escapeHtml(SAGA_LOGOS[game.saga]) + '" class="game-card__saga-logo" alt="' + Utils.escapeHtml(game.saga) + ' logo">' +
+              '<span class="game-card__saga-name-ovr">SAGA ' + Utils.escapeHtml((game.saga || '').toUpperCase()) + '</span>' +
+            '</div>'
+          : '') +
       '</div>' +
       '<div class="game-card__body">' +
         '<div class="game-card__title">' + Utils.escapeHtml(game.titulo) + '</div>' +
@@ -743,6 +762,7 @@
     document.getElementById('fEarlyAccess').checked = false;
     document.getElementById('fSaga').value = '';
     setHypeSelector(0);
+    updateHypeFormVisibility();
     document.getElementById('btnDelete').style.display = 'none';
     if (coverPreview) coverPreview.update('', '');
     populateDevSuggestions();
@@ -775,6 +795,7 @@
     document.getElementById('fEarlyAccess').checked   = !!game.earlyAccess;
     document.getElementById('fSaga').value = game.saga || '';
     setHypeSelector(parseInt(game.hype) || 0);
+    updateHypeFormVisibility();
     document.getElementById('btnDelete').style.display = 'inline-flex';
     populateDevSuggestions();
     populateSagaSuggestions();
@@ -1196,6 +1217,12 @@
     // Add buttons
     document.getElementById('btnAddGame').addEventListener('click', openAdd);
     document.getElementById('fabAdd').addEventListener('click', openAdd);
+
+    // Actualizar visibilidad del Hype al cambiar la fecha
+    ['fFechaDia','fFechaMes','fFechaAno'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', updateHypeFormVisibility);
+    });
 
     // Modal controls
     document.getElementById('modalClose').addEventListener('click', closeModal);
