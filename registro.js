@@ -206,7 +206,7 @@
       '</div>';
 
     var scoreHtml = (r.nota !== null && r.nota !== undefined && r.nota !== '')
-      ? '<div class="score-wrap" style="min-width:120px">' +
+      ? '<div class="score-wrap" style="min-width:90px">' +
           '<div class="score-bar"><div class="score-bar__fill" style="width:' + Utils.scoreWidth(r.nota) + ';background:' + sc + '"></div></div>' +
           '<span class="score-num" style="color:' + sc + '">' + Utils.formatScore(r.nota) + '</span>' +
         '</div>'

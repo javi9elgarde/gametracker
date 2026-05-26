@@ -767,19 +767,19 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   font-size: 0.875rem;
 }
 .table th {
-  padding: 0.85rem 1rem;
+  padding: 0.7rem 0.65rem;
   text-align: left;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--txt3);
   background: rgba(255,255,255,0.02);
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
 }
 .table td {
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 0.65rem;
   border-bottom: 1px solid rgba(255,255,255,0.04);
   vertical-align: middle;
 }
