@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — Hall of Fame</title>
-  <link rel="stylesheet" href="styles.css?v=20260525s">
+  <link rel="stylesheet" href="styles.css?v=20260527a">
 </head>
 <body>
 
@@ -52,6 +52,7 @@
 
   <!-- HOF HERO HEADER -->
   <div class="hof-page-hero">
+    <canvas id="hofParticles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0"></canvas>
     <div class="hof-page-hero__glow"></div>
     <div class="hof-page-hero__inner">
       <div class="hof-page-hero__crown">👑</div>
@@ -76,6 +77,14 @@
       <h3 class="rank-section-title">Clasificación Completa — <span id="gotyYear" style="color:#f5c842"></span></h3>
     </div>
     <div class="rank-list" id="rankingBody"></div>
+  </div>
+
+  <!-- VIDEOS FIN DE AÑO -->
+  <div class="section hof-videos-section" id="hofVideosSection">
+    <div class="rank-section-header" style="margin-bottom:1.25rem">
+      <h3 class="rank-section-title">🎬 Vídeos de Fin de Año — <span id="hofVideosYear" style="color:#f5c842"></span></h3>
+    </div>
+    <div class="hof-videos-grid" id="hofVideosGrid"></div>
   </div>
 
   <footer class="footer">
@@ -153,12 +162,81 @@
   color: #f5c842 !important;
 }
 .hof-year-select:focus { border-color: rgba(245,200,66,0.7) !important; }
+
+/* ── HOF VIDEOS SECTION ── */
+.hof-videos-section {
+  border-top: 1px solid rgba(245,200,66,0.15);
+}
+.hof-videos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 860px) {
+  .hof-videos-grid { grid-template-columns: 1fr; }
+}
+.hof-video-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.hof-video-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.hof-video-av {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif; font-size: 0.72rem; font-weight: 900;
+  color: #07070f; flex-shrink: 0;
+}
+.hof-video-card__name {
+  font-size: 0.9rem; font-weight: 700; color: rgba(232,232,248,0.9); flex: 1;
+}
+.hof-video-edit-btn {
+  background: none; border: none; cursor: pointer; font-size: 0.88rem;
+  opacity: 0.35; transition: opacity 0.15s; padding: 0.2rem 0.4rem;
+  border-radius: 4px; line-height: 1;
+}
+.hof-video-edit-btn:hover { opacity: 1; background: rgba(255,255,255,0.08); }
+.hof-video-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+.hof-video-embed iframe {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+}
+.hof-video-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 2.5rem 1rem; gap: 0.6rem; min-height: 168px; cursor: pointer;
+  transition: background 0.15s;
+}
+.hof-video-empty:hover { background: rgba(245,200,66,0.04); }
+.hof-video-empty__icon { font-size: 2.2rem; opacity: 0.25; }
+.hof-video-empty__text { font-size: 0.76rem; color: rgba(232,232,248,0.3); text-align: center; }
+.hof-video-empty__add {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(245,200,66,0.5); margin-top: 0.3rem;
+}
+.hof-video-placeholder {
+  display: flex; align-items: center; justify-content: center; min-height: 168px;
+}
+.hof-video-spin {
+  width: 22px; height: 22px;
+  border: 2px solid rgba(245,200,66,0.15);
+  border-top-color: rgba(245,200,66,0.7);
+  border-radius: 50%;
+  animation: hofSpinAnim 0.75s linear infinite;
+}
+@keyframes hofSpinAnim { to { transform: rotate(360deg); } }
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"       defer></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
 <script src="firebase-config.js?v=20260519n" defer></script>
 <script src="main.js?v=20260522n"            defer></script>
-<script src="index.js?v=20260522d"           defer></script>
+<script src="index.js?v=20260527a"           defer></script>
 </body>
 </html>

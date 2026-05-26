@@ -10,7 +10,7 @@
   var Registro   = window.GT.Registro;
   var Toast      = window.GT.Toast;
 
-  var state      = { player: 'All', year: 0, month: '', estado: '', editId: null, sortAsc: false };
+  var state      = { player: 'All', year: 0, month: '', estado: '', editId: null, sortAsc: true };
   var _quickModal = { entryId: null };
 
   function safe(fn, name) {
@@ -310,14 +310,19 @@
   /* ── YEAR OPTIONS ───────────────────────────────────────── */
   function buildYearOptions() {
     var sel = document.getElementById('filterYear');
+    if (!sel) return;
+    // Build year list from actual registro entries
+    var yearSet = {};
+    Registro.getAll().forEach(function(r) { if (r.año) yearSet[r.año] = true; });
+    var years = Object.keys(yearSet).map(Number).sort(function(a, b) { return b - a; });
+    if (!years.length) years = [new Date().getFullYear()];
     var currentYear = new Date().getFullYear();
-    var years = [];
-    for (var y = currentYear; y >= 2020; y--) years.push(y);
+    var defaultYear = years.indexOf(currentYear) !== -1 ? currentYear : years[0];
     sel.innerHTML = '<option value="">Todos</option>' +
       years.map(function(y) {
-        return '<option value="' + y + '"' + (y === currentYear ? ' selected' : '') + '>' + y + '</option>';
+        return '<option value="' + y + '"' + (y === defaultYear ? ' selected' : '') + '>' + y + '</option>';
       }).join('');
-    state.year = currentYear;
+    state.year = defaultYear;
     sel.addEventListener('change', function() { state.year = this.value ? parseInt(this.value) : 0; renderTable(); });
   }
 

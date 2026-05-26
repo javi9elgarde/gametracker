@@ -409,16 +409,108 @@
     });
   }
 
+  /* ── HOF GOLD PARTICLES ─────────────────────────────────── */
+  function initHofParticles() {
+    var canvas = document.getElementById('hofParticles');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var W, H;
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth  || canvas.parentElement.offsetWidth  || 900;
+      H = canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight || 260;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    var GOLDS = [
+      [245, 200,  66],   // bright gold
+      [255, 215,   0],   // gold
+      [255, 238,  88],   // light gold
+      [184, 134,  11],   // dark gold
+      [255, 255, 255],   // white sparkle
+      [255, 248, 140],   // pale gold
+    ];
+
+    function makePt(randomY) {
+      var c = GOLDS[Math.floor(Math.random() * GOLDS.length)];
+      return {
+        x:     Math.random() * (W || 900),
+        y:     randomY ? Math.random() * (H || 260) : (H || 260) + 6,
+        vx:    (Math.random() - 0.5) * 0.45,
+        vy:    -(Math.random() * 0.55 + 0.15),
+        sz:    Math.random() < 0.35 ? 1 : Math.random() < 0.7 ? 2 : 3,
+        alpha: 0,
+        maxA:  Math.random() * 0.65 + 0.2,
+        fadeIn: true,
+        r: c[0], g: c[1], b: c[2],
+        twinkle: Math.random() * Math.PI * 2,
+        twinkleSpeed: 0.028 + Math.random() * 0.05
+      };
+    }
+
+    var pts = Array.from({ length: 65 }, function() { return makePt(true); });
+
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        p.twinkle += p.twinkleSpeed;
+        var tw = 0.7 + Math.sin(p.twinkle) * 0.3;
+
+        if (p.fadeIn) {
+          p.alpha += 0.013;
+          if (p.alpha >= p.maxA) { p.alpha = p.maxA; p.fadeIn = false; }
+        } else {
+          p.alpha -= 0.005;
+          if (p.alpha <= 0) { pts[i] = makePt(false); continue; }
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx += (Math.random() - 0.5) * 0.012;
+        if (p.vx >  0.6) p.vx =  0.6;
+        if (p.vx < -0.6) p.vx = -0.6;
+
+        var a = (p.alpha * tw).toFixed(3);
+        ctx.fillStyle = 'rgba(' + p.r + ',' + p.g + ',' + p.b + ',' + a + ')';
+
+        if (p.sz <= 1) {
+          ctx.fillRect(Math.round(p.x), Math.round(p.y), 1, 1);
+        } else if (p.sz === 2) {
+          ctx.fillRect(Math.round(p.x), Math.round(p.y), 2, 2);
+        } else {
+          // diamond / sparkle shape
+          var px = Math.round(p.x), py = Math.round(p.y);
+          ctx.beginPath();
+          ctx.moveTo(px,     py - 2);
+          ctx.lineTo(px + 2, py    );
+          ctx.lineTo(px,     py + 2);
+          ctx.lineTo(px - 2, py    );
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    frame();
+  }
+
   /* ── RANKING ─────────────────────────────────────────────── */
   function buildYearOptions() {
     var sel = document.getElementById('rankingYear');
+    if (!sel) return;
+    // Use only years with actual registro entries
+    var yearSet = {};
+    Registro.getAll().forEach(function(r) { if (r.año) yearSet[r.año] = true; });
+    var years = Object.keys(yearSet).map(Number).sort(function(a, b) { return b - a; });
+    if (!years.length) years = [new Date().getFullYear()];
     var currentYear = new Date().getFullYear();
-    var years = [];
-    for (var y = currentYear; y >= 2020; y--) years.push(y);
-    sel.innerHTML = years.map(function(y){
-      return '<option value="' + y + '"' + (y===currentYear?' selected':'') + '>' + y + '</option>';
+    var defaultYear = years.indexOf(currentYear) !== -1 ? currentYear : years[0];
+    sel.innerHTML = years.map(function(y) {
+      return '<option value="' + y + '"' + (y === defaultYear ? ' selected' : '') + '>' + y + '</option>';
     }).join('');
-    sel.addEventListener('change', function(){ renderRanking(parseInt(this.value)); });
+    sel.addEventListener('change', function() { renderRanking(parseInt(this.value)); });
   }
 
   var HOF_MEDALS = [
@@ -461,6 +553,7 @@
       podiumEl.innerHTML = '<p class="text-muted" style="grid-column:1/-1;text-align:center;padding:2rem">Sin datos para ' + year + '. Añade entradas en el Registro.</p>';
       lowerEl.innerHTML  = '';
       bodyEl.innerHTML   = '<p class="text-muted" style="text-align:center;padding:2rem">Sin datos</p>';
+      safe(function() { renderVideosSection(year); }, 'renderVideosSection');
       return;
     }
 
@@ -492,6 +585,9 @@
       '</div>';
     }).join('');
 
+    // Videos section (only on halloffame page)
+    safe(function() { renderVideosSection(year); }, 'renderVideosSection');
+
     // Full ranking — no covers, just pos + title + score + votes
     bodyEl.innerHTML = ranking.map(function(item, i) {
       var game = Biblioteca.getById(item.juegoId);
@@ -512,9 +608,151 @@
     }).join('');
   }
 
+  /* ── HOF VIDEOS FIN DE AÑO ──────────────────────────────── */
+  var HOF_PLAYERS = [
+    { key: 'david', name: 'David', color: '#3b82f6', rgb: '59,130,246' },
+    { key: 'javi',  name: 'Javi',  color: '#ec4899', rgb: '236,72,153' },
+    { key: 'mery',  name: 'Mery',  color: '#a855f7', rgb: '168,85,247' }
+  ];
+
+  function ytEmbedUrl(url) {
+    if (!url) return '';
+    var m;
+    m = url.match(/youtu\.be\/([^?&#/]+)/);
+    if (m) return 'https://www.youtube.com/embed/' + m[1];
+    m = url.match(/[?&]v=([^?&#]+)/);
+    if (m) return 'https://www.youtube.com/embed/' + m[1];
+    m = url.match(/youtube\.com\/embed\/([^?&#/]+)/);
+    if (m) return 'https://www.youtube.com/embed/' + m[1];
+    return '';
+  }
+
+  function renderVideoCard(player, embedUrl, year) {
+    var bc = 'rgba(' + player.rgb + ',0.22)';
+    var header =
+      '<div class="hof-video-card__header">' +
+        '<div class="hof-video-av" style="background:' + player.color + '">' + player.name.charAt(0) + '</div>' +
+        '<span class="hof-video-card__name">' + player.name + '</span>' +
+        '<button class="hof-video-edit-btn" id="hofVEdit_' + player.key + '_' + year + '" title="Cambiar vídeo">✏️</button>' +
+      '</div>';
+    var body = embedUrl
+      ? '<div class="hof-video-embed"><iframe src="' + embedUrl +
+          '?rel=0" frameborder="0" allowfullscreen loading="lazy"' +
+          ' allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>'
+      : '<div class="hof-video-empty" id="hofVEmpty_' + player.key + '_' + year + '">' +
+          '<span class="hof-video-empty__icon">🎬</span>' +
+          '<span class="hof-video-empty__text">Sin vídeo para ' + year + '</span>' +
+          '<span class="hof-video-empty__add">+ Añadir enlace</span>' +
+        '</div>';
+    return '<div class="hof-video-card" style="border-color:' + bc + '">' + header + body + '</div>';
+  }
+
+  function renderVideosSection(year) {
+    var gridEl  = document.getElementById('hofVideosGrid');
+    var yearEl  = document.getElementById('hofVideosYear');
+    if (!gridEl) return;
+    if (yearEl) yearEl.textContent = year;
+
+    // Show loading spinners
+    gridEl.innerHTML = HOF_PLAYERS.map(function(p) {
+      var bc = 'rgba(' + p.rgb + ',0.22)';
+      return '<div class="hof-video-card" style="border-color:' + bc + '">' +
+        '<div class="hof-video-card__header">' +
+          '<div class="hof-video-av" style="background:' + p.color + '">' + p.name.charAt(0) + '</div>' +
+          '<span class="hof-video-card__name">' + p.name + '</span>' +
+        '</div>' +
+        '<div class="hof-video-placeholder"><div class="hof-video-spin"></div></div>' +
+      '</div>';
+    }).join('');
+
+    window.GT.db.collection('resumenVideos').doc(String(year)).get().then(function(doc) {
+      var data = doc.exists ? doc.data() : {};
+      gridEl.innerHTML = HOF_PLAYERS.map(function(p) {
+        return renderVideoCard(p, ytEmbedUrl(data[p.key] || ''), year);
+      }).join('');
+      // Wire up edit buttons and empty-area clicks
+      HOF_PLAYERS.forEach(function(p) {
+        var editBtn  = document.getElementById('hofVEdit_'  + p.key + '_' + year);
+        var emptyDiv = document.getElementById('hofVEmpty_' + p.key + '_' + year);
+        var currentUrl = data[p.key] || '';
+        if (editBtn)  editBtn .addEventListener('click', function(e) { e.stopPropagation(); openVideoModal(p, year, currentUrl); });
+        if (emptyDiv) emptyDiv.addEventListener('click', function()  { openVideoModal(p, year, ''); });
+      });
+    }).catch(function(err) {
+      console.warn('renderVideosSection:', err);
+      gridEl.innerHTML = HOF_PLAYERS.map(function(p) {
+        return renderVideoCard(p, '', year);
+      }).join('');
+      HOF_PLAYERS.forEach(function(p) {
+        var editBtn  = document.getElementById('hofVEdit_'  + p.key + '_' + year);
+        var emptyDiv = document.getElementById('hofVEmpty_' + p.key + '_' + year);
+        if (editBtn)  editBtn .addEventListener('click', function(e) { e.stopPropagation(); openVideoModal(p, year, ''); });
+        if (emptyDiv) emptyDiv.addEventListener('click', function()  { openVideoModal(p, year, ''); });
+      });
+    });
+  }
+
+  function openVideoModal(player, year, currentUrl) {
+    var existing = document.getElementById('hofVideoModal');
+    if (existing) existing.remove();
+
+    var modal = document.createElement('div');
+    modal.id = 'hofVideoModal';
+    modal.className = 'modal-overlay open';
+    modal.innerHTML =
+      '<div class="modal" style="max-width:480px">' +
+        '<div class="modal__header">' +
+          '<h2 class="modal__title">🎬 Vídeo de ' + player.name + ' — ' + year + '</h2>' +
+          '<button class="modal__close" id="hofVMClose">✕</button>' +
+        '</div>' +
+        '<div class="modal__body">' +
+          '<div class="form-group">' +
+            '<label class="form-label">URL de YouTube</label>' +
+            '<input type="text" class="form-input" id="hofVMUrl"' +
+              ' placeholder="https://www.youtube.com/watch?v=..."' +
+              ' value="' + (currentUrl || '') + '">' +
+            '<p style="font-size:0.75rem;color:var(--txt3);margin-top:0.4rem">Acepta youtube.com/watch?v=..., youtu.be/... y enlaces de YouTube Shorts.</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="modal__footer">' +
+          (currentUrl
+            ? '<button class="btn btn-danger btn-sm" id="hofVMDelete" style="margin-right:auto">Eliminar</button>'
+            : '') +
+          '<button class="btn btn-secondary" id="hofVMCancel">Cancelar</button>' +
+          '<button class="btn btn-primary" id="hofVMSave">Guardar</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    function closeVModal() { modal.remove(); }
+    document.getElementById('hofVMClose') .addEventListener('click', closeVModal);
+    document.getElementById('hofVMCancel').addEventListener('click', closeVModal);
+    modal.addEventListener('click', function(e) { if (e.target === modal) closeVModal(); });
+
+    var delBtn = document.getElementById('hofVMDelete');
+    if (delBtn) delBtn.addEventListener('click', function() {
+      var update = {}; update[player.key] = '';
+      window.GT.db.collection('resumenVideos').doc(String(year))
+        .set(update, { merge: true })
+        .then(function() { closeVModal(); renderVideosSection(year); })
+        .catch(function(e) { console.warn('delete video:', e); });
+    });
+
+    document.getElementById('hofVMSave').addEventListener('click', function() {
+      var url = document.getElementById('hofVMUrl').value.trim();
+      var update = {}; update[player.key] = url;
+      window.GT.db.collection('resumenVideos').doc(String(year))
+        .set(update, { merge: true })
+        .then(function() { closeVModal(); renderVideosSection(year); })
+        .catch(function(e) { console.warn('save video:', e); });
+    });
+  }
+
   function initRanking() {
     buildYearOptions();
-    renderRanking(new Date().getFullYear());
+    var sel = document.getElementById('rankingYear');
+    var defaultYear = sel ? parseInt(sel.value) : new Date().getFullYear();
+    renderRanking(defaultYear);
   }
 
   /* ── CUENTAS ATRÁS ───────────────────────────────────────── */
@@ -582,6 +820,7 @@
     safe(initCountdowns, 'initCountdowns');
     window.GT.onDataReady(function () {
       safe(initHeroCanvas,        'initHeroCanvas');
+      safe(initHofParticles,      'initHofParticles');
       safe(initHeroParallax,      'initHeroParallax');
       safe(initHeroPlayerStats,   'initHeroPlayerStats');
       safe(initStats,             'initStats');
