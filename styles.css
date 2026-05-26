@@ -3912,6 +3912,65 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 .detail-trailer-empty__text { font-size: 0.78rem; color: var(--txt3); }
 .detail-trailer-empty__add { font-size: 0.72rem; font-weight: 700; color: rgba(79,172,254,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
 
+/* ── FLIP CARD BACK FACE — new layout sections ── */
+.gal-back-section {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.gal-back-section:last-child { border-bottom: none; padding-bottom: 1.25rem; }
+.gal-back-section:first-child { padding-top: 1.25rem; }
+
+.gal-section-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+.gal-section-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--txt2);
+}
+.gal-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--txt3);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.gal-edit-btn:hover { border-color: rgba(79,172,254,0.5); color: #4facfe; background: rgba(79,172,254,0.08); }
+
+/* 16:9 responsive trailer wrapper */
+.gal-trailer-wrap {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0d0d1a;
+}
+.gal-trailer-ratio {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+.gal-trailer-ratio iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
 /* ── HYPE FIRES ── */
 .game-card__hype {
   position: absolute;

@@ -970,64 +970,79 @@
     var trailer = game.trailer || '';
     var galFilter = 'All';
 
+    function pColor(p) {
+      return p === 'David' ? 'var(--player-david)' : p === 'Javi' ? 'var(--player-javi)' : p === 'Mery' ? 'var(--player-mery)' : '#888';
+    }
+
     function renderGallery() {
       var filtered = galFilter === 'All' ? galeria : galeria.filter(function(img){ return img.jugador === galFilter; });
       var grid = document.getElementById('detailGalleryGrid');
       if (!grid) return;
       if (!filtered.length) {
-        grid.innerHTML = '<div class="gal-empty"><span class="gal-empty__icon">🖼️</span><span>Sin imágenes' + (galFilter !== 'All' ? ' de ' + galFilter : '') + '. Añade la URL de una imagen abajo.</span></div>';
+        grid.innerHTML =
+          '<div class="gal-empty">' +
+            '<span class="gal-empty__icon">🖼️</span>' +
+            '<span>Sin capturas' + (galFilter !== 'All' ? ' de ' + galFilter : '') + '</span>' +
+          '</div>';
         return;
       }
-      grid.innerHTML = filtered.map(function(img, idx) {
+      grid.innerHTML = filtered.map(function(img) {
         var realIdx = galeria.indexOf(img);
-        var pColor = img.jugador === 'David' ? 'var(--player-david)' : img.jugador === 'Javi' ? 'var(--player-javi)' : img.jugador === 'Mery' ? 'var(--player-mery)' : '#888';
-        return '<div class="gal-item">' +
-          '<img src="' + Utils.escapeHtml(img.url) + '" loading="lazy" alt="" onerror="this.parentElement.style.display=\'none\'">' +
-          '<button class="gal-item__del" onclick="window.GT_Bib.removeGalleryImg(' + realIdx + ')" title="Eliminar">✕</button>' +
-          (img.jugador ? '<span class="gal-item__player" style="color:' + pColor + '">' + Utils.escapeHtml(img.jugador) + '</span>' : '') +
+        return '<div class="gal-item" onclick="window.GT_Bib.viewGalleryImg(\'' + Utils.escapeHtml(img.url) + '\')">' +
+          '<img src="' + Utils.escapeHtml(img.url) + '" loading="lazy" alt="" onerror="this.closest(\'.gal-item\').style.display=\'none\'">' +
+          '<button class="gal-item__del" onclick="event.stopPropagation();window.GT_Bib.removeGalleryImg(' + realIdx + ')" title="Eliminar">✕</button>' +
+          (img.jugador ? '<span class="gal-item__player" style="color:' + pColor(img.jugador) + '">' + Utils.escapeHtml(img.jugador) + '</span>' : '') +
         '</div>';
       }).join('');
     }
 
     var embedUrl = ytEmbedUrl(trailer);
-    var trailerHtml = embedUrl
-      ? '<div class="detail-trailer-embed"><iframe src="' + embedUrl + '?rel=0" allowfullscreen loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>'
-      : '<div class="detail-trailer-empty" id="detailTrailerEmpty"><span class="detail-trailer-empty__icon">▶️</span><span class="detail-trailer-empty__text">Sin trailer</span><span class="detail-trailer-empty__add">+ Añadir enlace de YouTube</span></div>';
 
-    var html =
-      '<div class="detail-gallery-header">' +
-        '<span class="detail-gallery-title">🖼️ Galería de imágenes</span>' +
-        '<div class="detail-gallery-filter" id="detailGalFilter">' +
-          ['All','David','Javi','Mery'].map(function(p) {
-            return '<button class="gal-filter-btn' + (p === 'All' ? ' active' : '') + '" data-gplayer="' + p + '">' + (p === 'All' ? 'Todos' : p) + '</button>';
-          }).join('') +
+    /* ── Trailer block ─────────────────────────────────────── */
+    var trailerBlock =
+      '<div class="gal-back-section">' +
+        '<div class="gal-section-hdr">' +
+          '<span class="gal-section-title">▶️ Trailer</span>' +
+          '<button class="gal-edit-btn" id="detailTrailerEditBtn">✏️ Editar</button>' +
         '</div>' +
-      '</div>' +
-      '<div class="detail-gallery-grid" id="detailGalleryGrid"></div>' +
-
-      '<div class="gal-add-row">' +
-        '<input type="url" class="form-input" id="galUrlInput" placeholder="URL de imagen (https://...)..." style="flex:2">' +
-        '<select class="form-select form-select--sm" id="galPlayerInput" style="max-width:100px">' +
-          '<option value="">Jugador</option>' +
-          '<option value="David">David</option>' +
-          '<option value="Javi">Javi</option>' +
-          '<option value="Mery">Mery</option>' +
-        '</select>' +
-        '<button class="btn btn-primary btn-sm" id="galAddBtn">+ Añadir</button>' +
-      '</div>' +
-
-      '<div class="detail-trailer-section">' +
-        '<div class="detail-trailer-title">' +
-          '▶️ Trailer / Vídeo' +
-          '<button class="btn btn-ghost btn-sm" id="detailTrailerEditBtn" style="font-size:0.78rem">✏️ Editar</button>' +
-        '</div>' +
-        trailerHtml +
+        (embedUrl
+          ? '<div class="gal-trailer-wrap"><div class="gal-trailer-ratio"><iframe src="' + embedUrl + '?rel=0" allowfullscreen loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div></div>'
+          : '<div class="detail-trailer-empty" id="detailTrailerEmpty">' +
+              '<span class="detail-trailer-empty__icon">▶️</span>' +
+              '<span class="detail-trailer-empty__text">Sin trailer aún</span>' +
+              '<span class="detail-trailer-empty__add">+ Añadir enlace de YouTube</span>' +
+            '</div>') +
       '</div>';
 
-    document.getElementById('detailBody').innerHTML = html;
+    /* ── Gallery block ─────────────────────────────────────── */
+    var galleryBlock =
+      '<div class="gal-back-section">' +
+        '<div class="gal-section-hdr">' +
+          '<span class="gal-section-title">🖼️ Capturas</span>' +
+          '<div class="detail-gallery-filter" id="detailGalFilter">' +
+            ['All','David','Javi','Mery'].map(function(p) {
+              return '<button class="gal-filter-btn' + (p === 'All' ? ' active' : '') + '" data-gplayer="' + p + '">' +
+                (p === 'All' ? 'Todos' : p) + '</button>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="detail-gallery-grid" id="detailGalleryGrid"></div>' +
+        '<div class="gal-add-row">' +
+          '<input type="url" class="form-input" id="galUrlInput" placeholder="URL de captura (https://...)...">' +
+          '<select class="form-select form-select--sm" id="galPlayerInput">' +
+            '<option value="">Jugador</option>' +
+            '<option value="David">David</option>' +
+            '<option value="Javi">Javi</option>' +
+            '<option value="Mery">Mery</option>' +
+          '</select>' +
+          '<button class="btn btn-primary btn-sm" id="galAddBtn">＋ Añadir</button>' +
+        '</div>' +
+      '</div>';
+
+    document.getElementById('detailBody').innerHTML = trailerBlock + galleryBlock;
     renderGallery();
 
-    // Filter buttons
+    /* ── Events ────────────────────────────────────────────── */
     document.querySelectorAll('#detailGalFilter .gal-filter-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
         document.querySelectorAll('#detailGalFilter .gal-filter-btn').forEach(function(b){ b.classList.remove('active'); });
@@ -1037,7 +1052,6 @@
       });
     });
 
-    // Add image
     document.getElementById('galAddBtn').addEventListener('click', function() {
       var url    = (document.getElementById('galUrlInput').value || '').trim();
       var player = document.getElementById('galPlayerInput').value;
@@ -1048,10 +1062,9 @@
       galeria = newGaleria;
       document.getElementById('galUrlInput').value = '';
       renderGallery();
-      Toast.show('Imagen añadida ✓');
+      Toast.show('Captura añadida ✓');
     });
 
-    // Trailer edit
     document.getElementById('detailTrailerEditBtn').addEventListener('click', function() { openTrailerModal(id, trailer); });
     var trailerEmptyEl = document.getElementById('detailTrailerEmpty');
     if (trailerEmptyEl) trailerEmptyEl.addEventListener('click', function() { openTrailerModal(id, trailer); });
@@ -1294,6 +1307,19 @@
       Biblioteca.update(id, { galeria: newGaleria });
       openDetailBack(id);
       Toast.show('Imagen eliminada');
+    },
+    viewGalleryImg: function(url) {
+      if (!url) return;
+      // Open a simple lightbox overlay
+      var existing = document.getElementById('galLightbox');
+      if (existing) existing.remove();
+      var lb = document.createElement('div');
+      lb.id = 'galLightbox';
+      lb.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:1rem;backdrop-filter:blur(6px)';
+      lb.innerHTML = '<img src="' + url.replace(/"/g,'&quot;') + '" style="max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 0 60px rgba(0,0,0,0.8);object-fit:contain" alt="">';
+      lb.addEventListener('click', function() { lb.remove(); });
+      document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', esc); } });
+      document.body.appendChild(lb);
     }
   };
 
