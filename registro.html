@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — Registro</title>
-  <link rel="stylesheet" href="styles.css?v=20260527h">
+  <link rel="stylesheet" href="styles.css?v=20260527i">
 </head>
 <body>
 
@@ -133,7 +133,14 @@
     <div class="modal__body">
       <input type="hidden" id="entryEditId">
       <div class="form-grid">
-        <div class="form-group" style="grid-column:1/-1"><label class="form-label">Videojuego *</label><select class="form-select" id="fJuego"></select></div>
+        <div class="form-group" style="grid-column:1/-1">
+          <label class="form-label">Videojuego *</label>
+          <div style="position:relative;margin-bottom:0.35rem">
+            <svg style="position:absolute;left:0.65rem;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" class="form-input" id="fJuegoSearch" placeholder="Buscar juego..." autocomplete="off" style="padding-left:2rem">
+          </div>
+          <select class="form-select" id="fJuego"></select>
+        </div>
         <div class="form-group"><label class="form-label">Jugador *</label>
           <select class="form-select" id="fJugador"><option value="David">David</option><option value="Javi">Javi</option><option value="Mery">Mery</option></select></div>
         <div class="form-group"><label class="form-label">Estado *</label>
@@ -162,6 +169,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
 <script src="firebase-config.js?v=20260519b" defer></script>
 <script src="main.js?v=20260522n"            defer></script>
-<script src="registro.js?v=20260527a"        defer></script>
+<script src="registro.js?v=20260527i"        defer></script>
 </body>
 </html>

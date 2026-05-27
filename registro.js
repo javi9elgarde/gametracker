@@ -334,6 +334,36 @@
       games.map(function(g) {
         return '<option value="' + g.id + '"' + (g.id === selectedId ? ' selected' : '') + '>' + Utils.escapeHtml(g.titulo) + '</option>';
       }).join('');
+    // Sincronizar buscador: si hay un juego seleccionado, rellenar el input
+    var search = document.getElementById('fJuegoSearch');
+    if (search) {
+      var selOpt = sel.options[sel.selectedIndex];
+      search.value = (selectedId && selOpt && selOpt.value) ? selOpt.text : '';
+    }
+  }
+
+  /* ── GAME SEARCH FILTER ──────────────────────────────────── */
+  function initGameSearch() {
+    var search = document.getElementById('fJuegoSearch');
+    var sel    = document.getElementById('fJuego');
+    if (!search || !sel) return;
+    search.addEventListener('input', function() {
+      var q = this.value.toLowerCase().trim();
+      var opts = sel.querySelectorAll('option');
+      opts.forEach(function(opt) {
+        if (!opt.value) { opt.hidden = false; return; } // mantener placeholder
+        opt.hidden = q.length > 0 && opt.text.toLowerCase().indexOf(q) === -1;
+      });
+      // Si solo queda un resultado visible, seleccionarlo automáticamente
+      var visible = Array.from(opts).filter(function(o) { return o.value && !o.hidden; });
+      if (visible.length === 1) sel.value = visible[0].value;
+      else if (q === '') sel.value = '';
+    });
+    // Al elegir del select, actualizar el input
+    sel.addEventListener('change', function() {
+      var opt = this.options[this.selectedIndex];
+      if (opt && opt.value) search.value = opt.text;
+    });
   }
 
   /* ── MODAL OPEN ─────────────────────────────────────────── */
@@ -343,6 +373,8 @@
     document.getElementById('entryModalTitle').textContent = 'Nueva Entrada';
     document.getElementById('entryEditId').value = '';
     populateGameSelect('');
+    var srch = document.getElementById('fJuegoSearch');
+    if (srch) { srch.value = ''; /* limpiar buscador */ }
     document.getElementById('fJugador').value = state.player !== 'All' ? state.player : 'David';
     document.getElementById('fEstado').value = 'Terminado';
     document.getElementById('fNota').value = '';
@@ -461,6 +493,8 @@
     });
 
     injectQuickModal();
+
+    initGameSearch();
 
     document.getElementById('btnAddEntry').addEventListener('click', openAdd);
     document.getElementById('fabAdd').addEventListener('click', openAdd);
