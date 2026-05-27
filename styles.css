@@ -4196,12 +4196,8 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   bottom: 26px !important;
 }
 
-/* ── PRÓXIMAMENTE sin fecha ── */
-.game-card__prox--nofecha {
-  background: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 30%, #60a5fa 50%, #3b82f6 70%, #1d4ed8 100%) !important;
-  background-size: 200% auto !important;
-  animation: hofTitleShimmer 3s linear infinite !important;
-}
+/* Sin fecha: mismo dorado que los de fecha */
+.game-card__prox--nofecha { }
 
 /* Tabs selector de bingo */
 .bingo-tabs {
