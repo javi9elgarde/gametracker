@@ -383,11 +383,16 @@
         .split(/\s+/).slice(0, 2).join(' ');
     }
     games.sort(function(a, b) {
+      // Si ambos juegos son de la misma saga → ordenar siempre por fecha
+      if (a.saga && b.saga && a.saga.trim() === b.saga.trim()) {
+        var da = a.fechaLanzamiento || '9999-12-31';
+        var db = b.fechaLanzamiento || '9999-12-31';
+        return da.localeCompare(db);
+      }
       var pa = sagaPrefix(a.titulo);
       var pb = sagaPrefix(b.titulo);
       var cmp = pa.localeCompare(pb, 'es', { sensitivity: 'base' });
       if (cmp !== 0) return cmp;
-      // Misma saga → ordenar por fecha de lanzamiento
       var da = a.fechaLanzamiento || '9999-12-31';
       var db = b.fechaLanzamiento || '9999-12-31';
       return da.localeCompare(db);
