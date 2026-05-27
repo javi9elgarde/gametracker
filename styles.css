@@ -2476,6 +2476,21 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   font-weight: 900;
   white-space: nowrap;
 }
+/* Hype fires en la fila meta (juegos no lanzados, reemplaza la nota) */
+.game-card__hype-meta {
+  display: inline-flex;
+  gap: 0;
+  align-items: center;
+  line-height: 1;
+}
+.game-card__hype-meta span {
+  font-size: 0.72rem;
+  line-height: 1;
+}
+.game-card__hype-meta span.dim {
+  opacity: 0.15;
+  filter: grayscale(1);
+}
 
 /* ── PENDIENTE PARA — player cards ── */
 .pend-cards {

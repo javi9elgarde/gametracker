@@ -221,7 +221,17 @@
     var proxRibbon = showProx ? '<div class="' + proxClass + '">PRÓXIMAMENTE</div>' : '';
     var eaBadge    = game.earlyAccess ? '<div class="game-card__ea' + (showProx ? ' game-card__ea--above' : '') + '">⚡ EARLY ACCESS</div>' : '';
 
-    // Hype fires: solo en el modal de detalle, no en la grid de la biblioteca
+    // Derecha del meta row: nota si está disponible, fueguitos de hype si no ha salido
+    var hypeVal = showProx ? (parseInt(game.hype) || 0) : 0;
+    var metaRight = notaMedia !== null
+      ? '<span class="game-card__score-inline" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span>'
+      : (hypeVal > 0
+          ? (function() {
+              var f = '';
+              for (var fi = 1; fi <= 5; fi++) f += '<span' + (fi > hypeVal ? ' class="dim"' : '') + '>🔥</span>';
+              return '<span class="game-card__hype-meta">' + f + '</span>';
+            }())
+          : '');
 
     var metaLeft = hasDur
       ? (durStr ? '<span class="game-card__dur">' + durStr + '</span>' : '<span></span>')
@@ -251,7 +261,7 @@
         (game.desarrollador ? '<div class="game-card__dev">' + Utils.escapeHtml(game.desarrollador) + '</div>' : '') +
         '<div class="game-card__meta">' +
           metaLeft +
-          (notaMedia !== null ? '<span class="game-card__score-inline" style="color:' + sc + '">' + Utils.formatScore(notaMedia) + '</span>' : '') +
+          metaRight +
         '</div>' +
       '</div>' +
     '</div>';
