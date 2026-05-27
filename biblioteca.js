@@ -241,8 +241,8 @@
               ? '<span class="game-card__prox-date">📅 ' + fmtDate(game.fechaLanzamiento) + '</span>'
               : '<span class="game-card__no-date">Sin fecha</span>'));
 
-    // Saga label in body
-    var sagaHtml = game.saga ? '<div class="game-card__saga">◈ ' + Utils.escapeHtml(game.saga) + '</div>' : '';
+    // Saga: si tiene logo en el overlay no se muestra el texto, si no tiene logo sí se muestra
+    var sagaHtml = (game.saga && !getSagaLogo(game.saga)) ? '<div class="game-card__saga">◈ ' + Utils.escapeHtml(game.saga) + '</div>' : '';
 
     return '<div class="game-card' + (isReleasedNoDur ? ' game-card--nodur' : '') + '" data-id="' + game.id + '">' +
       '<div class="game-card__cover">' +
