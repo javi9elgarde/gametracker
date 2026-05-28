@@ -526,11 +526,14 @@
     var sc     = Utils.scoreColor(item.notaMedia);
     var objPos = Utils.escapeHtml(game.portadaPos || 'center top');
     return '<div class="hof-card ' + med.cls + '" onclick="window.GT.GameDetailModal.open(\'' + game.id + '\')" title="Ver ficha">' +
+      (rankIdx === 0
+        ? '<div class="hof-champion-corona-wrap"><img src="corona.png" class="hof-champion-corona" alt=""></div>'
+        : '') +
       '<div class="hof-card__cover">' +
         (game.portadaUrl
           ? '<img src="' + Utils.escapeHtml(game.portadaUrl) + '" alt="" loading="lazy" style="object-position:' + objPos + '" onerror="this.style.display=\'none\'">'
           : '<div class="hof-card__ph">' + Utils.escapeHtml(game.titulo.charAt(0)) + '</div>') +
-        (rankIdx === 0 ? '<div class="hof-champion-badge">👑 CAMPEÓN ' + year + '</div>' : '') +
+        (rankIdx === 0 ? '<div class="hof-champion-badge">🏆 CAMPEÓN ' + year + '</div>' : '') +
       '</div>' +
       '<div class="hof-card__body">' +
         '<div class="hof-card__body-inner">' +

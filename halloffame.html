@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — G.O.T.Y</title>
-  <link rel="stylesheet" href="styles.css?v=20260529a">
+  <link rel="stylesheet" href="styles.css?v=20260529b">
 </head>
 <body>
 
@@ -56,31 +56,15 @@
     <div class="hof-page-hero__glow"></div>
     <div class="hof-hero-beams"></div>
     <div class="hof-page-hero__inner">
-      <!-- Corona flotante centrada arriba -->
-      <div class="hof-corona-aura">
-        <img src="corona.png" class="hof-corona-img" alt="Corona Refugio 111">
+      <!-- Trofeo GOTY centrado -->
+      <div class="hof-trophy-center">
+        <div class="hof-trophy-aura"></div>
+        <img src="GOTY.png" class="hof-goty-trophy" alt="">
       </div>
-      <!-- Fila 3 columnas: trofeo | título | trofeo espejado -->
-      <div class="hof-hero-row">
-        <!-- Trofeo izquierdo (normal) -->
-        <div class="hof-trophy-side">
-          <div class="hof-trophy-aura"></div>
-          <img src="GOTY.png" class="hof-goty-trophy" alt="">
-        </div>
-        <!-- Centro: título, subtítulo, año -->
-        <div class="hof-hero-center">
-          <h1 class="hof-page-hero__title">G.O.T.Y</h1>
-          <p class="hof-page-hero__sub">Los mejores juegos del Refugio 111</p>
-          <div class="hof-page-hero__year-wrap">
-            <label style="font-size:0.78rem;color:rgba(245,200,66,0.6);letter-spacing:0.06em">AÑO</label>
-            <select class="form-select hof-year-select" id="rankingYear" style="width:100px"></select>
-          </div>
-        </div>
-        <!-- Trofeo derecho (espejado) -->
-        <div class="hof-trophy-side hof-trophy-side--right">
-          <div class="hof-trophy-aura"></div>
-          <img src="GOTY.png" class="hof-goty-trophy hof-goty-trophy--mirror" alt="">
-        </div>
+      <p class="hof-page-hero__sub">Los mejores juegos del Refugio 111</p>
+      <div class="hof-page-hero__year-wrap">
+        <label style="font-size:0.78rem;color:rgba(245,200,66,0.6);letter-spacing:0.06em">AÑO</label>
+        <select class="form-select hof-year-select" id="rankingYear" style="width:100px"></select>
       </div>
     </div>
   </div>
@@ -127,14 +111,12 @@
   overflow: hidden;
 }
 
-/* Deep radial glow — top halo + center + two amber trophy zones */
+/* Deep radial glow */
 .hof-page-hero__glow {
   position: absolute; inset: 0; pointer-events: none;
   background:
     radial-gradient(ellipse 80% 55% at 50% 0%,   rgba(245,200,66,0.18) 0%, transparent 65%),
-    radial-gradient(ellipse 55% 75% at 50% 48%,  rgba(245,200,66,0.10) 0%, transparent 68%),
-    radial-gradient(ellipse 26% 52% at 13% 62%,  rgba(200,147,10,0.22) 0%, transparent 72%),
-    radial-gradient(ellipse 26% 52% at 87% 62%,  rgba(200,147,10,0.22) 0%, transparent 72%);
+    radial-gradient(ellipse 55% 75% at 50% 55%,  rgba(245,200,66,0.12) 0%, transparent 68%);
 }
 
 /* ── SWEEPING GOLDEN BEAMS ── */
@@ -168,15 +150,10 @@
 /* ── INNER CONTENT ── */
 .hof-page-hero__inner {
   position: relative; z-index: 1;
-  max-width: 920px; margin: 0 auto;
+  max-width: 640px; margin: 0 auto; text-align: center;
 }
 
-/* ── CORONA FLOTANTE ── */
-.hof-corona-aura { display: inline-block; margin-bottom: 0.2rem; }
-.hof-corona-img {
-  width: 80px; height: auto;
-  animation: hofCoronaFloat 3.4s ease-in-out infinite;
-}
+/* ── CORONA FLOTANTE (sobre el campeón en el podio) ── */
 @keyframes hofCoronaFloat {
   0%,100% {
     transform: translateY(0) rotate(-3deg);
@@ -185,41 +162,47 @@
             drop-shadow(0 4px 12px rgba(0,0,0,0.85));
   }
   50% {
-    transform: translateY(-13px) rotate(3deg);
+    transform: translateY(-10px) rotate(3deg);
     filter: drop-shadow(0 0 24px rgba(0,235,255,1))
             drop-shadow(0 0 55px rgba(0,220,255,0.65))
             drop-shadow(0 4px 12px rgba(0,0,0,0.85));
   }
 }
 
-/* ── HERO ROW — 3-column layout ── */
-.hof-hero-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  margin-top: 0.2rem;
+/* Podium: overflow visible para que la corona sobresalga arriba */
+.hof-podium { overflow: visible !important; }
+
+/* Corona sobre la carta del campeón */
+.hof-champion-corona-wrap {
+  position: absolute;
+  top: -64px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 20;
 }
-.hof-hero-center {
-  flex: 0 1 360px;
-  min-width: 0;
-  text-align: center;
+.hof-champion-corona {
+  width: 72px; height: auto;
+  animation: hofCoronaFloat 3.4s ease-in-out infinite;
 }
-.hof-trophy-side {
+/* Permitir que la corona sobresalga del card */
+.hof-card.hof-gold {
+  position: relative !important;
+  overflow: visible !important;
+  margin-top: 68px !important;
+}
+
+/* ── TROPHY CENTRADO EN HERO ── */
+.hof-trophy-center {
   position: relative;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 180px;
+  display: inline-block;
+  margin-bottom: 0.9rem;
 }
-/* Mirror the right-side trophy */
-.hof-trophy-side--right { transform: scaleX(-1); }
 
 /* Aura glow behind trophy */
 .hof-trophy-aura {
   position: absolute;
-  inset: -28px -36px;
+  inset: -32px -40px;
   border-radius: 50%;
   background: radial-gradient(ellipse 72% 68% at 50% 54%,
     rgba(245,200,66,0.28) 0%,
@@ -236,7 +219,7 @@
 /* El trofeo en sí */
 .hof-goty-trophy {
   position: relative; z-index: 1;
-  height: 200px; width: auto; display: block;
+  height: 240px; width: auto; display: block;
   -webkit-mask-image: radial-gradient(ellipse 66% 72% at 50% 50%,
     black 30%,
     rgba(0,0,0,0.92) 48%,
@@ -311,20 +294,8 @@
 .hof-year-select:focus { border-color: rgba(245,200,66,0.75) !important; }
 
 /* Mobile tweaks */
-@media (max-width: 720px) {
-  .hof-hero-row    { gap: 0.6rem; }
-  .hof-trophy-side { width: 130px; }
-  .hof-goty-trophy { height: 150px; }
-  .hof-hero-center { flex: 0 1 240px; }
-}
 @media (max-width: 520px) {
-  .hof-hero-row {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .hof-trophy-side { display: none; }
-  .hof-hero-center { flex: unset; width: 100%; }
-  .hof-corona-img  { width: 62px; }
+  .hof-goty-trophy { height: 190px; }
   .hof-page-hero   { padding: 1.5rem 1rem 2rem; }
 }
 
@@ -402,6 +373,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
 <script src="firebase-config.js?v=20260519n" defer></script>
 <script src="main.js?v=20260522n"            defer></script>
-<script src="index.js?v=20260527a"           defer></script>
+<script src="index.js?v=20260529a"           defer></script>
 </body>
 </html>
