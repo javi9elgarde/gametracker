@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — Menú Principal</title>
-  <link rel="stylesheet" href="styles.css?v=20260529p">
+  <link rel="stylesheet" href="styles.css?v=20260529q">
 </head>
 <body>
 
@@ -55,8 +55,15 @@
   <!-- Hero: solo fondo, sin paneles encima -->
   <section class="hero hero--bg" style="background-image:url('fondoinicio3.jpg');background-size:cover;background-position:center 35%;background-repeat:no-repeat;"></section>
 
-  <!-- Zona intermedia: 3 paneles (desktop: solapa el hero; móvil: sección propia) -->
+  <!-- Zona intermedia: 3 paneles (desktop: solapa el hero; móvil: icono colapsable) -->
   <div class="hero__spotlight">
+
+    <!-- Botón toggle — solo visible en móvil -->
+    <button class="spotlight-toggle" id="spotlightToggle" aria-label="Ver accesos rápidos" aria-expanded="false">
+      <span class="spotlight-toggle__icon">⊞</span>
+      <span class="spotlight-toggle__label">Destacados</span>
+      <span class="spotlight-toggle__chevron">▾</span>
+    </button>
 
     <!-- ── Panel 1: Noticia Destacada ── -->
     <a href="noticias.html" class="spotlight-panel" id="newsPanel" style="--sp-accent:#4facfe;--sp-glow:rgba(79,172,254,0.18)">
@@ -122,35 +129,80 @@
 
   <style>
     /* ══ SPOTLIGHT PANELS ══════════════════════════════════════ */
-    /* Base: sin margen negativo (móvil fluye normal) */
+    /* Base (móvil): icono colapsable */
+    .spotlight-toggle { display: none; } /* oculto en desktop */
     .hero__spotlight {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-      padding: 1rem 0.85rem 0.75rem;
+      display: block;
+      padding: 0.6rem 0.85rem;
       width: 100%;
       position: relative;
       z-index: 2;
       background: var(--bg, #07070f);
-      border-top: 2px solid rgba(79,172,254,0.18);
+      border-top: 1px solid rgba(79,172,254,0.18);
     }
-    /* Tablet: solapamiento ligero sobre el hero */
+    /* Botón toggle (solo móvil) */
+    .spotlight-toggle {
+      align-items: center; justify-content: center; gap: 0.5rem;
+      width: 100%;
+      background: rgba(79,172,254,0.07);
+      border: 1px solid rgba(79,172,254,0.22);
+      border-radius: 20px;
+      padding: 0.45rem 1rem;
+      color: rgba(79,172,254,0.8);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .spotlight-toggle:hover,
+    .spotlight-toggle[aria-expanded="true"] {
+      background: rgba(79,172,254,0.14);
+      border-color: rgba(79,172,254,0.5);
+      color: #4facfe;
+    }
+    .spotlight-toggle__chevron {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .spotlight-toggle[aria-expanded="true"] .spotlight-toggle__chevron {
+      transform: rotate(180deg);
+    }
+    /* Paneles ocultos en base (móvil default) */
+    .spotlight-panel { display: none; }
+    /* Cuando abierto: paneles visibles con animación */
+    .hero__spotlight.sp-open .spotlight-panel {
+      display: flex;
+      margin-top: 0.45rem;
+      animation: spPanelIn 0.22s ease both;
+    }
+    .hero__spotlight.sp-open .spotlight-panel:nth-child(3) { animation-delay: 0.05s; }
+    .hero__spotlight.sp-open .spotlight-panel:nth-child(4) { animation-delay: 0.10s; }
+    @keyframes spPanelIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero__spotlight.sp-open { padding-bottom: 0.75rem; }
+    /* Tablet + Desktop: grid normal, toggle oculto, paneles visibles */
+    @media (min-width: 641px) {
+      .spotlight-toggle  { display: none !important; }
+      .spotlight-panel   { display: flex !important; animation: none !important; margin-top: 0 !important; }
+      .hero__spotlight   { display: grid !important; background: transparent; border-top: none; padding: 0; }
+    }
+    /* Tablet */
     @media (min-width: 641px) and (max-width: 900px) {
       .hero__spotlight {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         max-width: 480px;
         margin: -175px auto 0;
-        padding: 0 1.5rem 2rem;
-        background: transparent;
-        border-top: none;
+        padding: 0 1.5rem 2rem !important;
       }
     }
     /* Desktop: 3 columnas solapando el hero */
     @media (min-width: 901px) {
       .hero__spotlight {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr) !important;
         gap: 1rem;
-        padding: 0 var(--page-pad, 2rem) 2rem;
+        padding: 0 var(--page-pad, 2rem) 2rem !important;
         margin-top: -195px;
         background: transparent;
         border-top: none;
@@ -289,6 +341,19 @@
     }
     .pg-item:hover { background:rgba(251,146,60,0.1); border-color:rgba(251,146,60,0.3); }
   </style>
+
+  <script>
+  // Toggle spotlight panels en móvil
+  (function() {
+    var btn = document.getElementById('spotlightToggle');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      var spotlight = document.querySelector('.hero__spotlight');
+      var open = spotlight.classList.toggle('sp-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  })();
+  </script>
 
 
   <!-- PRÓXIMOS ESTRENOS (próximos 30 días) -->
