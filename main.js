@@ -705,7 +705,8 @@ window.GT.SampleData = (function () {
 
 /* ── NIEVE DE DICIEMBRE ─────────────────────────────────────── */
 function initSnow() {
-  if (new Date().getMonth() !== 11) return; // Solo activo en diciembre
+  var _now = new Date(), _m = _now.getMonth(), _d = _now.getDate();
+  if (!(_m === 11 || (_m === 0 && _d <= 7))) return; // Diciembre + hasta el 7 de enero (Reyes)
 
   var canvas = document.createElement('canvas');
   canvas.id = 'gtSnowCanvas';
