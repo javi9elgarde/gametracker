@@ -4936,4 +4936,166 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   font-weight: 500;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   MOBILE OVERHAUL — v20260529
+   Arregla overflow/zoom, hero inicio, filtros, tablas, modales
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Raíz: evitar scroll horizontal y zoom-out que muestra cortes ── */
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+.page {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+/* flex items no crecen fuera del contenedor */
+* { min-width: 0; }
+
+@media (max-width: 640px) {
+
+  /* ── HERO INICIO: fondo móvil visible y con altura decente ── */
+  .hero.hero--bg {
+    min-height: 55vw !important;    /* altura proporcional a la pantalla */
+    max-height: 56vh !important;
+    background-attachment: scroll !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    justify-content: flex-end !important;
+  }
+  /* Ocultar canvas de partículas en hero para no sobrecargar móvil */
+  #heroCanvas { display: none; }
+  /* Los pcards de jugadores en el hero en una fila horizontal scrollable */
+  .hero__pcards {
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
+    justify-content: flex-start !important;
+    padding-left: 0.75rem;
+  }
+  .hero__pcard { flex-shrink: 0; }
+
+  /* ── NAV ── */
+  .nav { height: 52px; padding: 0 0.75rem; }
+
+  /* ── SECCIONES ── */
+  .section { padding: 1.2rem 0.85rem; }
+  .page-header { padding: 1.2rem 0.85rem 0.85rem; }
+  .page-header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .page-header__inner .btn { align-self: flex-start; }
+  .page-header__title { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+
+  /* ── BIBLIOTECA: toda la barra de filtros en columna ── */
+  .bib-filter-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .bib-filter-selects {
+    margin-left: 0 !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.4rem;
+    width: 100%;
+  }
+  .bib-filter-selects .form-select--sm {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 0.78rem;
+  }
+  /* Botón Juegos Esperados full-width */
+  .bib-esperados-wrap { display: block; }
+  .btn--esperados { width: 100%; text-align: center; }
+
+  /* ── REGISTRO: filtros en columna ── */
+  .reg-filter-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .reg-filters-row {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  /* Selects año/mes/estado full-width en móvil */
+  .reg-filters-row .form-select {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.8rem;
+  }
+
+  /* ── TABLAS: scroll horizontal garantizado ── */
+  .table-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+  table {
+    min-width: 480px;  /* fuerza scroll en vez de comprimir columnas */
+    width: max-content;
+  }
+
+  /* ── MODALES ── */
+  .modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-start;
+    padding-top: 4rem;
+  }
+  .modal {
+    max-width: calc(100vw - 1rem) !important;
+    max-height: calc(100vh - 5rem) !important;
+    overflow-y: auto;
+  }
+  .modal__body  { padding: 1rem !important; }
+  .modal__header { padding: 0.85rem 1rem !important; }
+  .form-grid { grid-template-columns: 1fr !important; }
+  .date-selects-row { flex-wrap: wrap; gap: 0.4rem; }
+
+  /* ── G.O.T.Y — PODIO en columna ── */
+  .hof-podium {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 1rem;
+    overflow: visible !important;
+  }
+  .hof-card.hof-gold  { order: -1; margin-top: 88px !important; max-width: 320px; width: 100%; }
+  .hof-card.hof-silver,
+  .hof-card.hof-bronze { max-width: 280px; width: 100%; }
+  .hof-lower { grid-template-columns: 1fr 1fr !important; }
+
+  /* ── RANK LIST ── */
+  .rank-list-row { gap: 0.4rem; }
+  .rank-list-title { font-size: 0.8rem; }
+
+  /* ── ESTADÍSTICAS ── */
+  .stats-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .chart-grid { grid-template-columns: 1fr !important; }
+
+  /* ── NOTICIAS ── */
+  .news-grid { grid-template-columns: 1fr !important; }
+
+  /* ── FAB ── */
+  .btn-fab {
+    width: 52px; height: 52px; font-size: 1.4rem;
+    bottom: 1rem; right: 1rem;
+  }
+}
+
+/* ── Extra pequeño (320-400px) ── */
+@media (max-width: 400px) {
+  .reg-pcard__name { font-size: 0.72rem; }
+  .reg-pcard__inner { padding: 0.28rem 0.6rem 0.28rem 0.32rem; }
+  .section { padding: 1rem 0.65rem; }
+  .alpha-bar__letter { font-size: 0.44rem; letter-spacing: 0; }
+  .bib-filter-selects { grid-template-columns: 1fr auto; }
+  .bib-filter-selects .form-select--sm:last-of-type { display: none; } /* ocultar Año en pantallas muy pequeñas */
+}
+
 
