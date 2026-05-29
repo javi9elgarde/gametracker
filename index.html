@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — Menú Principal</title>
-  <link rel="stylesheet" href="styles.css?v=20260529o">
+  <link rel="stylesheet" href="styles.css?v=20260529p">
 </head>
 <body>
 
@@ -122,34 +122,38 @@
 
   <style>
     /* ══ SPOTLIGHT PANELS ══════════════════════════════════════ */
+    /* Base: sin margen negativo (móvil fluye normal) */
     .hero__spotlight {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      padding: 0 var(--page-pad, 2rem) 2rem;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 1rem 0.85rem 0.75rem;
       width: 100%;
       position: relative;
       z-index: 2;
-      /* Desktop: sube para solapar la parte baja del hero */
-      margin-top: -195px;
+      background: var(--bg, #07070f);
+      border-top: 2px solid rgba(79,172,254,0.18);
     }
-    @media (max-width: 900px) {
+    /* Tablet: solapamiento ligero sobre el hero */
+    @media (min-width: 641px) and (max-width: 900px) {
       .hero__spotlight {
         grid-template-columns: 1fr;
         max-width: 480px;
         margin: -175px auto 0;
+        padding: 0 1.5rem 2rem;
+        background: transparent;
+        border-top: none;
       }
     }
-    /* Móvil: sección propia entre hero y estrenos — sin solapar el fondo */
-    @media (max-width: 640px) {
+    /* Desktop: 3 columnas solapando el hero */
+    @media (min-width: 901px) {
       .hero__spotlight {
-        margin-top: 0 !important;   /* anula el -195px del desktop */
-        padding: 1rem 0.85rem 0.75rem !important;
-        grid-template-columns: 1fr !important;
-        max-width: 100% !important;
-        background: var(--bg, #07070f);
-        border-top: 2px solid rgba(79,172,254,0.18);
-        gap: 0.5rem !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        padding: 0 var(--page-pad, 2rem) 2rem;
+        margin-top: -195px;
+        background: transparent;
+        border-top: none;
       }
     }
 
