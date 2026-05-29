@@ -4955,21 +4955,43 @@ html {
 
 @media (max-width: 640px) {
 
-  /* ── HERO INICIO: fondo móvil visible y con altura decente ── */
+  /* ── HERO INICIO: full-screen con fondo visible arriba, paneles abajo ── */
   .hero.hero--bg {
-    min-height: 55vw !important;    /* altura proporcional a la pantalla */
-    max-height: 56vh !important;
+    min-height: 100svh !important;
+    max-height: none !important;
     background-attachment: scroll !important;
     overflow: hidden !important;
     padding: 0 !important;
     justify-content: flex-end !important;
   }
-  /* Ocultar canvas de partículas en hero para no sobrecargar móvil */
+  /* Paneles spotlight compactos pegados al fondo del hero */
+  .hero__spotlight {
+    background: linear-gradient(to top, #07070f 60%, transparent 100%) !important;
+    padding: 2.5rem 0.85rem 1rem !important;
+    gap: 0.45rem !important;
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .spotlight-panel {
+    min-height: 72px !important;
+    padding: 0.55rem 0.85rem !important;
+    border-radius: 10px !important;
+    background: rgba(7,7,15,0.55) !important;
+    backdrop-filter: blur(6px) !important;
+  }
+  /* Ocultar countdown en móvil para compactar */
+  .sp-countdown--footer { display: none !important; }
+  .sp-pick-btn          { display: none !important; }
+  .sp-title  { font-size: 0.92rem !important; -webkit-line-clamp: 1 !important; }
+  .sp-label  { font-size: 0.54rem !important; top: 0.4rem !important; right: 0.5rem !important; }
+  .sp-date, .sp-meta { font-size: 0.68rem !important; border-top: none !important; padding-top: 0 !important; }
+  /* Ocultar canvas de partículas en móvil */
   #heroCanvas { display: none; }
-  /* Los pcards de jugadores en el hero en una fila horizontal scrollable */
+  /* Player cards en fila horizontal scrollable */
   .hero__pcards {
-    overflow-x: auto;
-    flex-wrap: nowrap !important;
+    overflow-x: auto; flex-wrap: nowrap !important;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 0.25rem;
     justify-content: flex-start !important;
