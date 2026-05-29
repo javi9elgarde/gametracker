@@ -4962,6 +4962,7 @@ html {
     background-attachment: scroll !important;
     overflow: hidden !important;
     padding: 0 !important;
+    margin-bottom: 0 !important;  /* sin hueco entre hero e imagen */
   }
   /* Ocultar canvas de partículas en móvil */
   #heroCanvas { display: none; }

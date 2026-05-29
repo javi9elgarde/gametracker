@@ -5,7 +5,7 @@
   <link rel="icon" href="logonavegador.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Refugio 111 — Menú Principal</title>
-  <link rel="stylesheet" href="styles.css?v=20260529m">
+  <link rel="stylesheet" href="styles.css?v=20260529o">
 </head>
 <body>
 
@@ -140,16 +140,15 @@
         margin: -175px auto 0;
       }
     }
-    /* Móvil: zona propia entre hero y estrenos, sin solapamiento */
+    /* Móvil: sección propia entre hero y estrenos — sin solapar el fondo */
     @media (max-width: 640px) {
       .hero__spotlight {
-        margin-top: 0 !important;
-        padding: 1rem 0.85rem 0.5rem !important;
+        margin-top: 0 !important;   /* anula el -195px del desktop */
+        padding: 1rem 0.85rem 0.75rem !important;
         grid-template-columns: 1fr !important;
         max-width: 100% !important;
-        background: var(--bg2, #0f0f1a);
-        border-top: 1px solid rgba(79,172,254,0.12);
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        background: var(--bg, #07070f);
+        border-top: 2px solid rgba(79,172,254,0.18);
         gap: 0.5rem !important;
       }
     }
