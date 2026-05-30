@@ -360,6 +360,57 @@ window.GT.GameDetailModal = (function () {
     return (day ? day + ' ' + mon + ' ' : mon + ' ') + p[0];
   }
 
+  var _gdFace   = 'front'; // 'front' | 'back'
+  var _gdGameId = null;
+
+  function ytEmbed(url) {
+    if (!url) return '';
+    var m;
+    m = url.match(/youtu\.be\/([^?&#/]+)/);       if (m) return 'https://www.youtube.com/embed/' + m[1];
+    m = url.match(/[?&]v=([^?&#]+)/);             if (m) return 'https://www.youtube.com/embed/' + m[1];
+    m = url.match(/youtube\.com\/embed\/([^?&#/]+)/); if (m) return 'https://www.youtube.com/embed/' + m[1];
+    return '';
+  }
+
+  function openFront(gameId) { _gdGameId = gameId; _gdFace = 'front'; _buildFront(gameId); }
+
+  function openBack(gameId) {
+    _gdFace = 'back';
+    var game    = window.GT.Biblioteca.getById(gameId);
+    var trailer = (game && game.trailer) || '';
+    var galeria = (game && game.galeria) || [];
+    var embed   = ytEmbed(trailer);
+    var body    = document.getElementById('gdBody');
+    if (!body) return;
+
+    var trailerHtml =
+      '<div class="gal-back-section">' +
+        '<div class="gal-section-hdr"><span class="gal-section-title">▶️ Trailer</span></div>' +
+        (embed
+          ? '<div class="gal-trailer-wrap"><div class="gal-trailer-ratio"><iframe src="' + embed + '?rel=0" allowfullscreen loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div></div>'
+          : '<div class="detail-trailer-empty"><span class="detail-trailer-empty__icon">▶️</span><span class="detail-trailer-empty__text">Sin trailer todavía</span></div>') +
+      '</div>';
+
+    var galleryHtml =
+      '<div class="gal-back-section">' +
+        '<div class="gal-section-hdr"><span class="gal-section-title">🖼️ Capturas</span></div>' +
+        '<div class="detail-gallery-grid">' +
+          (galeria.length
+            ? galeria.map(function(img) {
+                return '<div class="gal-item" onclick="window.open(\'' + img.url.replace(/'/g,"\\'") + '\',\'_blank\')">' +
+                  '<img src="' + img.url + '" loading="lazy" alt="" onerror="this.closest(\'.gal-item\').style.display=\'none\'">' +
+                  (img.jugador ? '<span class="gal-item__player">' + img.jugador + '</span>' : '') +
+                '</div>';
+              }).join('')
+            : '<div class="gal-empty"><span class="gal-empty__icon">🖼️</span><span>Sin capturas</span></div>') +
+        '</div>' +
+      '</div>';
+
+    body.innerHTML = trailerHtml + galleryHtml;
+  }
+
+  function _buildFront(gameId) { /* populated in open() */ }
+
   function ensure() {
     if (overlay) return;
     overlay = document.createElement('div');
@@ -376,15 +427,57 @@ window.GT.GameDetailModal = (function () {
           '<a id="gdEditLink" href="biblioteca.html" class="btn btn-secondary">✏️ Editar</a>' +
           '<a id="gdLibLink"  href="biblioteca.html" class="btn btn-primary">📚 Ver en Biblioteca</a>' +
         '</div>' +
+        '<button class="detail-flip-float" id="gdFlipTab" title="Ver galería y trailer / Volver a info" aria-label="Voltear ficha">↺</button>' +
       '</div>';
     document.body.appendChild(overlay);
     overlay.addEventListener('click', function(e){ if (e.target === overlay) close(); });
     document.getElementById('gdClose').addEventListener('click', close);
     document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+
+    // Flip button
+    document.getElementById('gdFlipTab').addEventListener('click', function() {
+      var body = document.getElementById('gdBody');
+      if (!body || !_gdGameId) return;
+      var tab = document.getElementById('gdFlipTab');
+      tab.classList.add('spinning');
+      setTimeout(function() { tab.classList.remove('spinning'); }, 420);
+      body.classList.add('detail-flip-out');
+      setTimeout(function() {
+        body.classList.remove('detail-flip-out');
+        if (_gdFace === 'front') {
+          _gdFace = 'back';
+          tab.classList.add('active');
+          openBack(_gdGameId);
+        } else {
+          _gdFace = 'front';
+          tab.classList.remove('active');
+          open(_gdGameId);
+        }
+        body.classList.add('detail-flip-in');
+        setTimeout(function() { body.classList.remove('detail-flip-in'); }, 250);
+      }, 190);
+    });
+
+    // Swipe to flip on mobile
+    var _sx = 0, _sy = 0;
+    overlay.addEventListener('touchstart', function(e) {
+      _sx = e.touches[0].clientX; _sy = e.touches[0].clientY;
+    }, { passive: true });
+    overlay.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - _sx;
+      var dy = e.changedTouches[0].clientY - _sy;
+      if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        document.getElementById('gdFlipTab').click();
+      }
+    }, { passive: true });
   }
 
   function open(gameId) {
     ensure();
+    _gdGameId = gameId;
+    _gdFace   = 'front';
+    var flipTab = document.getElementById('gdFlipTab');
+    if (flipTab) flipTab.classList.remove('active');
     var game     = window.GT.Biblioteca.getById(gameId);
     if (!game) return;
     var Registro = window.GT.Registro;
