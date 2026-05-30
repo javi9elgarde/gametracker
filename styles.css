@@ -4960,10 +4960,13 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 .detail-goty-banner--bronze .detail-goty-label { color: #d4934a; }
 .detail-goty-year { font-size: 0.70rem; color: rgba(232,232,248,0.50); margin-top: 0.18rem; font-weight: 500; }
 
-/* Tinte metálico en el modal completo */
-#detailModal.goty-gold   .modal { border-color: rgba(245,200,66,0.42) !important; box-shadow: 0 0 64px rgba(245,200,66,0.10), 0 24px 64px rgba(0,0,0,0.85) !important; }
-#detailModal.goty-silver .modal { border-color: rgba(192,192,192,0.36) !important; box-shadow: 0 0 50px rgba(192,192,192,0.08), 0 24px 64px rgba(0,0,0,0.85) !important; }
-#detailModal.goty-bronze .modal { border-color: rgba(205,127,50,0.36) !important; box-shadow: 0 0 50px rgba(205,127,50,0.08), 0 24px 64px rgba(0,0,0,0.85) !important; }
+/* Tinte metálico — detailModal (biblioteca) y gdModal (universal) */
+#detailModal.goty-gold   .modal,
+#gdModal.goty-gold       .modal { border-color: rgba(245,200,66,0.42) !important; box-shadow: 0 0 64px rgba(245,200,66,0.10), 0 24px 64px rgba(0,0,0,0.85) !important; }
+#detailModal.goty-silver .modal,
+#gdModal.goty-silver     .modal { border-color: rgba(192,192,192,0.36) !important; box-shadow: 0 0 50px rgba(192,192,192,0.08), 0 24px 64px rgba(0,0,0,0.85) !important; }
+#detailModal.goty-bronze .modal,
+#gdModal.goty-bronze     .modal { border-color: rgba(205,127,50,0.36) !important; box-shadow: 0 0 50px rgba(205,127,50,0.08), 0 24px 64px rgba(0,0,0,0.85) !important; }
 
 /* ══════════════════════════════════════════════════════════════
    MOBILE OVERHAUL — v20260529

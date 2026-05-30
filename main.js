@@ -464,11 +464,44 @@ window.GT.GameDetailModal = (function () {
         }).join('');
     }
 
+    /* ── GOTY Medal: check si el juego ganó top-3 en año pasado ── */
+    overlay.classList.remove('goty-gold', 'goty-silver', 'goty-bronze');
+    var _curYear  = new Date().getFullYear();
+    var _yearSet  = {};
+    Registro.getAll().forEach(function(r) { if (r.año) _yearSet[r.año] = true; });
+    var _gotyMedal = null;
+    Object.keys(_yearSet).map(Number)
+      .filter(function(y) { return y < _curYear; })
+      .forEach(function(yr) {
+        if (_gotyMedal) return;
+        var ranking = Registro.getRanking(yr);
+        for (var pos = 0; pos < Math.min(3, ranking.length); pos++) {
+          if (ranking[pos].juegoId === gameId) {
+            _gotyMedal = { pos: pos + 1, year: yr }; break;
+          }
+        }
+      });
+    if (_gotyMedal) {
+      var _tier   = _gotyMedal.pos === 1 ? 'gold' : _gotyMedal.pos === 2 ? 'silver' : 'bronze';
+      var _emojis = ['🥇','🥈','🥉'];
+      var _labels = ['🏆 1º MEJOR JUEGO DEL AÑO', '🥈 2º MEJOR JUEGO DEL AÑO', '🥉 3º MEJOR JUEGO DEL AÑO'];
+      overlay.classList.add('goty-' + _tier);
+      html = '<div class="detail-goty-banner detail-goty-banner--' + _tier + '">' +
+        '<span class="detail-goty-emoji">' + _emojis[_gotyMedal.pos - 1] + '</span>' +
+        '<div>' +
+          '<div class="detail-goty-label">' + _labels[_gotyMedal.pos - 1] + '</div>' +
+          '<div class="detail-goty-year">Game of the Year ' + _gotyMedal.year + ' · Refugio 111</div>' +
+        '</div>' +
+      '</div>' + html;
+    }
+
     document.getElementById('gdBody').innerHTML = html;
     overlay.classList.add('open');
   }
 
-  function close() { if (overlay) overlay.classList.remove('open'); }
+  function close() {
+    if (overlay) overlay.classList.remove('open', 'goty-gold', 'goty-silver', 'goty-bronze');
+  }
   return { open, close };
 })();
 
