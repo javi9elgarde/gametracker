@@ -599,14 +599,11 @@
       if (!game) return '';
       var sc     = Utils.scoreColor(item.notaMedia);
       var rowCls = i < 3 ? RANK_CLASSES[i] : '';
+      /* Top 3: solo medalla emoji (ya indica posición). Resto: número en círculo */
       var posHtml = i < 3
-        ? '<span class="rank-medal">' + RANK_MEDALS[i] + '</span><span class="rank-num">' + (i + 1) + '</span>'
+        ? '<span class="rank-medal">' + RANK_MEDALS[i] + '</span>'
         : '<span class="rank-num">' + (i + 1) + '</span>';
-      var divider = i === 3
-        ? '<div class="rank-list-divider"><span>— Clasificación Completa —</span></div>'
-        : '';
-      return divider +
-        '<div class="rank-list-row ' + rowCls + '" onclick="window.GT.GameDetailModal.open(\'' + game.id + '\')" title="Ver ficha">' +
+      return '<div class="rank-list-row ' + rowCls + '" onclick="window.GT.GameDetailModal.open(\'' + game.id + '\')" title="Ver ficha">' +
           '<div class="rank-list-pos">' + posHtml + '</div>' +
           '<div class="rank-list-info">' +
             '<div class="rank-list-title">' + Utils.escapeHtml(game.titulo) + '</div>' +

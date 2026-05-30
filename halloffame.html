@@ -343,18 +343,20 @@
 }
 .rank-list-bronze:hover { box-shadow: 0 4px 20px rgba(205,127,50,0.08) !important; transform: translateX(5px); }
 
-/* Posición con medalla */
+/* Posición */
 .rank-list-pos {
-  display: flex; flex-direction: column; align-items: center;
-  min-width: 42px; flex-shrink: 0; gap: 0.05rem;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 44px; flex-shrink: 0;
 }
-.rank-medal { font-size: 1.35rem; line-height: 1; }
+/* Top 3: solo la medalla, grande y limpia */
+.rank-medal { font-size: 1.55rem; line-height: 1; }
+/* Resto: número en círculo pequeño */
 .rank-num {
-  font-family: 'Orbitron', sans-serif; font-size: 0.7rem; font-weight: 700; color: var(--txt3);
+  font-family: 'Orbitron', sans-serif; font-size: 0.68rem; font-weight: 700;
+  color: var(--txt3); background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 50%;
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
 }
-.rank-list-gold   .rank-num { color: #f5c842; font-size: 0.78rem; }
-.rank-list-silver .rank-num { color: #c8c8c8; }
-.rank-list-bronze .rank-num { color: #cd7f32; }
 
 /* Título */
 .rank-list-title { font-weight: 600; font-size: 0.9rem; color: var(--txt); }
@@ -374,14 +376,6 @@
 }
 .rank-list-gold .score-num { font-size: 0.96rem; }
 
-/* Separador Top3 / Resto */
-.rank-list-divider {
-  font-family: 'Orbitron', sans-serif; font-size: 0.56rem; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(232,232,248,0.2); text-align: center;
-  padding: 0.65rem 0 0.25rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
 
 /* ── HOF VIDEOS SECTION ── */
 .hof-videos-section {
@@ -549,6 +543,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
 <script src="firebase-config.js?v=20260519n" defer></script>
 <script src="main.js?v=20260529j"            defer></script>
-<script src="index.js?v=20260529b"           defer></script>
+<script src="index.js?v=20260529c"           defer></script>
 </body>
 </html>
