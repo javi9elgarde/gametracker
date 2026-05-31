@@ -185,8 +185,22 @@
     var ev = _events[idx];
     if (!ev) return [];
     return _cards.filter(function (c) {
-      return c.eventoId === ev.id || (!c.eventoId && idx === 0);
+      return (c.eventoId === ev.id || (!c.eventoId && idx === 0)) && c.jugador === _player;
     });
+  }
+
+  function playerHasCardForEvent(idx) {
+    return getCardsForEvent(idx).length > 0;
+  }
+
+  function updateNewBingoBtn() {
+    var btn = document.getElementById('btnNewBingo');
+    if (!btn) return;
+    var has = playerHasCardForEvent(_currentEvtIdx);
+    btn.disabled = has;
+    btn.title = has ? 'Ya tienes un bingo para este evento' : '';
+    btn.style.opacity = has ? '0.4' : '';
+    btn.style.cursor  = has ? 'not-allowed' : '';
   }
 
   /* ── INIT ───────────────────────────────────────────────────── */
@@ -214,8 +228,18 @@
       if (e.target === this) closeEditEventModal();
     });
 
+    /* Sync _player with active player from localStorage */
+    var _ap = window.GT && window.GT.getActivePlayer ? window.GT.getActivePlayer() : null;
+    if (_ap) _player = _ap;
+
     document.querySelectorAll('input[name="bingoPlayer"]').forEach(function (r) {
-      r.addEventListener('change', function () { _player = this.value; });
+      if (r.value === _player) r.checked = true;
+      r.addEventListener('change', function () {
+        _player = this.value;
+        _activeCardId = null;
+        renderBingoSection();
+        updateNewBingoBtn();
+      });
     });
 
     /* Top 5 */
@@ -566,6 +590,7 @@
     var sub = document.getElementById('bingoEventSub');
     if (sub) sub.textContent = ev.nombre;
 
+    updateNewBingoBtn();
     renderTabs(evCards);
 
     if (evCards.length > 0) {
@@ -950,7 +975,7 @@
     } else {
       var ev = _events[_currentEvtIdx] || {};
       db.collection('bingo_cards').add({
-        titulo: nombre, eventoId: ev.id, cells: cells,
+        titulo: nombre, eventoId: ev.id, jugador: _player, cells: cells,
         createdAt: window.firebase.firestore.FieldValue.serverTimestamp()
       }).then(function (ref) { _activeCardId = ref.id; closeCardModal(); });
     }

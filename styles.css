@@ -4305,7 +4305,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 
 /* Tablero exterior */
 .bingo-board {
-  max-width: 480px;
+  max-width: 680px;
   margin: 0 auto;
   background: rgba(255,255,255,0.025);
   border: 1px solid rgba(255,255,255,0.07);
