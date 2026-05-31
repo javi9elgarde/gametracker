@@ -4644,6 +4644,18 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   display: flex; flex-direction: column; gap: 0.6rem;
   max-width: 680px; margin: 0 auto;
 }
+.bingo-rank-year { margin-bottom: 1.25rem; }
+.bingo-rank-year__hdr {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--txt3);
+  text-transform: uppercase;
+  padding: 0.35rem 0 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 0.5rem;
+}
 .bingo-rank-item {
   display: flex; align-items: center; gap: 1rem;
   background: rgba(255,255,255,0.03);

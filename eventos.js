@@ -763,40 +763,62 @@
     var el = document.getElementById('bingoRanking');
     if (!el) return;
 
-    if (_cards.length === 0) {
+    var PLAYERS = ['David', 'Javi', 'Mery'];
+    var PLAYER_COLORS = { David: 'var(--player-david)', Javi: 'var(--player-javi)', Mery: 'var(--player-mery)' };
+
+    /* Build year → { player → {score, marked, total, lines, events} } */
+    var byYear = {};
+    _cards.forEach(function (card) {
+      if (!card.jugador) return;
+      var ev   = _events.find(function (e) { return e.id === card.eventoId; });
+      var year = ev && ev.isoDate ? new Date(ev.isoDate).getFullYear() : (card.createdAt && card.createdAt.toDate ? card.createdAt.toDate().getFullYear() : new Date().getFullYear());
+      if (!byYear[year]) byYear[year] = {};
+      if (!byYear[year][card.jugador]) byYear[year][card.jugador] = { score: 0, marked: 0, total: 0, lines: 0, events: 0 };
+      var res = calcCardScore(card);
+      var p   = byYear[year][card.jugador];
+      p.score  += res.score;
+      p.marked += res.marked;
+      p.total  += res.total;
+      p.lines  += res.lines;
+      p.events += 1;
+    });
+
+    var years = Object.keys(byYear).map(Number).sort(function (a, b) { return b - a; });
+
+    if (years.length === 0) {
       el.innerHTML = '<div class="empty-state" style="padding:2rem 0"><div class="empty-state__icon">🏆</div><div class="empty-state__title">Aún no hay bingos</div></div>';
       return;
     }
 
-    var ranked = _cards.map(function (card) {
-      var res = calcCardScore(card);
-      var ev  = _events.find(function (e) { return e.id === card.eventoId; });
-      return Object.assign({ id: card.id, titulo: card.titulo, eventoNombre: ev ? ev.nombre : '—' }, res);
-    }).sort(function (a, b) { return b.score - a.score; });
+    var medals  = ['🥇','🥈','🥉'];
+    var itemCls = ['--gold','--silver','--bronze'];
 
-    var medals = ['🥇','🥈','🥉'];
-    var posCls = ['--1','--2','--3'];
-    var itemCls= ['--gold','--silver','--bronze'];
+    el.innerHTML = years.map(function (year) {
+      var yearData  = byYear[year];
+      var players   = PLAYERS.filter(function (p) { return yearData[p]; });
+      var ranked    = players.sort(function (a, b) { return yearData[b].score - yearData[a].score; });
+      var maxScore  = ranked.length ? yearData[ranked[0]].score : 1;
 
-    el.innerHTML = ranked.map(function (r, i) {
-      var pos    = i < 3 ? medals[i] : (i + 1);
-      var pCls   = 'bingo-rank-pos bingo-rank-pos' + (i < 3 ? posCls[i] : '--n');
-      var iCls   = 'bingo-rank-item' + (i < 3 ? ' bingo-rank-item' + itemCls[i] : '');
-      var pct    = r.total > 0 ? Math.round(r.marked / r.total * 100) : 0;
+      var rowsHtml = ranked.map(function (p, i) {
+        var d    = yearData[p];
+        var pct  = maxScore > 0 ? Math.round(d.score / maxScore * 100) : 0;
+        var iCls = 'bingo-rank-item' + (i < 3 ? ' bingo-rank-item' + itemCls[i] : '');
+        var pos  = i < 3 ? medals[i] : (i + 1);
+        var pCls = 'bingo-rank-pos bingo-rank-pos' + (i < 3 ? ['--1','--2','--3'][i] : '--n');
+        return '<div class="' + iCls + '">' +
+          '<div class="' + pCls + '">' + pos + '</div>' +
+          '<div class="bingo-rank-info">' +
+            '<div class="bingo-rank-title" style="color:' + (PLAYER_COLORS[p] || 'var(--txt1)') + '">' + escHtml(p) + '</div>' +
+            '<div class="bingo-rank-event">' + d.events + ' evento' + (d.events !== 1 ? 's' : '') + ' · ' + d.marked + '/' + d.total + ' casillas · ' + d.lines + ' línea' + (d.lines !== 1 ? 's' : '') + '</div>' +
+            '<div class="bingo-rank-bar"><div class="bingo-rank-bar__fill" style="width:' + pct + '%;background:' + (PLAYER_COLORS[p] || '#4facfe') + '"></div></div>' +
+          '</div>' +
+          '<div class="bingo-rank-score">' + d.score + '<span>pts</span></div>' +
+        '</div>';
+      }).join('');
 
-      var badges = '<span class="bingo-rank-badge">📦 ' + r.marked + '/' + r.total + '</span>';
-      if (r.lines > 0)  badges += '<span class="bingo-rank-badge bingo-rank-badge--line">🟢 ' + r.lines + ' línea' + (r.lines !== 1 ? 's' : '') + '</span>';
-      if (r.isFull)     badges += '<span class="bingo-rank-badge bingo-rank-badge--full">⭐ BINGO 100%</span>';
-
-      return '<div class="' + iCls + '">' +
-        '<div class="' + pCls + '">' + pos + '</div>' +
-        '<div class="bingo-rank-info">' +
-          '<div class="bingo-rank-title">' + escHtml(r.titulo) + '</div>' +
-          '<div class="bingo-rank-event">' + escHtml(r.eventoNombre) + '</div>' +
-          '<div class="bingo-rank-detail">' + badges + '</div>' +
-          '<div class="bingo-rank-bar"><div class="bingo-rank-bar__fill" style="width:' + pct + '%"></div></div>' +
-        '</div>' +
-        '<div class="bingo-rank-score">' + r.score + '<span>pts</span></div>' +
+      return '<div class="bingo-rank-year">' +
+        '<div class="bingo-rank-year__hdr">' + year + '</div>' +
+        rowsHtml +
       '</div>';
     }).join('');
   }
