@@ -648,7 +648,10 @@
 
       var inner = libre
         ? '<div class="bingo-cell__free-icon">★</div><div class="bingo-cell__text">LIBRE</div>'
-        : '<div class="bingo-cell__text">' + escHtml(cell.texto || '') + '</div>' +
+        : (cell.imageUrl
+            ? '<div class="bingo-cell__img-wrap"><img class="bingo-cell__img" src="' + escHtml(cell.imageUrl) + '" alt="" loading="lazy" onerror="this.closest(\'.bingo-cell__img-wrap\').classList.add(\'bingo-cell__img-wrap--err\')"></div>' +
+              (cell.texto ? '<div class="bingo-cell__text bingo-cell__text--caption">' + escHtml(cell.texto) + '</div>' : '')
+            : '<div class="bingo-cell__text">' + escHtml(cell.texto || '') + '</div>') +
           (marked ? '<div class="bingo-cell__check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" width="28" height="28"><polyline points="20 6 9 17 4 12"/></svg></div>' : '') +
           who;
 
@@ -909,22 +912,38 @@
     container.innerHTML = '';
     for (var i = 0; i < TOTAL_CELLS; i++) {
       var cell = existingCells ? existingCells[i] : null;
-      var inp  = document.createElement('input');
+      var wrap = document.createElement('div');
+      wrap.className = 'bingo-modal-cell';
+      wrap.dataset.idx = i;
+
+      var inp = document.createElement('input');
       inp.type = 'text'; inp.maxLength = 60;
-      inp.className   = 'bingo-modal-input';
+      inp.className = 'bingo-modal-input bingo-modal-input--text';
       inp.dataset.idx = i;
-      inp.value       = cell ? (cell.texto || '') : '';
-      inp.placeholder = 'Casilla ' + (i + 1);
-      container.appendChild(inp);
+      inp.value = cell ? (cell.texto || '') : '';
+      inp.placeholder = 'Texto…';
+
+      var imgInp = document.createElement('input');
+      imgInp.type = 'url';
+      imgInp.className = 'bingo-modal-input bingo-modal-input--img';
+      imgInp.dataset.idx = i;
+      imgInp.value = cell ? (cell.imageUrl || '') : '';
+      imgInp.placeholder = '🖼 URL imagen…';
+
+      wrap.appendChild(inp);
+      wrap.appendChild(imgInp);
+      container.appendChild(wrap);
     }
   }
 
   function saveCardModal() {
     var nombre = document.getElementById('bingoModalName').value.trim();
     if (!nombre) { document.getElementById('bingoModalName').focus(); return; }
-    var inputs = document.querySelectorAll('#bingoModalGrid .bingo-modal-input');
-    var cells  = Array.from(inputs).map(function (inp) {
-      return { texto: inp.value.trim(), marcada: false, libre: false, marcadoPor: null, marcadaAt: null };
+    var wraps = document.querySelectorAll('#bingoModalGrid .bingo-modal-cell');
+    var cells = Array.from(wraps).map(function (wrap) {
+      var txt = (wrap.querySelector('.bingo-modal-input--text').value || '').trim();
+      var img = (wrap.querySelector('.bingo-modal-input--img').value || '').trim();
+      return { texto: txt, imageUrl: img || null, marcada: false, libre: false, marcadoPor: null, marcadaAt: null };
     });
     if (_editingCardId) {
       db.collection('bingo_cards').doc(_editingCardId).update({ titulo: nombre, cells: cells }).then(closeCardModal);

@@ -4560,25 +4560,56 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   gap: 0.3rem;
   margin-top: 0.75rem;
 }
+.bingo-modal-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  aspect-ratio: 1;
+}
 .bingo-modal-input {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.09);
   border-radius: 7px;
   color: var(--txt1);
   font-size: 0.68rem;
-  padding: 0.45rem 0.3rem;
+  padding: 0.35rem 0.3rem;
   text-align: center;
   font-family: inherit;
   transition: border-color 0.18s, background 0.18s;
-  aspect-ratio: 1;
   resize: none;
   line-height: 1.2;
+  width: 100%;
+  box-sizing: border-box;
 }
+.bingo-modal-input--text { flex: 1 1 55%; }
+.bingo-modal-input--img  { flex: 0 0 auto; font-size: 0.6rem; color: var(--txt3); border-style: dashed; }
+.bingo-modal-input--img::placeholder { color: var(--txt3); }
 .bingo-modal-input:focus {
   outline: none;
   border-color: rgba(79,172,254,0.5);
   background: rgba(79,172,254,0.05);
 }
+
+/* ── Imagen en celda del tablero ── */
+.bingo-cell__img-wrap {
+  width: 100%; flex: 1 1 auto;
+  overflow: hidden;
+  border-radius: 4px;
+  min-height: 0;
+}
+.bingo-cell__img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s;
+}
+.bingo-cell__img-wrap--err .bingo-cell__img { display: none; }
+.bingo-cell__text--caption {
+  font-size: clamp(0.42rem, 0.9vw, 0.55rem);
+  opacity: 0.75;
+  padding-top: 0.1rem;
+}
+.bingo-cell--marked .bingo-cell__img { opacity: 0.35; }
 
 /* ── Toast LINEA!! ── */
 .bingo-linea-toast {
