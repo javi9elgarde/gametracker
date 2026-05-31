@@ -145,15 +145,14 @@
   var _editingEvtId  = null;
   var _prevWasFull   = false;
 
-  /* Líneas ganadoras — grid 4×5, solo horizontales y verticales
-     Celdas:  0  1  2  3
-              4  5  6  7
-              8  9 10 11
-             12 13 14 15
-             16 17 18 19  */
+  /* Líneas ganadoras — grid 5×4 (B-I-N-G-O), solo horizontales y verticales
+     Celdas:  0  1  2  3  4
+              5  6  7  8  9
+             10 11 12 13 14
+             15 16 17 18 19  */
   var LINES = [
-    [0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15],[16,17,18,19], /* 5 horizontales */
-    [0,4,8,12,16],[1,5,9,13,17],[2,6,10,14,18],[3,7,11,15,19]    /* 4 verticales   */
+    [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],          /* 4 horizontales */
+    [0,5,10,15],[1,6,11,16],[2,7,12,17],[3,8,13,18],[4,9,14,19]          /* 5 verticales   */
   ];
   var TOTAL_CELLS = 20;
 
@@ -651,7 +650,7 @@
     var winSet   = new Set();
     winLines.forEach(function (line) { line.forEach(function (i) { winSet.add(i); }); });
 
-    var letters    = ['B','I','N','G'];
+    var letters    = ['B','I','N','G','O'];
     var headerHtml = letters.map(function (l) {
       return '<div class="bingo-letter bingo-letter--' + l.toLowerCase() + '">' + l + '</div>';
     }).join('');

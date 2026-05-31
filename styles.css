@@ -4317,7 +4317,7 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 /* Fila B-I-N-G */
 .bingo-header-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.35rem;
   margin-bottom: 0.35rem;
 }
@@ -4335,11 +4335,12 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
 .bingo-letter--i { color: #a855f7; text-shadow: 0 0 16px rgba(168,85,247,0.65); }
 .bingo-letter--n { color: #43e97b; text-shadow: 0 0 16px rgba(67,233,123,0.65); }
 .bingo-letter--g { color: #f5c842; text-shadow: 0 0 16px rgba(245,200,66,0.65); }
+.bingo-letter--o { color: #f97316; text-shadow: 0 0 16px rgba(249,115,22,0.65); }
 
-/* Grid 4×5 */
+/* Grid 5×4 */
 .bingo-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.35rem;
 }
 
@@ -4553,10 +4554,10 @@ tr.reg-row-mery  { box-shadow: inset 4px 0 0 var(--player-mery);  }
   letter-spacing: 0.04em;
 }
 
-/* Modal grid 4×5 */
+/* Modal grid 5×4 */
 #bingoModalGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.3rem;
   margin-top: 0.75rem;
 }
