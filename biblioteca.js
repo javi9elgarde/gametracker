@@ -363,7 +363,8 @@
 
     var grid    = document.getElementById('gameGrid');
     var empty   = document.getElementById('emptyState');
-    var countEl = document.getElementById('libCount');
+    var countEl  = document.getElementById('libCount');
+    var heroSub  = document.getElementById('libCountHero');
 
     /* ── MODO JUEGOS ESPERADOS ─────────────────────────────── */
     if (state.esperados) {
@@ -434,7 +435,9 @@
     }
     /* ─────────────────────────────────────────────────────── */
 
-    countEl.textContent = games.length + ' juego' + (games.length !== 1 ? 's' : '') + ' en la biblioteca';
+    var countTxt = games.length + ' juego' + (games.length !== 1 ? 's' : '') + ' en la biblioteca';
+    countEl.textContent = countTxt;
+    if (heroSub) heroSub.textContent = countTxt;
 
     if (!games.length) {
       grid.innerHTML = '';
