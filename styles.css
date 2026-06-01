@@ -2746,6 +2746,99 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 .page-hero--pendientes .page-hero__orb--1 { background: rgba(245,200,66,0.35); }
 .page-hero--pendientes .page-hero__orb--2 { background: rgba(249,115,22,0.3); }
 .page-hero--pendientes .page-hero__orb--3 { background: rgba(245,200,66,0.2); }
+.page-hero--noticias .page-hero__title {
+  background: linear-gradient(135deg, #fff 20%, #f43f5e 60%, #fb923c 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.page-hero--noticias .page-hero__orb--1 { background: rgba(244,63,94,0.35); }
+.page-hero--noticias .page-hero__orb--2 { background: rgba(251,146,60,0.3); }
+.page-hero--noticias .page-hero__orb--3 { background: rgba(244,63,94,0.2); }
+.page-hero--jugadores .page-hero__title {
+  background: linear-gradient(135deg, #fff 10%, #4facfe 40%, #43e97b 70%, #a855f7 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.page-hero--jugadores .page-hero__orb--1 { background: rgba(79,172,254,0.3); }
+.page-hero--jugadores .page-hero__orb--2 { background: rgba(168,85,247,0.3); }
+.page-hero--jugadores .page-hero__orb--3 { background: rgba(67,233,123,0.25); }
+
+/* ── JUGADORES CARDS ─────────────────────────────────────── */
+.jugadores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 2.5rem auto 0;
+  padding: 0 1.5rem 2.5rem;
+}
+@media (max-width: 700px) { .jugadores-grid { grid-template-columns: 1fr; } }
+.jugador-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem 1.5rem;
+  gap: 0.75rem;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  animation: heroTitleIn 0.6s cubic-bezier(0.22,1,0.36,1) both;
+}
+.jugador-card:nth-child(1) { animation-delay: 0.05s; }
+.jugador-card:nth-child(2) { animation-delay: 0.15s; }
+.jugador-card:nth-child(3) { animation-delay: 0.25s; }
+.jugador-card--david { border-color: rgba(59,130,246,0.25); }
+.jugador-card--david:hover { border-color: rgba(59,130,246,0.6); box-shadow: 0 0 30px rgba(59,130,246,0.15); transform: translateY(-4px); }
+.jugador-card--javi  { border-color: rgba(155,23,66,0.25); }
+.jugador-card--javi:hover  { border-color: rgba(155,23,66,0.6); box-shadow: 0 0 30px rgba(155,23,66,0.15); transform: translateY(-4px); }
+.jugador-card--mery  { border-color: rgba(155,89,255,0.25); }
+.jugador-card--mery:hover  { border-color: rgba(155,89,255,0.6); box-shadow: 0 0 30px rgba(155,89,255,0.15); transform: translateY(-4px); }
+.jugador-card__avatar {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.2rem; font-weight: 900;
+  transition: border-color 0.2s;
+}
+.jugador-card__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.jugador-card--david .jugador-card__avatar { border-color: rgba(59,130,246,0.5); color: var(--player-david); }
+.jugador-card--javi  .jugador-card__avatar { border-color: rgba(155,23,66,0.5);  color: var(--player-javi); }
+.jugador-card--mery  .jugador-card__avatar { border-color: rgba(155,89,255,0.5); color: var(--player-mery); }
+.jugador-card__name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.jugador-card--david .jugador-card__name { color: var(--player-david); }
+.jugador-card--javi  .jugador-card__name { color: var(--player-javi); }
+.jugador-card--mery  .jugador-card__name { color: var(--player-mery); }
+.jugador-card__stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.5rem; width: 100%; margin-top: 0.25rem;
+}
+.jugador-card__stat {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 0.55rem 0.5rem;
+  text-align: center;
+}
+.jugador-card__stat-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem; font-weight: 800;
+  color: var(--txt1);
+  line-height: 1;
+}
+.jugador-card__stat-lbl {
+  font-size: 0.6rem; color: var(--txt3);
+  letter-spacing: 0.07em; text-transform: uppercase;
+  margin-top: 0.2rem;
+}
 .page-header__inner {
   max-width: 1400px;
   margin: 0 auto;

@@ -1351,7 +1351,8 @@
     document.getElementById('btnRawgSearch').addEventListener('click', searchRawg);
 
     // Add buttons
-    document.getElementById('btnAddGame').addEventListener('click', openAdd);
+    var btnAdd = document.getElementById('btnAddGame');
+    if (btnAdd) btnAdd.addEventListener('click', openAdd);
     document.getElementById('fabAdd').addEventListener('click', openAdd);
 
     // Actualizar visibilidad del Hype al cambiar la fecha
