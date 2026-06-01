@@ -1458,6 +1458,8 @@
       var params = new URLSearchParams(window.location.search);
       var openId = params.get('open');
       var editId = params.get('edit');
+      var addNew = params.get('add');
+      if (addNew) { history.replaceState(null, '', window.location.pathname); setTimeout(openAdd, 180); }
       if (openId || editId) {
         var targetId = openId || editId;
         history.replaceState(null, '', window.location.pathname);

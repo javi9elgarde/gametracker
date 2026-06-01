@@ -496,7 +496,8 @@
 
     initGameSearch();
 
-    document.getElementById('btnAddEntry').addEventListener('click', openAdd);
+    var _btnAddEntry = document.getElementById('btnAddEntry');
+    if (_btnAddEntry) _btnAddEntry.addEventListener('click', openAdd);
     document.getElementById('fabAdd').addEventListener('click', openAdd);
 
     document.getElementById('entryModalClose').addEventListener('click', closeModal);

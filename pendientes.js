@@ -818,6 +818,12 @@
   };
 
   document.addEventListener('DOMContentLoaded', function () {
+    /* FAB → ir a biblioteca para añadir juego */
+    var fab = document.getElementById('fabAddGame');
+    if (fab) fab.addEventListener('click', function () {
+      window.location.href = 'biblioteca.html?add=1';
+    });
+
     window.GT.onDataReady(function () {
       loadFavoritos(function() {
         safe(init, 'init');
